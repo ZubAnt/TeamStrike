@@ -1,7 +1,6 @@
 #include "Map.h"
 
 #include "Menu/AbstractMenuData.h"
-#include "Box2D/Box2D.h"
 
 MapScene::MapScene()
 {}

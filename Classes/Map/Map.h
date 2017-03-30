@@ -2,9 +2,6 @@
 #define MAP_H
 
 #include "cocos2d.h"
-#include "Box2D/Box2D.h"
-
-#define PTM_RATIO 32.0
 
 USING_NS_CC;
 
@@ -23,11 +20,6 @@ private:
     cocos2d::Director *_director;
     cocos2d::Size _visibleSize;
     Vec2 _origin;
-
-    b2World *_world;
-    b2Body *_groundBody;
-    b2Fixture *_bottomFixture;
-    b2Fixture *_ballFixture;
 };
 
 
