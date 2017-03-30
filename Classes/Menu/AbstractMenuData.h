@@ -18,7 +18,7 @@ public:
 
     // Установить кнопку для главного меню в виде label с текстом на позицию x, y
     virtual void set_MenuLabel(const std::string &text, float x, float y, const ccMenuCallback& callback) = 0;
-
+    
     virtual void set_style_MenuLabel(Label *label) = 0;
     virtual void set_style_header_label(Label *label) = 0;
 

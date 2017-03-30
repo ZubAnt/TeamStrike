@@ -150,6 +150,8 @@ set(GAME_SRC
     Classes/Menu/ExitMenu/ExitMenu.cpp
     Classes/Menu/ExitMenu/ExitMenuData.cpp
 
+    Classes/Map/Map.cpp
+
 
     ${PLATFORM_SPECIFIC_SRC}
     )
@@ -177,8 +179,10 @@ set(GAME_HEADERS
     Classes/Menu/ExitMenu/ExitMenu.h
     Classes/Menu/ExitMenu/ExitMenuData.h
 
+    Classes/Map/Map.h
+
     ${PLATFORM_SPECIFIC_HEADERS}
-)
+    )
 
 if( ANDROID )
     add_library(${APP_NAME} SHARED ${GAME_SRC} ${GAME_HEADERS})
@@ -189,7 +193,7 @@ else()
     add_executable(${APP_NAME} ${GAME_SRC} ${GAME_HEADERS})
 endif()
 
-target_link_libraries(${APP_NAME} cocos2d)
+target_link_libraries(${APP_NAME} cocos2d Box2D)
 
 set(APP_BIN_DIR "${CMAKE_BINARY_DIR}/bin")
 
@@ -213,3 +217,4 @@ else()
         )
 
 endif()
+
