@@ -133,9 +133,8 @@ set(GAME_SRC
     Classes/PauseScene.cpp
     Classes/Level1Scene.cpp
     Classes/GraphicsScene.cpp
-    Classes/Warrior.cpp
 
-    Classes/Menu/AbstractMenuData.cpp
+        Classes/Menu/AbstractMenuData.cpp
     Classes/Menu/MenuLogger.cpp
 
     Classes/Menu/MainMenu/MainMenu.cpp
@@ -150,6 +149,9 @@ set(GAME_SRC
     Classes/Menu/ExitMenu/ExitMenu.cpp
     Classes/Menu/ExitMenu/ExitMenuData.cpp
 
+    Classes/Map/Map.cpp
+
+    Classes/Logging/logger.cpp
 
     ${PLATFORM_SPECIFIC_SRC}
     )
@@ -160,9 +162,8 @@ set(GAME_HEADERS
     Classes/PauseScene.h
     Classes/Level1Scene.h
     Classes/GraphicsScene.h
-    Classes/Warrior.h
 
-    Classes/Menu/AbstractMenuData.h
+        Classes/Menu/AbstractMenuData.h
     Classes/Menu/MenuLogger.h
 
     Classes/Menu/MainMenu/MainMenu.h
@@ -177,8 +178,12 @@ set(GAME_HEADERS
     Classes/Menu/ExitMenu/ExitMenu.h
     Classes/Menu/ExitMenu/ExitMenuData.h
 
+    Classes/Map/Map.h
+
+    Classes/Logging/logger.h
+
     ${PLATFORM_SPECIFIC_HEADERS}
-)
+        Classes/Player/Warrior.cpp Classes/Player/Warrior.h Classes/KeyboardScene.cpp Classes/KeyboardScene.h)
 
 if( ANDROID )
     add_library(${APP_NAME} SHARED ${GAME_SRC} ${GAME_HEADERS})
@@ -213,3 +218,4 @@ else()
         )
 
 endif()
+
