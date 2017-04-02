@@ -1,9 +1,9 @@
 //
-// Created by pavel on 13.03.17.
+// Created by pavel on 02.04.17.
 //
 
-#include <iostream>
 #include "Warrior.h"
+#include <iostream>
 
 namespace
 {
@@ -17,10 +17,10 @@ Warrior::~Warrior() {}
 
 Warrior *Warrior::create() {
     Warrior* pSprite = new Warrior();
-        pSprite->initWithFile("robot_little.png");
-        pSprite->InitOptions();
-        pSprite->AddEvents();
-        return pSprite;
+    pSprite->initWithFile("robot_little.png");
+    pSprite->InitOptions();
+    pSprite->AddEvents();
+    return pSprite;
 }
 
 void Warrior::InitOptions() {
@@ -57,6 +57,4 @@ bool Warrior::StopWarrior() {
 void Warrior::AddEvents() {
     scheduleUpdate();
 }
-
-
 

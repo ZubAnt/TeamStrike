@@ -3,6 +3,9 @@
 #include "../StartMenu/StartMenu.h"
 #include "../ExitMenu/ExitMenu.h"
 #include "Map/Map.h"
+#include "HelloWorldScene.h"
+#include "Level1Scene.h"
+#include "KeyboardScene.h"
 
 #include <iostream>
 

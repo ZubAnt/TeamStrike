@@ -29,7 +29,10 @@ bool HelloWorld::init()
     {
         return false;
     }
-    
+
+    auto map = TMXTiledMap::create("map_2.tmx");
+    this->addChild(map, 2);
+
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 

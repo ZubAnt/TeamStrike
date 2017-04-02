@@ -1,9 +1,9 @@
 //
-// Created by pavel on 13.03.17.
+// Created by pavel on 02.04.17.
 //
 
-#ifndef MYGAME_WARRIOR_H
-#define MYGAME_WARRIOR_H
+#ifndef TEAMSTRIKE_WARRIOR_H
+#define TEAMSTRIKE_WARRIOR_H
 
 #include "cocos2d.h"
 USING_NS_CC;
@@ -28,5 +28,4 @@ protected:
 
 };
 
-
-#endif //MYGAME_WARRIOR_H
+#endif //TEAMSTRIKE_WARRIOR_H

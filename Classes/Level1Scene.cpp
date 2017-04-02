@@ -5,7 +5,7 @@
 #include <iostream>
 #include "Level1Scene.h"
 #include "PauseScene.h"
-#include "Warrior.h"
+#include "Player/Warrior.h"
 
 USING_NS_CC;
 
@@ -73,70 +73,28 @@ bool Level1Scene::init() {
     setPhysicsBody(sprMeteor);
     initPhisics();
 
-    _sprRobot->getPhysicsBody()->setVelocity(Vect(0, -25));
+    _sprRobot->getPhysicsBody()->setVelocity(Vect(0, -35));
     sprMeteor->getPhysicsBody()->setVelocity(Vect(0, -25));
 
-
         auto listener = EventListenerKeyboard::create();
-        listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event *event) {
-            switch (keyCode) {
-                case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-                case cocos2d::EventKeyboard::KeyCode::KEY_A:
+        isJump = true;
 
-                    getWarrior()->MoveWarrior(Vec2(-10.0f, .0f));
-                    break;
-                case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-                case cocos2d::EventKeyboard::KeyCode::KEY_D:
-                    getWarrior()->MoveWarrior(Vec2(10.0f, .0f));
-                    break;
-                case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
-                case cocos2d::EventKeyboard::KeyCode::KEY_W:
-                    std::cout << "press up" << std::endl;
-                    getWarrior()->getPhysicsBody()->applyImpulse(Vect(100, 0));
-                    getWarrior()->MoveWarrior(Vec2(.0f, +10.0f));
-                    break;
-                case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-                case cocos2d::EventKeyboard::KeyCode::KEY_S:
-                    std::cout << "press down" << std::endl;
-                    getWarrior()->MoveWarrior(Vec2(.0f, -10.0f));
-                    break;
+        listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event){
+            // If a key already exists, do nothing as it will already have a time stamp
+            // Otherwise, set's the timestamp to now
+            if(keys.find(keyCode) == keys.end()){
+                keys[keyCode] = std::chrono::high_resolution_clock::now();
             }
         };
-        this->_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, _sprRobot);
 
-
-        listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event)
-        {
-
-            switch (keyCode)
-            {
-                // GetPlayerPlane() Movement
-                case cocos2d::EventKeyboard::KeyCode::KEY_NONE:
-                    break;
-
-                case cocos2d::EventKeyboard::KeyCode::KEY_A:
-                    getWarrior()->MoveWarrior(Vec2(1.0f, .0f));
-                    break;
-                case cocos2d::EventKeyboard::KeyCode::KEY_D:
-                    getWarrior()->MoveWarrior(Vec2(-1.0f, .0f));
-
-                    break;
-                case cocos2d::EventKeyboard::KeyCode::KEY_W:
-                    getWarrior()->MoveWarrior(Vec2(.0f, -1.0f));
-                    break;
-                case cocos2d::EventKeyboard::KeyCode::KEY_S:
-                    getWarrior()->MoveWarrior(Vec2(.0f, 1.0f));
-                    break;
-
-                default:
-                    break;
-            }
+        listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event){
+            // remove the key.  std::map.erase() doesn't care if the key doesnt exist
+            isJump = true;
+            keys.erase(keyCode);
         };
 
     this->_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, _sprRobot);
-
     this->scheduleUpdate();
-
 
     return true;
 }
@@ -164,7 +122,7 @@ bool Level1Scene::onCollision(cocos2d::PhysicsContact& contact) {
 
 void Level1Scene::initPhisics() {
     auto contactListener = EventListenerPhysicsContact::create();
-    contactListener->onContactBegin = CC_CALLBACK_1(Level1Scene::onCollision, this);
+    //contactListener->onContactBegin = CC_CALLBACK_1(Level1Scene::onCollision, this);
     getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 }
 
@@ -172,5 +130,40 @@ Warrior *Level1Scene::getWarrior() {
     return _sprRobot;
 }
 
+static std::map<cocos2d::EventKeyboard::KeyCode, std::chrono::high_resolution_clock::time_point> keys;
+
+bool Level1Scene::isKeyPressed(cocos2d::EventKeyboard::KeyCode code) {
+    // Check if the key is currently pressed by seeing it it's in the std::map keys
+    // In retrospect, keys is a terrible name for a key/value paried datatype isnt it?
+    if(keys.find(code) != keys.end())
+        return true;
+    return false;
+}
+
+double Level1Scene::keyPressedDuration(cocos2d::EventKeyboard::KeyCode code) {
+    // Return the amount of time that has elapsed between now and when the user
+    // first started holding down the key in milliseconds
+    // Obviously the start time is the value we hold in our std::map keys
+    return std::chrono::duration_cast<std::chrono::milliseconds>
+            (std::chrono::high_resolution_clock::now() - keys[code]).count();
+}
+
+void Level1Scene::update(float delta) {
+    Node::update(delta);
+    if(isKeyPressed(EventKeyboard::KeyCode::KEY_D)) {
+        getWarrior()->MoveWarrior(Vec2(2, .0f));
+        getWarrior()->MoveWarrior(Vec2(.0f, -0.50f));
+    }
+    if(isKeyPressed(EventKeyboard::KeyCode::KEY_A)){
+        getWarrior()->MoveWarrior(Vec2(-2, .0f));
+        getWarrior()->MoveWarrior(Vec2(.0f, -0.5f));
+    }
+    if(isKeyPressed(EventKeyboard::KeyCode::KEY_W) && isJump){
+        getWarrior()->MoveWarrior(Vec2(.0f, 50.0f));
+        isJump = false;
+    }
+}
+std::map<cocos2d::EventKeyboard::KeyCode,
+        std::chrono::high_resolution_clock::time_point> Level1Scene::keys;
 
 

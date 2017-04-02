@@ -1,6 +1,7 @@
 #include "Map.h"
 
 #include "Menu/AbstractMenuData.h"
+#include "Player/Warrior.h"
 #include <iostream>
 #include <string>
 #include <stdexcept>
@@ -47,8 +48,8 @@ MapScene::MapScene()
                       "Platform14"
                      };
 
-    enable_scale_map = false;
-    enable_scale_background = false;
+    enable_scale_map = true;
+    enable_scale_background = true;
     enable_draw_polygons = false;
     enable_draw_boxes = false;
 }
@@ -359,7 +360,7 @@ bool MapScene::init()
 
     Vec2 vec_center(_visibleSize.width / 2, _visibleSize.height/2);
 
-    SetEnableScaleMap(false);
+    SetEnableScaleMap(true);
     setEnableDrawPolygons(true);
 
     /// setup and set map
@@ -429,46 +430,31 @@ bool MapScene::init()
 
 
 
-    float radius = 16;
-    PhysicsBody* physicsBody = PhysicsBody::createCircle(radius);
-    physicsBody->setDynamic(true);
-    physicsBody->setGravityEnable(true);
+    _sprRobot = Warrior::create();
+    _sprRobot->setScale(0.5);
+    _sprRobot->setPosition(Point(_origin.x + _visibleSize.width / 2 + 130, _origin.y + _visibleSize.height / 2 + 230));
+    addChild(_sprRobot);
+    auto physicsBodyRobot = PhysicsBody::createCircle( _sprRobot->getContentSize().height/2 - 10 , PhysicsMaterial(0, 1, 0) );
+    _sprRobot->setPhysicsBody(physicsBodyRobot);
+    physicsBodyRobot->setDynamic(true);
+    physicsBodyRobot->setGravityEnable(true);
 
+    auto listener = EventListenerKeyboard::create();
+    isJump = true;
 
-
-    //create a sprite
-    auto sprite = Sprite::create("ball_32.png");
-//    float scale_ball = 2 * radius / sprite->getContentSize().width;
-//    sprite->setScale(scale_ball);
-    sprite->setPosition(Point(_origin.x + _visibleSize.width / 2 + 130, _origin.y + _visibleSize.height / 2));
-    sprite->setPhysicsBody(physicsBody);
-
-    addChild(sprite);
-
-    //apply physicsBody to the sprite
-
-//    add five dynamic body
-        for (int i = 0; i < 300; ++i)
-        {
-            physicsBody = PhysicsBody::createCircle(radius);
-
-            //set the body isn't affected by the physics world's gravitational force
-            physicsBody->setDynamic(true);
-            physicsBody->setGravityEnable(true);
-
-            //set initial velocity of physicsBody
-            physicsBody->setVelocity(Vec2(cocos2d::random(-500,500),
-                                          cocos2d::random(-500,500)));
-            physicsBody->setTag(1);
-
-            sprite = Sprite::create("ball_32.png");
-            sprite->setPosition(Vec2(vec_center.x + cocos2d::random(-300,300),
-                                     vec_center.y + cocos2d::random(-300,300)));
-            sprite->setPhysicsBody(physicsBody);
-
-            addChild(sprite);
+    listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event){
+        if(keys.find(keyCode) == keys.end()){
+            keys[keyCode] = std::chrono::high_resolution_clock::now();
         }
+    };
 
+    listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event){
+        isJump = true;
+        keys.erase(keyCode);
+    };
+
+    this->_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, _sprRobot);
+    this->scheduleUpdate();
 
     return true;
 }
@@ -477,5 +463,39 @@ int MapScene::errAsInt(MapScene::Error err)
 {
     return static_cast<int>(err);
 }
+
+bool MapScene::isKeyPressed(cocos2d::EventKeyboard::KeyCode code) {
+    if(keys.find(code) != keys.end())
+        return true;
+    return false;
+}
+
+double MapScene::keyPressedDuration(cocos2d::EventKeyboard::KeyCode code) {
+    return std::chrono::duration_cast<std::chrono::milliseconds>
+            (std::chrono::high_resolution_clock::now() - keys[code]).count();
+}
+
+void MapScene::update(float delta) {
+    Node::update(delta);
+    if(isKeyPressed(EventKeyboard::KeyCode::KEY_D)) {
+        getWarrior()->MoveWarrior(Vec2(2, .0f));
+        getWarrior()->MoveWarrior(Vec2(.0f, -0.50f));
+    }
+    if(isKeyPressed(EventKeyboard::KeyCode::KEY_A)){
+        getWarrior()->MoveWarrior(Vec2(-2, .0f));
+        getWarrior()->MoveWarrior(Vec2(.0f, -0.5f));
+    }
+    if(isKeyPressed(EventKeyboard::KeyCode::KEY_W) && isJump){
+        getWarrior()->MoveWarrior(Vec2(.0f, 50.0f));
+        isJump = false;
+    }
+}
+
+Warrior *MapScene::getWarrior() {
+    return _sprRobot;
+}
+
+std::map<cocos2d::EventKeyboard::KeyCode,
+        std::chrono::high_resolution_clock::time_point> MapScene::keys;
 
 

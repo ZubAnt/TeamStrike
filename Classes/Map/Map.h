@@ -6,6 +6,7 @@
 #include <string>
 #include <stdexcept>
 #include "Logging/logger.h"
+#include "Player/Warrior.h"
 
 USING_NS_CC;
 
@@ -18,7 +19,12 @@ public:
     ~MapScene();
     static cocos2d::Scene* createScene();
     bool init();
+    bool isKeyPressed(cocos2d::EventKeyboard::KeyCode);
+    double keyPressedDuration(cocos2d::EventKeyboard::KeyCode);
     CREATE_FUNC(MapScene)
+
+    Warrior* _sprRobot;
+    Warrior* getWarrior();
 
     enum struct Error
     {
@@ -37,6 +43,8 @@ public:
                                        "SCALE_MAP_PARAM_IS_NULL"
                                       };
     int errAsInt(Error err);
+
+    virtual void update(float delta) override;
 
 private:
 
@@ -60,6 +68,7 @@ private:
     bool enable_draw_boxes;
     bool enable_scale_map;
     bool enable_scale_background;
+    bool isJump;
 
     void setEnableDrawAllSolidFigure(bool enable);
     void setEnableDrawPolygons(bool enable);
@@ -76,6 +85,9 @@ private:
     int setSolidEdgeBox();
     int setSolidPolygonFigure();
     int setSolidBoxFigure();
+
+    static std::map<cocos2d::EventKeyboard::KeyCode,
+            std::chrono::high_resolution_clock::time_point> keys;
 
 
 };
