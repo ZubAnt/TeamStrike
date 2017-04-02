@@ -152,6 +152,7 @@ set(GAME_SRC
 
     Classes/Map/Map.cpp
 
+    Classes/Logging/logger.cpp
 
     ${PLATFORM_SPECIFIC_SRC}
     )
@@ -180,6 +181,8 @@ set(GAME_HEADERS
     Classes/Menu/ExitMenu/ExitMenuData.h
 
     Classes/Map/Map.h
+
+    Classes/Logging/logger.h
 
     ${PLATFORM_SPECIFIC_HEADERS}
     )
