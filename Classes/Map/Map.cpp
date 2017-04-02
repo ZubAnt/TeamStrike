@@ -494,6 +494,7 @@ void MapScene::update(float delta) {
     }
 }
 
+
 Warrior *MapScene::getWarrior() {
     return _sprRobot;
 }
