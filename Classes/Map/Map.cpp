@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <cstdio>
 
+
 MapScene::MapScene()
 {
 
@@ -53,6 +54,7 @@ MapScene::MapScene()
     enable_draw_polygons = false;
     enable_draw_boxes = false;
 }
+
 
 MapScene::~MapScene()
 {}
