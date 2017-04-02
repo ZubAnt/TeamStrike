@@ -436,7 +436,8 @@ bool MapScene::init()
     _sprRobot->setScale(0.5);
     _sprRobot->setPosition(Point(_origin.x + _visibleSize.width / 2 + 130, _origin.y + _visibleSize.height / 2 + 230));
     addChild(_sprRobot);
-    auto physicsBodyRobot = PhysicsBody::createCircle( _sprRobot->getContentSize().height/2 - 10 , PhysicsMaterial(0, 1, 0) );
+    auto physicsBodyRobot = PhysicsBody::createBox(_sprRobot->getContentSize()/1.2, PhysicsMaterial(0, 0, 100));
+    physicsBodyRobot->setRotationEnable(false);
     _sprRobot->setPhysicsBody(physicsBodyRobot);
     physicsBodyRobot->setDynamic(true);
     physicsBodyRobot->setGravityEnable(true);
@@ -488,7 +489,7 @@ void MapScene::update(float delta) {
         getWarrior()->MoveWarrior(Vec2(.0f, -0.5f));
     }
     if(isKeyPressed(EventKeyboard::KeyCode::KEY_W) && isJump){
-        getWarrior()->MoveWarrior(Vec2(.0f, 50.0f));
+        _sprRobot->getPhysicsBody()->applyImpulse( Vec2( 0, 100 ) );
         isJump = false;
     }
 }
