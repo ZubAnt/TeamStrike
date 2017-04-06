@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include "Logging/logger.h"
 #include "Player/Warrior.h"
+#include "Bullet/Bullet.h"
 
 USING_NS_CC;
 

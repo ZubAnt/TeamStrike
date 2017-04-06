@@ -25,6 +25,7 @@ protected:
     int _baseHP;
     int _currentHP;
     Vec2 _movementDirection;
+    //bool _rightMove;
 
 };
 

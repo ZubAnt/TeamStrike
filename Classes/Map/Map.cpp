@@ -436,6 +436,7 @@ bool MapScene::init()
     _sprRobot->setScale(0.5);
     _sprRobot->setPosition(Point(_origin.x + _visibleSize.width / 2 + 130, _origin.y + _visibleSize.height / 2 + 230));
     addChild(_sprRobot);
+
     auto physicsBodyRobot = PhysicsBody::createBox(_sprRobot->getContentSize()/1.2, PhysicsMaterial(0, 0, 300));
     physicsBodyRobot->setRotationEnable(false);
     _sprRobot->setPhysicsBody(physicsBodyRobot);
@@ -447,9 +448,18 @@ bool MapScene::init()
     isJump = true;
 
     listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event){
-        if(keys.find(keyCode) == keys.end()){
+
+        if( keys.find(keyCode) == keys.end() ){
             keys[keyCode] = std::chrono::high_resolution_clock::now();
         }
+        if( isKeyPressed(EventKeyboard::KeyCode::KEY_SPACE) ) {
+            Bullet* bullet;
+            bullet = Bullet::create( getWarrior() );
+            CCLOG("bullet create2");
+            addChild( bullet );
+            CCLOG("add child");
+        }
+
     };
 
     listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event){

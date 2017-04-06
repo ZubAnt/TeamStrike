@@ -36,6 +36,7 @@ void Warrior::InitOptions() {
     _baseHP = DefaultWarriorHP;
     _currentHP = _baseHP;
     _movementDirection = Vec2(Director::getInstance()->getVisibleSize().width/2, Director::getInstance()->getVisibleSize().height/2);
+    //_rightMove = true;
 }
 
 int Warrior::GetCurrentHP() {

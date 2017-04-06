@@ -183,7 +183,7 @@ set(GAME_HEADERS
     Classes/Logging/logger.h
 
     ${PLATFORM_SPECIFIC_HEADERS}
-        Classes/Player/Warrior.cpp Classes/Player/Warrior.h Classes/KeyboardScene.cpp Classes/KeyboardScene.h)
+        Classes/Player/Warrior.cpp Classes/Player/Warrior.h Classes/KeyboardScene.cpp Classes/KeyboardScene.h Classes/Bullet/Bullet.cpp Classes/Bullet/Bullet.h)
 
 if( ANDROID )
     add_library(${APP_NAME} SHARED ${GAME_SRC} ${GAME_HEADERS})

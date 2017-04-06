@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <Bullet/Bullet.h>
 #include "Level1Scene.h"
 #include "PauseScene.h"
 #include "Player/Warrior.h"
@@ -60,6 +61,9 @@ bool Level1Scene::init() {
     auto meteorBody = PhysicsBody::createCircle( sprMeteor->getContentSize().height , PhysicsMaterial(0, 1, 0) );
     sprMeteor->setPhysicsBody( meteorBody );
     this->addChild(sprMeteor, 0);
+
+    Bullet* b = Bullet::create( getWarrior() );
+    addChild( b );
 
     //Animation
     Vector<SpriteFrame*> frames;
