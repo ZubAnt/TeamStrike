@@ -436,9 +436,10 @@ bool MapScene::init()
     _sprRobot->setScale(0.5);
     _sprRobot->setPosition(Point(_origin.x + _visibleSize.width / 2 + 130, _origin.y + _visibleSize.height / 2 + 230));
     addChild(_sprRobot);
-    auto physicsBodyRobot = PhysicsBody::createBox(_sprRobot->getContentSize()/1.2, PhysicsMaterial(0, 0, 100));
+    auto physicsBodyRobot = PhysicsBody::createBox(_sprRobot->getContentSize()/1.2, PhysicsMaterial(0, 0, 300));
     physicsBodyRobot->setRotationEnable(false);
     _sprRobot->setPhysicsBody(physicsBodyRobot);
+    _sprRobot->getPhysicsBody()->setVelocity(Vect(0, -35));
     physicsBodyRobot->setDynamic(true);
     physicsBodyRobot->setGravityEnable(true);
 
@@ -481,12 +482,20 @@ double MapScene::keyPressedDuration(cocos2d::EventKeyboard::KeyCode code) {
 void MapScene::update(float delta) {
     Node::update(delta);
     if(isKeyPressed(EventKeyboard::KeyCode::KEY_D)) {
-        getWarrior()->MoveWarrior(Vec2(2, .0f));
-        getWarrior()->MoveWarrior(Vec2(.0f, -0.50f));
+        if(isKeyPressed(EventKeyboard::KeyCode::KEY_W) && isJump){
+            _sprRobot->getPhysicsBody()->applyImpulse( Vec2( 20, 40 ) );
+        } else{
+            getWarrior()->MoveWarrior(Vec2(2, .0f));
+            getWarrior()->MoveWarrior(Vec2(.0f, -0.50f));
+        }
     }
     if(isKeyPressed(EventKeyboard::KeyCode::KEY_A)){
-        getWarrior()->MoveWarrior(Vec2(-2, .0f));
-        getWarrior()->MoveWarrior(Vec2(.0f, -0.5f));
+        if(isKeyPressed(EventKeyboard::KeyCode::KEY_W) && isJump){
+            _sprRobot->getPhysicsBody()->applyImpulse( Vec2( -20, 40 ) );
+        } else{
+            getWarrior()->MoveWarrior(Vec2(-2, .0f));
+            getWarrior()->MoveWarrior(Vec2(.0f, -0.50f));
+        }
     }
     if(isKeyPressed(EventKeyboard::KeyCode::KEY_W) && isJump){
         _sprRobot->getPhysicsBody()->applyImpulse( Vec2( 0, 100 ) );
