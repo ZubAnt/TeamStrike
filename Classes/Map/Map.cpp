@@ -2,6 +2,7 @@
 
 #include "Menu/AbstractMenuData.h"
 #include "Player/Warrior.h"
+#include "Player/Player.h"
 #include <iostream>
 #include <string>
 #include <stdexcept>
@@ -62,7 +63,7 @@ MapScene::~MapScene()
 Scene *MapScene::createScene()
 {
     auto scene = Scene::createWithPhysics();
-    scene->getPhysicsWorld()->setGravity(Vect(0.f, -98.0f));
+    scene->getPhysicsWorld()->setGravity(Vect(0.f, -400.0f));
     auto layer = MapScene::create();
     scene->addChild(layer);
     return scene;
@@ -132,9 +133,11 @@ int MapScene::setSolidPolygonFigure()
             }
 
             // create Polygon from point
-            auto polygon = PhysicsBody::createPolygon(pointsVec2Object, vec_point.size());
+            auto polygon = PhysicsBody::createPolygon(pointsVec2Object, vec_point.size(), PhysicsMaterial(0.1f, .1f, 0.0f));
             polygon->setDynamic(false);
             polygon->setGravityEnable(false);
+            polygon->setContactTestBitmask( true );
+            polygon->setCollisionBitmask( GROUND_BITMASK );
 
             auto pol_node = Node::create();
 
@@ -224,9 +227,11 @@ int MapScene::setSolidBoxFigure()
             rectangle[2] = Vec2(x + width, y + height);
             rectangle[3] = Vec2(x + width, y);
 
-            PhysicsBody* polygon = PhysicsBody::createPolygon(rectangle, 4);
+            PhysicsBody* polygon = PhysicsBody::createPolygon(rectangle, 4, PhysicsMaterial(0.1f, .1f, 0.0f));
             polygon->setDynamic(false);
             polygon->setGravityEnable(false);
+            polygon->setContactTestBitmask( true );
+            polygon->setCollisionBitmask( GROUND_BITMASK );
             auto pol_node = Node::create();
 
             bool isScale = false;
@@ -362,8 +367,8 @@ bool MapScene::init()
 
     Vec2 vec_center(_visibleSize.width / 2, _visibleSize.height/2);
 
-    SetEnableScaleMap(true);
-    setEnableDrawPolygons(true);
+    SetEnableScaleMap(false);
+    setEnableDrawPolygons(false);
 
     /// setup and set map
     int err_ind = setupMap();
@@ -431,32 +436,24 @@ bool MapScene::init()
     addChild(background, -1);
 
 
-
-    _sprRobot = Warrior::create();
-    _sprRobot->setScale(0.5);
-    _sprRobot->setPosition(Point(_origin.x + _visibleSize.width / 2 + 130, _origin.y + _visibleSize.height / 2 + 230));
-    addChild(_sprRobot);
-    auto physicsBodyRobot = PhysicsBody::createBox(_sprRobot->getContentSize()/1.2, PhysicsMaterial(0, 0, 100));
-    physicsBodyRobot->setRotationEnable(false);
-    _sprRobot->setPhysicsBody(physicsBodyRobot);
-    physicsBodyRobot->setDynamic(true);
-    physicsBodyRobot->setGravityEnable(true);
+    player = Player::create();
+    player->setPosition(Vec2(_origin.x + _visibleSize.width / 2,
+                             _origin.y + _visibleSize.height / 2));
+//    player->setPlayerPhysicsBody();
+    player->setScale(0.75f);
+    this->addChild(player, 5);
 
     auto listener = EventListenerKeyboard::create();
-    isJump = true;
+    listener->onKeyPressed = CC_CALLBACK_2(MapScene::onKeyPressed, this);
+    listener->onKeyReleased = CC_CALLBACK_2(MapScene::onKeyReleased, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-    listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event){
-        if(keys.find(keyCode) == keys.end()){
-            keys[keyCode] = std::chrono::high_resolution_clock::now();
-        }
-    };
 
-    listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event){
-        isJump = true;
-        keys.erase(keyCode);
-    };
+    std::function<void(PhysicsContact& contact, const PhysicsContactPostSolve& solve)> onContactPostSolve;
+    auto contactListener = EventListenerPhysicsContact::create( );
+    contactListener->onContactBegin = CC_CALLBACK_1(MapScene::onContactBegin, this);
+    Director::getInstance( )->getEventDispatcher( )->addEventListenerWithSceneGraphPriority( contactListener, this );
 
-    this->_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, _sprRobot);
     this->scheduleUpdate();
 
     return true;
@@ -467,39 +464,108 @@ int MapScene::errAsInt(MapScene::Error err)
     return static_cast<int>(err);
 }
 
-bool MapScene::isKeyPressed(cocos2d::EventKeyboard::KeyCode code) {
-    if(keys.find(code) != keys.end())
-        return true;
-    return false;
-}
+bool MapScene::onContactBegin(PhysicsContact &contact)
+{
+    PhysicsBody *a = contact.getShapeA( )->getBody();
+    PhysicsBody *b = contact.getShapeB( )->getBody();
 
-double MapScene::keyPressedDuration(cocos2d::EventKeyboard::KeyCode code) {
-    return std::chrono::duration_cast<std::chrono::milliseconds>
-            (std::chrono::high_resolution_clock::now() - keys[code]).count();
-}
-
-void MapScene::update(float delta) {
-    Node::update(delta);
-    if(isKeyPressed(EventKeyboard::KeyCode::KEY_D)) {
-        getWarrior()->MoveWarrior(Vec2(2, .0f));
-        getWarrior()->MoveWarrior(Vec2(.0f, -0.50f));
+    if ( ( PLAYER_BITMASK == a->getCollisionBitmask( ) && GROUND_BITMASK == b->getCollisionBitmask() ) || ( PLAYER_BITMASK == b->getCollisionBitmask( ) && GROUND_BITMASK == a->getCollisionBitmask() ) )
+    {
+        player->is_onGround = true;
+        player->jumping = false;
+        if(false == player->moving)
+        {
+            player->idling = true;
+        }
+        else
+        {
+            player->moving = true;
+        }
     }
-    if(isKeyPressed(EventKeyboard::KeyCode::KEY_A)){
-        getWarrior()->MoveWarrior(Vec2(-2, .0f));
-        getWarrior()->MoveWarrior(Vec2(.0f, -0.5f));
-    }
-    if(isKeyPressed(EventKeyboard::KeyCode::KEY_W) && isJump){
-        _sprRobot->getPhysicsBody()->applyImpulse( Vec2( 0, 100 ) );
-        isJump = false;
+
+    return true;
+}
+
+void MapScene::update(float delta)
+{
+    player->update();
+}
+
+void MapScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event)
+{
+    switch (keyCode) {
+    case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+    case cocos2d::EventKeyboard::KeyCode::KEY_A:
+        player->move(0);
+        break;
+    case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+    case cocos2d::EventKeyboard::KeyCode::KEY_D:
+        player->move(1);
+        break;
+    case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
+    case cocos2d::EventKeyboard::KeyCode::KEY_W:
+        player->jump();
+        break;
+    case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+    case cocos2d::EventKeyboard::KeyCode::KEY_S:
+        break;
+    default:
+        player->idle();
+        break;
     }
 }
 
-
-Warrior *MapScene::getWarrior() {
-    return _sprRobot;
+void MapScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event)
+{
+    switch (keyCode) {
+    case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+    case cocos2d::EventKeyboard::KeyCode::KEY_A:
+        if(true == player->is_onGround)
+        {
+            player->moving = false;
+            player->jumping = false;
+            player->idling = true;
+        }
+        else
+        {
+            player->moving = false;
+            player->jumping = true;
+            player->idling = false;
+        }
+        break;
+    case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+    case cocos2d::EventKeyboard::KeyCode::KEY_D:
+        if(true == player->is_onGround)
+        {
+            player->moving = false;
+            player->jumping = false;
+            player->idling = true;
+        }
+        else
+        {
+            player->moving = false;
+            player->jumping = true;
+            player->idling = false;
+        }
+        break;
+    case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
+    case cocos2d::EventKeyboard::KeyCode::KEY_W:
+        if(true == player->moving )
+        {
+            player->jumping = false;
+            player->idling = false;
+        }
+        else
+        {
+            player->jumping = false;
+            player->idling = true;
+        }
+        break;
+    case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+    case cocos2d::EventKeyboard::KeyCode::KEY_S:
+        break;
+    default:
+        break;
+    }
 }
-
-std::map<cocos2d::EventKeyboard::KeyCode,
-        std::chrono::high_resolution_clock::time_point> MapScene::keys;
-
 

@@ -134,7 +134,7 @@ set(GAME_SRC
     Classes/Level1Scene.cpp
     Classes/GraphicsScene.cpp
 
-        Classes/Menu/AbstractMenuData.cpp
+    Classes/Menu/AbstractMenuData.cpp
     Classes/Menu/MenuLogger.cpp
 
     Classes/Menu/MainMenu/MainMenu.cpp
@@ -153,6 +153,10 @@ set(GAME_SRC
 
     Classes/Logging/logger.cpp
 
+    Classes/Player/Warrior.cpp
+
+    Classes/Player/Player.cpp
+
     ${PLATFORM_SPECIFIC_SRC}
     )
 
@@ -163,7 +167,7 @@ set(GAME_HEADERS
     Classes/Level1Scene.h
     Classes/GraphicsScene.h
 
-        Classes/Menu/AbstractMenuData.h
+    Classes/Menu/AbstractMenuData.h
     Classes/Menu/MenuLogger.h
 
     Classes/Menu/MainMenu/MainMenu.h
@@ -182,8 +186,13 @@ set(GAME_HEADERS
 
     Classes/Logging/logger.h
 
+    Classes/Player/Warrior.h
+
+    Classes/Player/Player.h
+
     ${PLATFORM_SPECIFIC_HEADERS}
-        Classes/Player/Warrior.cpp Classes/Player/Warrior.h Classes/KeyboardScene.cpp Classes/KeyboardScene.h)
+
+    )
 
 if( ANDROID )
     add_library(${APP_NAME} SHARED ${GAME_SRC} ${GAME_HEADERS})

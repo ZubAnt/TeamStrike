@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include "Logging/logger.h"
 #include "Player/Warrior.h"
+#include "Player/Player.h"
 
 USING_NS_CC;
 
@@ -21,6 +22,7 @@ public:
     bool init();
     bool isKeyPressed(cocos2d::EventKeyboard::KeyCode);
     double keyPressedDuration(cocos2d::EventKeyboard::KeyCode);
+    bool onContactBegin( cocos2d::PhysicsContact &contact );
     CREATE_FUNC(MapScene)
 
     Warrior* _sprRobot;
@@ -44,7 +46,9 @@ public:
                                       };
     int errAsInt(Error err);
 
-    virtual void update(float delta) override;
+    void update(float delta);
+    void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
+    void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 
 private:
 
@@ -53,6 +57,8 @@ private:
     cocos2d::Director *_director;
     cocos2d::Size _visibleSize;
     Vec2 _origin;
+
+    Player * player;
 
     float _scale_map_x;
     float _scale_map_y;
@@ -77,7 +83,6 @@ private:
     void SetEnableScaleMap(bool enable);
     void setEnableScaleBackground(bool enable);
 
-
     void setMapScale(Node *node);
 
     int setupMap();
@@ -85,11 +90,6 @@ private:
     int setSolidEdgeBox();
     int setSolidPolygonFigure();
     int setSolidBoxFigure();
-
-    static std::map<cocos2d::EventKeyboard::KeyCode,
-            std::chrono::high_resolution_clock::time_point> keys;
-
-
 };
 
 
