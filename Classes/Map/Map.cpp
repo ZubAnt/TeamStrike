@@ -18,7 +18,9 @@ MapScene::MapScene()
     _visibleSize = Size::ZERO;
     _origin = Vec2::ZERO;
 
-    map_path = "tile_map/map1/ice.tmx";
+    //    map_path = "tile_map/map1/ice.tmx";
+    map_path = "tile_map/map2/map2_64.tmx";
+    background_path = "tile_map/map2/BG.png";
 
     NamePolygonObjects = {"Polygon_GND",
                           "Polygon_GNDL1",
@@ -278,6 +280,81 @@ int MapScene::setSolidBoxFigure()
     return errAsInt(Error::OK);
 }
 
+int MapScene::setBackground()
+{
+    Sprite*  background = Sprite::create(background_path);
+    if (background == nullptr)
+    {
+        std::string err = "Can not create background from " + background_path;
+        print_error(__FILE__, __LINE__, err.c_str());
+        log_error(__FILE__, __LINE__,err.c_str());
+        return errAsInt(Error::NULL_PTR);
+    }
+
+    float scale_map_background_X = _map->getContentSize().width / background->getContentSize().width;
+    float scale_map_background_Y = _map->getContentSize().height / background->getContentSize().height;
+
+    if (scale_map_background_X > scale_map_background_Y)
+    {
+        background->setScale(scale_map_background_X);
+    }
+    else
+    {
+        background->setScale(scale_map_background_Y);
+    }
+
+    background->setPosition(Point(_origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height / 2));
+    addChild(background, -1);
+
+    return errAsInt(Error::OK);
+}
+
+int MapScene::setPlayer()
+{
+    player = Player::create();
+    if (player == nullptr)
+    {
+        std::string err = "Can not create player";
+        print_error(__FILE__, __LINE__, err.c_str());
+        log_error(__FILE__, __LINE__,err.c_str());
+        return errAsInt(Error::NULL_PTR);
+    }
+    player->setPosition(Vec2(_origin.x + _visibleSize.width / 2,
+                             _origin.y + _visibleSize.height / 2));
+
+//    player->setScale(0.75f);
+    this->addChild(player, 5);
+    return errAsInt(Error::OK);
+}
+
+int MapScene::setupEventListener()
+{
+
+    auto listener = EventListenerKeyboard::create();
+    auto contactListener = EventListenerPhysicsContact::create();
+
+    if (listener == nullptr || contactListener == nullptr)
+    {
+        std::string err = "Can not setup Listener";
+        print_error(__FILE__, __LINE__, err.c_str());
+        log_error(__FILE__, __LINE__,err.c_str());
+
+        return errAsInt(Error::NULL_PTR);
+    }
+
+
+    listener->onKeyPressed = CC_CALLBACK_2(MapScene::onKeyPressed, this);
+    listener->onKeyReleased = CC_CALLBACK_2(MapScene::onKeyReleased, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+    contactListener->onContactBegin = CC_CALLBACK_1(MapScene::onContactBegin, this);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
+
+    this->scheduleUpdate();
+
+    return errAsInt(Error::OK);
+}
+
 void MapScene::setEnableDrawAllSolidFigure(bool enable)
 {
     setEnableDrawPolygons(true);
@@ -414,47 +491,32 @@ bool MapScene::init()
         return false;
     }
 
-    ///==============================================================================
+    /// Set Background
+    err_ind = setBackground();
+    if (err_ind != 0)
+    {
+        print_error(__FILE__, __LINE__, "bad work setBackground()");
+        log_error(__FILE__, __LINE__, "bad work setBackground()");
+        return false;
+    }
 
-    auto background = Sprite::create("tile_map/map1/Snow_Background_NSMBW.png");
+    /// Set Player
+    err_ind = setPlayer();
+    if (err_ind != 0)
+    {
+        print_error(__FILE__, __LINE__, "bad work setPlayer()");
+        log_error(__FILE__, __LINE__, "bad work setPlayer()");
+        return false;
+    }
 
-
-    float scaleY = _visibleSize.height / background->getContentSize().height;
-    float scaleX = _visibleSize.width / background->getContentSize().width;
-
-    float scale_map_background_X = _map->getContentSize().width / background->getContentSize().width;
-    float scale_map_background_Y = _map->getContentSize().height / background->getContentSize().height;
-
-    //    if (scaleX > scaleY) { background->setScale(scaleX); }
-    //    else { background->setScale(scaleY); }
-
-    background->setScale(scale_map_background_Y);
-    //    background->setScaleX(scale_map_background_X);
-    //    background->setScaleY(scale_map_background_Y);
-
-    background->setPosition(Point(_origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height / 2));
-    addChild(background, -1);
-
-
-    player = Player::create();
-    player->setPosition(Vec2(_origin.x + _visibleSize.width / 2,
-                             _origin.y + _visibleSize.height / 2));
-//    player->setPlayerPhysicsBody();
-    player->setScale(0.75f);
-    this->addChild(player, 5);
-
-    auto listener = EventListenerKeyboard::create();
-    listener->onKeyPressed = CC_CALLBACK_2(MapScene::onKeyPressed, this);
-    listener->onKeyReleased = CC_CALLBACK_2(MapScene::onKeyReleased, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-
-
-    std::function<void(PhysicsContact& contact, const PhysicsContactPostSolve& solve)> onContactPostSolve;
-    auto contactListener = EventListenerPhysicsContact::create( );
-    contactListener->onContactBegin = CC_CALLBACK_1(MapScene::onContactBegin, this);
-    Director::getInstance( )->getEventDispatcher( )->addEventListenerWithSceneGraphPriority( contactListener, this );
-
-    this->scheduleUpdate();
+    /// Setup Listener
+    err_ind = setupEventListener();
+    if (err_ind != 0)
+    {
+        print_error(__FILE__, __LINE__, "bad work setupEventListener()");
+        log_error(__FILE__, __LINE__, "bad work setupEventListener()");
+        return false;
+    }
 
     return true;
 }

@@ -67,6 +67,7 @@ private:
     float scale_bg_y;
 
     std::string map_path;
+    std::string background_path;
     std::vector<std::string> NameBoxObjects;
     std::vector<std::string> NamePolygonObjects;
 
@@ -90,6 +91,9 @@ private:
     int setSolidEdgeBox();
     int setSolidPolygonFigure();
     int setSolidBoxFigure();
+    int setBackground();
+    int setPlayer();
+    int setupEventListener();
 };
 
 
