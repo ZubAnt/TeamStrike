@@ -53,6 +53,7 @@ public:
 private:
 
     TMXTiledMap *_map;
+    Point _map_centre;
     TMXObjectGroup *_objectGroup;
     cocos2d::Director *_director;
     cocos2d::Size _visibleSize;

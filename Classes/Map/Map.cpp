@@ -49,7 +49,16 @@ MapScene::MapScene()
                       "Platform11",
                       "Platform12",
                       "Platform13",
-                      "Platform14"
+                      "Platform14",
+                      "1",
+                      "2",
+                      "3",
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                      "8",
+                      "9"
                      };
 
     enable_scale_map = true;
@@ -75,7 +84,7 @@ int MapScene::setSolidEdgeBox()
 {
     ///@ref Если будем делать слежение камерой за объектом, то здесь не _visibleSize!!!!!!!!!!!!!!!!!!
 
-    PhysicsBody* edgeBox = PhysicsBody::createEdgeBox(_visibleSize);
+    PhysicsBody* edgeBox = PhysicsBody::createEdgeBox(_map->getContentSize());
     Node* edgeNode = Node::create();
 
     if (edgeBox == nullptr || edgeNode == nullptr)
@@ -85,7 +94,7 @@ int MapScene::setSolidEdgeBox()
         return errAsInt(Error::NULL_PTR);
     }
 
-    edgeNode->setPosition(Point(_visibleSize.width / 2, _visibleSize.height / 2));
+    edgeNode->setPosition(_map_centre);
     edgeNode->setPhysicsBody(edgeBox);
     this->addChild(edgeNode, 1);
 }
@@ -303,7 +312,7 @@ int MapScene::setBackground()
         background->setScale(scale_map_background_Y);
     }
 
-    background->setPosition(Point(_origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height / 2));
+    background->setPosition(_map_centre);
     addChild(background, -1);
 
     return errAsInt(Error::OK);
@@ -319,11 +328,51 @@ int MapScene::setPlayer()
         log_error(__FILE__, __LINE__,err.c_str());
         return errAsInt(Error::NULL_PTR);
     }
-    player->setPosition(Vec2(_origin.x + _visibleSize.width / 2,
-                             _origin.y + _visibleSize.height / 2));
+    //    player->setPosition(Vec2(_origin.x + _visibleSize.width / 2,
+    //                             _origin.y + _visibleSize.height / 2));
 
-//    player->setScale(0.75f);
-    this->addChild(player, 5);
+    //    player->setScale(0.75f);
+
+
+    Size size = Director::sharedDirector()->getVisibleSize();  //default screen size (or design resolution size, if you are using design resolution)
+    Point center = Point(size.width/2 + _origin.x, size.height/2 + _origin.y);
+
+    player->setPosition(center);
+    addChild(player, 5);
+
+    float playfield_width = size.width * 2.0; // make the x-boundry 2 times the screen width
+    float playfield_height = size.height * 2.0; // make the y-boundry 2 times the screen height
+
+    ///===============================================================
+    /// _leftBoundary = -512; _rightBoundary = 512; _topBoundary = 384; _bottomBoundary = -384
+//        Follow* node = Follow::create(player,
+//                                     Rect(center.x - playfield_width/2,
+//                                          center.y - playfield_height/2 ,
+//                                          playfield_width,
+//                                          playfield_height));
+//        node->printBoundary();
+    ///===============================================================
+    ///_leftBoundary = 0; _rightBoundary = 0; _topBoundary = 0; _bottomBoundary = 0
+    //    Follow* node = Follow::create(player);
+    //    node->printBoundary();
+    ///===============================================================
+    Follow* node = Follow::create(player);
+
+//    ///@ref MAGIC
+//    node->setBoundary(-3072, 0, 0, -768 * 1.675);
+////    node->setBoundary(-3072, 0, 0, -1024);
+    node->setBoundary(-3 * size.width, 0, -size.height * 67 / 40, 0);
+//    std::cout << size.width << " " << size.height <<  std::endl
+//              << center.x << " " << center.y << std::endl
+//              << _visibleSize.width << " " << _visibleSize.height <<  std::endl
+//              << _map->getContentSize().width << " " << _map->getContentSize().height << std::endl;
+//    node->printBoundary();
+
+    ///===============================================================
+    this->runAction(node);
+
+
+    //    this->runAction(Follow::create(player));
     return errAsInt(Error::OK);
 }
 
@@ -405,6 +454,8 @@ int MapScene::setupMap()
 
         setMapScale(_map);
     }
+
+    _map_centre = Point(_map->getContentSize().width / 2, _map->getContentSize().height / 2);
 
     addChild(_map, 0);
 

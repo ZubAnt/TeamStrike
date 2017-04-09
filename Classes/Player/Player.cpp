@@ -158,7 +158,7 @@ void Player::update()
     {
         if(true == is_onGround) {
             Vec2 body_velocity = this->getPhysicsBody()->getVelocity();
-            body_velocity.y = 300;
+            body_velocity.y = 500;
             this->getPhysicsBody()->setVelocity( body_velocity );
             is_onGround = false;
         }
