@@ -1,7 +1,6 @@
 #include "Map.h"
 
 #include "Menu/AbstractMenuData.h"
-#include "Player/Warrior.h"
 #include "Player/Player.h"
 #include <iostream>
 #include <string>
@@ -144,7 +143,7 @@ int MapScene::setSolidPolygonFigure()
             }
 
             // create Polygon from point
-            auto polygon = PhysicsBody::createPolygon(pointsVec2Object, vec_point.size(), PhysicsMaterial(0.1f, .1f, 0.0f));
+            auto polygon = PhysicsBody::createPolygon(pointsVec2Object, vec_point.size(), PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_FRICTION));
             polygon->setDynamic(false);
             polygon->setGravityEnable(false);
             polygon->setContactTestBitmask( true );
@@ -238,7 +237,7 @@ int MapScene::setSolidBoxFigure()
             rectangle[2] = Vec2(x + width, y + height);
             rectangle[3] = Vec2(x + width, y);
 
-            PhysicsBody* polygon = PhysicsBody::createPolygon(rectangle, 4, PhysicsMaterial(0.1f, .1f, 0.0f));
+            PhysicsBody* polygon = PhysicsBody::createPolygon(rectangle, 4, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_FRICTION));
             polygon->setDynamic(false);
             polygon->setGravityEnable(false);
             polygon->setContactTestBitmask( true );
@@ -381,8 +380,9 @@ int MapScene::setupEventListener()
 
     auto listener = EventListenerKeyboard::create();
     auto contactListener = EventListenerPhysicsContact::create();
+    auto mouseListener = EventListenerMouse::create();
 
-    if (listener == nullptr || contactListener == nullptr)
+    if (listener == nullptr || contactListener == nullptr || mouseListener == nullptr)
     {
         std::string err = "Can not setup Listener";
         print_error(__FILE__, __LINE__, err.c_str());
@@ -398,6 +398,12 @@ int MapScene::setupEventListener()
 
     contactListener->onContactBegin = CC_CALLBACK_1(MapScene::onContactBegin, this);
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
+
+    mouseListener->onMouseUp = CC_CALLBACK_1(MapScene::onMouseUp, this);
+    mouseListener->onMouseDown = CC_CALLBACK_1(MapScene::onMouseDown, this);
+
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+
 
     this->scheduleUpdate();
 
@@ -575,110 +581,5 @@ bool MapScene::init()
 int MapScene::errAsInt(MapScene::Error err)
 {
     return static_cast<int>(err);
-}
-
-bool MapScene::onContactBegin(PhysicsContact &contact)
-{
-    PhysicsBody *a = contact.getShapeA( )->getBody();
-    PhysicsBody *b = contact.getShapeB( )->getBody();
-
-    if ( ( PLAYER_BITMASK == a->getCollisionBitmask( ) && GROUND_BITMASK == b->getCollisionBitmask() ) || ( PLAYER_BITMASK == b->getCollisionBitmask( ) && GROUND_BITMASK == a->getCollisionBitmask() ) )
-    {
-        player->is_onGround = true;
-        player->jumping = false;
-        if(false == player->moving)
-        {
-            player->idling = true;
-        }
-        else
-        {
-            player->moving = true;
-        }
-    }
-
-    return true;
-}
-
-void MapScene::update(float delta)
-{
-    player->update();
-}
-
-void MapScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event)
-{
-    switch (keyCode) {
-    case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-    case cocos2d::EventKeyboard::KeyCode::KEY_A:
-        player->move(0);
-        break;
-    case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-    case cocos2d::EventKeyboard::KeyCode::KEY_D:
-        player->move(1);
-        break;
-    case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
-    case cocos2d::EventKeyboard::KeyCode::KEY_W:
-        player->jump();
-        break;
-    case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-    case cocos2d::EventKeyboard::KeyCode::KEY_S:
-        break;
-    default:
-        player->idle();
-        break;
-    }
-}
-
-void MapScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event)
-{
-    switch (keyCode) {
-    case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-    case cocos2d::EventKeyboard::KeyCode::KEY_A:
-        if(true == player->is_onGround)
-        {
-            player->moving = false;
-            player->jumping = false;
-            player->idling = true;
-        }
-        else
-        {
-            player->moving = false;
-            player->jumping = true;
-            player->idling = false;
-        }
-        break;
-    case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-    case cocos2d::EventKeyboard::KeyCode::KEY_D:
-        if(true == player->is_onGround)
-        {
-            player->moving = false;
-            player->jumping = false;
-            player->idling = true;
-        }
-        else
-        {
-            player->moving = false;
-            player->jumping = true;
-            player->idling = false;
-        }
-        break;
-    case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
-    case cocos2d::EventKeyboard::KeyCode::KEY_W:
-        if(true == player->moving )
-        {
-            player->jumping = false;
-            player->idling = false;
-        }
-        else
-        {
-            player->jumping = false;
-            player->idling = true;
-        }
-        break;
-    case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-    case cocos2d::EventKeyboard::KeyCode::KEY_S:
-        break;
-    default:
-        break;
-    }
 }
 

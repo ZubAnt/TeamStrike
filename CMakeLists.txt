@@ -129,10 +129,6 @@ endif( WIN32 )
 
 set(GAME_SRC
     Classes/AppDelegate.cpp
-    Classes/HelloWorldScene.cpp
-    Classes/PauseScene.cpp
-    Classes/Level1Scene.cpp
-    Classes/GraphicsScene.cpp
 
     Classes/Menu/AbstractMenuData.cpp
     Classes/Menu/MenuLogger.cpp
@@ -150,22 +146,21 @@ set(GAME_SRC
     Classes/Menu/ExitMenu/ExitMenuData.cpp
 
     Classes/Map/Map.cpp
+    Classes/Map/MapKeyboard.cpp
 
     Classes/Logging/logger.cpp
 
-    Classes/Player/Warrior.cpp
-
     Classes/Player/Player.cpp
+    Classes/Player/1/RedPlayer.cpp
+    Classes/Player/InitPlayer.cpp
+
+    Classes/Bullet/Bullet.cpp
 
     ${PLATFORM_SPECIFIC_SRC}
     )
 
 set(GAME_HEADERS
     Classes/AppDelegate.h
-    Classes/HelloWorldScene.h
-    Classes/PauseScene.h
-    Classes/Level1Scene.h
-    Classes/GraphicsScene.h
 
     Classes/Menu/AbstractMenuData.h
     Classes/Menu/MenuLogger.h
@@ -186,9 +181,10 @@ set(GAME_HEADERS
 
     Classes/Logging/logger.h
 
-    Classes/Player/Warrior.h
-
     Classes/Player/Player.h
+    Classes/Player/1/RedPlayer.h
+
+    Classes/Bullet/Bullet.h
 
     ${PLATFORM_SPECIFIC_HEADERS}
 

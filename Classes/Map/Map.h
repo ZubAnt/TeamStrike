@@ -6,8 +6,13 @@
 #include <string>
 #include <stdexcept>
 #include "Logging/logger.h"
-#include "Player/Warrior.h"
 #include "Player/Player.h"
+#include "Bullet/Bullet.h"
+
+
+#define MAP_DENSITY 100.0f
+#define MAP_RESTITUTION 0.0f
+#define MAP_FRICTION 100.0f
 
 USING_NS_CC;
 
@@ -24,9 +29,6 @@ public:
     double keyPressedDuration(cocos2d::EventKeyboard::KeyCode);
     bool onContactBegin( cocos2d::PhysicsContact &contact );
     CREATE_FUNC(MapScene)
-
-    Warrior* _sprRobot;
-    Warrior* getWarrior();
 
     enum struct Error
     {
@@ -46,10 +48,12 @@ public:
                                       };
     int errAsInt(Error err);
 
-    void update(float delta);
+    void update(float dt);
     void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
     void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
-
+    void onMouseDown(Event *event);
+    void onMouseUp(Event *event);
+print_error
 private:
 
     TMXTiledMap *_map;
@@ -60,6 +64,7 @@ private:
     Vec2 _origin;
 
     Player * player;
+    std::vector<Bullet*> bullets;
 
     float _scale_map_x;
     float _scale_map_y;

@@ -1,7 +1,4 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
-#include "GraphicsScene.h"
-#include "Level1Scene.h"
 #include "Menu/MainMenu/MainMenu.h"
 #include "Menu/StartMenu/StartMenu.h"
 #include <iostream>
