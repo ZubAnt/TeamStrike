@@ -1,11 +1,6 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#define PLAYER_BITMASK 0x000001
-#define GROUND_BITMASK  0x000002
-#define NEW_BITMASK 0x001
-#define OBSTACLE_COLLISION_BITMASK  0x000000
-
 #define SPEED_OF_THE_PLAYER 36
 #define SPEED_OF_THE_PLAYER_IN_THE_AIR 3
 #define SPEED_OF_THE_PLAYER_VELOCITY 800
@@ -51,6 +46,7 @@ public:
     bool is_dying;
     bool is_onJetpack;
     bool is_onGround;
+    bool is_collisionPlatform_On;
 
     bool collision;
 

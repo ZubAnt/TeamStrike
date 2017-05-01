@@ -33,20 +33,18 @@ MapScene::MapScene()
 
     GroundBoxOblects = {"Box_GNDL1", "Box_GNDL2", "Box_GNDR1", "Box_GNDR2"};
 
-    PlatformBoxOblects = {"Platform1",
-                          "Platform2",
-                          "Platform3",
-                          "Platform4",
-                          "Platform5",
-                          "Platform6",
-                          "Platform7",
-                          "Platform8",
-                          "Platform9",
-                          "Platform10",
-                          "Platform11",
-                          "Platform12",
-                          "Platform13",
-                          "Platform14"};
+    char number_str[4] = {0, 0, 0, 0};
+    int numb_platform = 14;
+    std::string patternBorderL("lbp");
+    std::string patternBorderR("rbp");
+    std::string patternPlatform("Platform");
+    for(int i = 1; i <= numb_platform; ++i)
+    {
+         sprintf(number_str, "%i", i);
+         PlatformBoxOblects.push_back(patternPlatform + number_str);
+         BorderBoxOblects.push_back(patternBorderL + number_str);
+         BorderBoxOblects.push_back(patternBorderR + number_str);
+    }
 
     enable_scale_map = true;
     enable_scale_background = true;
@@ -61,11 +59,11 @@ MapScene::~MapScene()
 Scene *MapScene::createScene()
 {
     auto scene = Scene::createWithPhysics();
-//    scene->getPhysicsWorld()->setAutoStep(false);
-//    scene->getPhysicsWorld()->step(1 / 60.0f);
+    //    scene->getPhysicsWorld()->setAutoStep(false);
+    //    scene->getPhysicsWorld()->step(1 / 60.0f);
     scene->getPhysicsWorld()->setFixedUpdateRate( 4000 );
-//    scene->getPhysicsWorld()->setSubsteps(3);
-//    scene->getPhysicsWorld()->setSpeed( 2.0f);
+    //    scene->getPhysicsWorld()->setSubsteps(3);
+    //    scene->getPhysicsWorld()->setSpeed( 2.0f);
     scene->getPhysicsWorld()->setGravity(Vect(0.f, -4000.0f));
     scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     auto layer = MapScene::create();
@@ -554,6 +552,13 @@ bool MapScene::init()
         return false;
     }
     err_ind = setSolidBoxFigures(PlatformBoxOblects, BitMask::PLATFORMS, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_FRICTION));
+    if (err_ind != 0)
+    {
+        print_error(__FILE__, __LINE__, "bad work setSolidBoxFigures()");
+        log_error(__FILE__, __LINE__, "bad work setSolidBoxFigures()");
+        return false;
+    }
+    err_ind = setSolidBoxFigures(BorderBoxOblects, BitMask::BORDER, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_FRICTION));
     if (err_ind != 0)
     {
         print_error(__FILE__, __LINE__, "bad work setSolidBoxFigures()");

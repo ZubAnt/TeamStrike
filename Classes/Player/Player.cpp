@@ -67,12 +67,13 @@ bool Player::initOptions()
     is_onGround = false;
     is_onJetpack = false;
     collision = false;
+    is_collisionPlatform_On = true;
     timer = 0;
     direction = 1;
     speed = 0;
 
     initPhysicsPody();
-//    print_event(__FILE__, __LINE__,"initPhysicsPody()");
+    print_event(__FILE__, __LINE__,"initPhysicsPody()");
     bool initanimate = initAnimFrames();
     if (initanimate == false)
     {

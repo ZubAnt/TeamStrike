@@ -10,7 +10,8 @@ enum BitMask
     StartCOLUMN = 0x000002,
     PLATFORMS = 0x000003,
     PLAYER = 0x000004,
-    BULLET = 0x000005
+    BULLET = 0x000005,
+    BORDER = 0x000006
 };
 
 #endif // BITMASK_H

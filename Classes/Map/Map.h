@@ -83,6 +83,7 @@ private:
     std::vector<std::string> PlatformBoxOblects;
     std::vector<std::string> GroundBoxOblects;
     std::vector<std::string> GroundPolygonOblects;
+    std::vector<std::string> BorderBoxOblects;
 
     bool enable_draw_polygons;
     bool enable_draw_boxes;

@@ -145,6 +145,7 @@ set(GAME_SRC
     Classes/Menu/ExitMenu/ExitMenu.cpp
     Classes/Menu/ExitMenu/ExitMenuData.cpp
 
+    Classes/BitMask.h
     Classes/Map/Map.cpp
     Classes/Map/MapKeyboard.cpp
 
