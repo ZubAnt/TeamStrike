@@ -1,116 +1,7 @@
 #include "Map.h"
 #include "Player/Player.h"
 #include "Bullet/Bullet.h"
-
-//void MapScene::update(float delta)
-//{
-//    player->update();
-//}
-
-
-//bool MapScene::onContactBegin(PhysicsContact &contact)
-//{
-//    PhysicsBody *a = contact.getShapeA( )->getBody();
-//    PhysicsBody *b = contact.getShapeB( )->getBody();
-
-//    if ( ( PLAYER_BITMASK == a->getCollisionBitmask() && GROUND_BITMASK == b->getCollisionBitmask() ) ||
-//         ( PLAYER_BITMASK == b->getCollisionBitmask() && GROUND_BITMASK == a->getCollisionBitmask() ) )
-//    {
-//        player->is_onGround = true;
-//        player->is_jumping = false;
-//        if(false == player->is_moving)
-//        {
-//            player->is_idling = true;
-//        }
-//        else
-//        {
-//            player->is_moving = true;
-//        }
-//    }
-
-//    return true;
-//}
-
-
-//void MapScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event *event)
-//{
-//    switch (keyCode) {
-//    case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-//    case cocos2d::EventKeyboard::KeyCode::KEY_A:
-//        player->move(0);
-//        break;
-//    case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-//    case cocos2d::EventKeyboard::KeyCode::KEY_D:
-//        player->move(1);
-//        break;
-//    case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
-//    case cocos2d::EventKeyboard::KeyCode::KEY_W:
-//        player->jump();
-//        break;
-//    case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-//    case cocos2d::EventKeyboard::KeyCode::KEY_S:
-//        break;
-//    default:
-//        player->idle();
-//        break;
-//    }
-//}
-
-
-//void MapScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event *event)
-//{
-//    switch (keyCode) {
-//    case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-//    case cocos2d::EventKeyboard::KeyCode::KEY_A:
-//        if(true == player->is_onGround)
-//        {
-//            player->is_moving = false;
-//            player->is_jumping = false;
-//            player->is_idling = true;
-//        }
-//        else
-//        {
-//            player->is_moving = false;
-//            player->is_jumping = true;
-//            player->is_idling = false;
-//        }
-//        break;
-//    case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-//    case cocos2d::EventKeyboard::KeyCode::KEY_D:
-//        if(true == player->is_onGround)
-//        {
-//            player->is_moving = false;
-//            player->is_jumping = false;
-//            player->is_idling = true;
-//        }
-//        else
-//        {
-//            player->is_moving = false;
-//            player->is_jumping = true;
-//            player->is_idling = false;
-//        }
-//        break;
-//    case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
-//    case cocos2d::EventKeyboard::KeyCode::KEY_W:
-//        if(true == player->is_moving )
-//        {
-//            player->is_jumping = false;
-//            player->is_idling = false;
-//        }
-//        else
-//        {
-//            player->is_jumping = false;
-//            player->is_idling = true;
-//        }
-//        break;
-//    case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-//    case cocos2d::EventKeyboard::KeyCode::KEY_S:
-//        break;
-//    default:
-//        break;
-//    }
-//}
-
+#include "BitMask.h"
 
 void MapScene::update(float dt)
 {
@@ -211,8 +102,8 @@ bool MapScene::onContactBegin( cocos2d::PhysicsContact &contact)
     PhysicsBody *a = contact.getShapeA()->getBody();
     PhysicsBody *b = contact.getShapeB()->getBody();
 
-    if ((PLAYER_BITMASK == a->getCollisionBitmask() && GROUND_BITMASK == b->getCollisionBitmask()) ||
-        (PLAYER_BITMASK == b->getCollisionBitmask() && GROUND_BITMASK == a->getCollisionBitmask()))
+    if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::GROUND == b->getCollisionBitmask()) ||
+        (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::GROUND == a->getCollisionBitmask()))
     {
         player->is_onGround = true;
     }

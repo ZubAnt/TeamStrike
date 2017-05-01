@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <stdexcept>
 #include <cstdlib>
+#include "BitMask.h"
 #include "Logging/logger.h"
 
 void Player::initPhysicsPody()
@@ -10,7 +11,7 @@ void Player::initPhysicsPody()
     PlayerBody->setGravityEnable(true);
     PlayerBody->setRotationEnable(false);
     PlayerBody->setContactTestBitmask(true);
-    PlayerBody->setCollisionBitmask(PLAYER_BITMASK);
+    PlayerBody->setCollisionBitmask(BitMask::PLAYER);
     addComponent(PlayerBody);
 }
 

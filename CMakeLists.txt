@@ -177,6 +177,8 @@ set(GAME_HEADERS
     Classes/Menu/ExitMenu/ExitMenu.h
     Classes/Menu/ExitMenu/ExitMenuData.h
 
+    Classes/BitMask.h
+
     Classes/Map/Map.h
 
     Classes/Logging/logger.h

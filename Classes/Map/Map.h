@@ -53,7 +53,7 @@ public:
     void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
     void onMouseDown(Event *event);
     void onMouseUp(Event *event);
-print_error
+
 private:
 
     TMXTiledMap *_map;
@@ -74,8 +74,11 @@ private:
 
     std::string map_path;
     std::string background_path;
-    std::vector<std::string> NameBoxObjects;
-    std::vector<std::string> NamePolygonObjects;
+
+    std::vector<std::string> StartColumnBoxOblects;
+    std::vector<std::string> PlatformBoxOblects;
+    std::vector<std::string> GroundBoxOblects;
+    std::vector<std::string> GroundPolygonOblects;
 
     bool enable_draw_polygons;
     bool enable_draw_boxes;
@@ -95,8 +98,8 @@ private:
     int setupMap();
     int setupObjectGroup();
     int setSolidEdgeBox();
-    int setSolidPolygonFigure();
-    int setSolidBoxFigure();
+    int setSolidPolygonFigures(std::vector<std::string> &NamePolygonObjects, int bitmask, const PhysicsMaterial &material);
+    int setSolidBoxFigures(std::vector<std::string> &NameBoxObjects, int bitmask, const PhysicsMaterial& material);
     int setBackground();
     int setPlayer();
     int setupEventListener();

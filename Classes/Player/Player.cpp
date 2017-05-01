@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Player.h"
+#include "BitMask.h"
 #include "Logging/logger.h"
 
 Player::Player()
@@ -30,7 +31,6 @@ Player::Player(std::string _pathAnim,
 
 Player* Player::create()
 {
-//    Player * player = new Player();
     print_event(__FILE__, __LINE__," in create()");
     Player * player = new Player("player/1/",
                                  "idle",
@@ -95,116 +95,6 @@ bool Player::initOptions()
 
     return initanimate;
 }
-
-//void Player::move(int directionparam)
-//{
-//    if(true == is_onGround )
-//    {
-//        is_idling = false;
-//        is_moving = true;
-//        this->stopAllActions();
-//        this->runAction(RepeatForever::create(moveAnimate));
-//    }
-//    else
-//    {
-//        is_idling = false;
-//        is_moving = true;
-//            }
-//    direction = directionparam;
-//}
-
-//void Player::idle()
-//{
-//    if(true == is_onGround)
-//    {
-//        is_moving = false;
-//        is_jumping = false;
-//        is_idling = true;
-//        this->stopAllActions();
-//        this->runAction(RepeatForever::create(idleAnimate));
-//    }
-//}
-
-//void Player::jump()
-//{
-//    if( true == is_onGround )
-//    {
-//        is_idling = false;
-//        is_jumping = true;
-//        this->stopAllActions();
-//        this->runAction(RepeatForever::create(jumpAnimate));
-//    }
-//}
-
-//void Player::update()
-//{
-//    if(is_idling) {
-//        if (true == is_onGround) {
-//            idle();
-//        }
-//    }
-//    if(is_moving) //check if is_moving
-//    {
-//        int speed = 0;
-//        if( true == is_onGround)
-//        {
-//            speed = SPEED_OF_THE_PLAYER;
-//        }
-//        else
-//        {
-//            speed = SPEED_OF_THE_PLAYER_IN_THE_AIR;
-//        }
-//        if(direction == 0) //check if going left
-//        {
-//            this->setScaleX(-1); //flip
-//            this->setPositionX(this->getPositionX() - speed);
-//        }
-//        else
-//        {
-//            this->setScaleX(1); //flip
-//            this->setPositionX(this->getPositionX() + speed);
-//        }
-//    }
-//    if(is_jumping)
-//    {
-//        if(true == is_onGround) {
-//            Vec2 body_velocity = this->getPhysicsBody()->getVelocity();
-//            body_velocity.y = 500;
-//            this->getPhysicsBody()->setVelocity( body_velocity );
-//            is_onGround = false;
-//        }
-//    }
-//}
-
-//void Player::die()
-//{
-
-//}
-
-//void Player::fly()
-//{
-
-//}
-
-//void Player::shoot()
-//{
-
-//}
-
-//void Player::run_fire()
-//{
-
-//}
-
-//void Player::stay_with_gun()
-//{
-
-//}
-
-//void Player::jump_fire()
-//{
-
-//}
 
 void Player::move()
 {

@@ -1,4 +1,5 @@
 #include "Bullet.h"
+#include "BitMask.h"
 
 Bullet::Bullet()
 {
@@ -41,7 +42,7 @@ void Bullet::initOptions(const Player* player)
 
     auto bullet_body = PhysicsBody::createCircle(1, PhysicsMaterial(0,0,0));
 
-    bullet_body->setCollisionBitmask(BULLET_COLLISION_BITMASK);
+    bullet_body->setCollisionBitmask(BitMask::BULLET);
     bullet_body->setDynamic(true);
     bullet_body->setGravityEnable(false);
     bullet_body->setRotationEnable(false);
