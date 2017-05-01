@@ -39,5 +39,4 @@ void MenuLogger::log_error(const char *text, const char *file, int line)
 void MenuLogger::log_event(const char *text)
 {
     _stream_event << text << std::endl;
-//    std::cout << text << std::endl;
 }
