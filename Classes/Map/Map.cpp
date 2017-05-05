@@ -1,7 +1,7 @@
 #include "Map.h"
 
 #include "Menu/AbstractMenuData.h"
-#include "Player/Warrior.h"
+#include "Player/Player.h"
 #include <iostream>
 #include <string>
 #include <stdexcept>
@@ -17,7 +17,9 @@ MapScene::MapScene()
     _visibleSize = Size::ZERO;
     _origin = Vec2::ZERO;
 
-    map_path = "tile_map/map1/ice.tmx";
+    //    map_path = "tile_map/map1/ice.tmx";
+    map_path = "tile_map/map2/map2_64.tmx";
+    background_path = "tile_map/map2/BG.png";
 
     NamePolygonObjects = {"Polygon_GND",
                           "Polygon_GNDL1",
@@ -46,7 +48,16 @@ MapScene::MapScene()
                       "Platform11",
                       "Platform12",
                       "Platform13",
-                      "Platform14"
+                      "Platform14",
+                      "1",
+                      "2",
+                      "3",
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                      "8",
+                      "9"
                      };
 
     enable_scale_map = true;
@@ -62,7 +73,7 @@ MapScene::~MapScene()
 Scene *MapScene::createScene()
 {
     auto scene = Scene::createWithPhysics();
-    scene->getPhysicsWorld()->setGravity(Vect(0.f, -98.0f));
+    scene->getPhysicsWorld()->setGravity(Vect(0.f, -400.0f));
     auto layer = MapScene::create();
     scene->addChild(layer);
     return scene;
@@ -72,7 +83,7 @@ int MapScene::setSolidEdgeBox()
 {
     ///@ref Если будем делать слежение камерой за объектом, то здесь не _visibleSize!!!!!!!!!!!!!!!!!!
 
-    PhysicsBody* edgeBox = PhysicsBody::createEdgeBox(_visibleSize);
+    PhysicsBody* edgeBox = PhysicsBody::createEdgeBox(_map->getContentSize());
     Node* edgeNode = Node::create();
 
     if (edgeBox == nullptr || edgeNode == nullptr)
@@ -82,7 +93,7 @@ int MapScene::setSolidEdgeBox()
         return errAsInt(Error::NULL_PTR);
     }
 
-    edgeNode->setPosition(Point(_visibleSize.width / 2, _visibleSize.height / 2));
+    edgeNode->setPosition(_map_centre);
     edgeNode->setPhysicsBody(edgeBox);
     this->addChild(edgeNode, 1);
 }
@@ -132,9 +143,11 @@ int MapScene::setSolidPolygonFigure()
             }
 
             // create Polygon from point
-            auto polygon = PhysicsBody::createPolygon(pointsVec2Object, vec_point.size());
+            auto polygon = PhysicsBody::createPolygon(pointsVec2Object, vec_point.size(), PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_FRICTION));
             polygon->setDynamic(false);
             polygon->setGravityEnable(false);
+            polygon->setContactTestBitmask( true );
+            polygon->setCollisionBitmask( GROUND_BITMASK );
 
             auto pol_node = Node::create();
 
@@ -224,9 +237,11 @@ int MapScene::setSolidBoxFigure()
             rectangle[2] = Vec2(x + width, y + height);
             rectangle[3] = Vec2(x + width, y);
 
-            PhysicsBody* polygon = PhysicsBody::createPolygon(rectangle, 4);
+            PhysicsBody* polygon = PhysicsBody::createPolygon(rectangle, 4, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_FRICTION));
             polygon->setDynamic(false);
             polygon->setGravityEnable(false);
+            polygon->setContactTestBitmask( true );
+            polygon->setCollisionBitmask( GROUND_BITMASK );
             auto pol_node = Node::create();
 
             bool isScale = false;
@@ -269,6 +284,128 @@ int MapScene::setSolidBoxFigure()
             return errAsInt(Error::CATCHING_AN_EXCEPTION);
         }
     }
+
+    return errAsInt(Error::OK);
+}
+
+int MapScene::setBackground()
+{
+    Sprite*  background = Sprite::create(background_path);
+    if (background == nullptr)
+    {
+        std::string err = "Can not create background from " + background_path;
+        print_error(__FILE__, __LINE__, err.c_str());
+        log_error(__FILE__, __LINE__,err.c_str());
+        return errAsInt(Error::NULL_PTR);
+    }
+
+    float scale_map_background_X = _map->getContentSize().width / background->getContentSize().width;
+    float scale_map_background_Y = _map->getContentSize().height / background->getContentSize().height;
+
+    if (scale_map_background_X > scale_map_background_Y)
+    {
+        background->setScale(scale_map_background_X);
+    }
+    else
+    {
+        background->setScale(scale_map_background_Y);
+    }
+
+    background->setPosition(_map_centre);
+    addChild(background, -1);
+
+    return errAsInt(Error::OK);
+}
+
+int MapScene::setPlayer()
+{
+    player = Player::create();
+    if (player == nullptr)
+    {
+        std::string err = "Can not create player";
+        print_error(__FILE__, __LINE__, err.c_str());
+        log_error(__FILE__, __LINE__,err.c_str());
+        return errAsInt(Error::NULL_PTR);
+    }
+    //    player->setPosition(Vec2(_origin.x + _visibleSize.width / 2,
+    //                             _origin.y + _visibleSize.height / 2));
+
+    //    player->setScale(0.75f);
+
+
+    Size size = Director::sharedDirector()->getVisibleSize();  //default screen size (or design resolution size, if you are using design resolution)
+    Point center = Point(size.width/2 + _origin.x, size.height/2 + _origin.y);
+
+    player->setPosition(center);
+    addChild(player, 5);
+
+    float playfield_width = size.width * 2.0; // make the x-boundry 2 times the screen width
+    float playfield_height = size.height * 2.0; // make the y-boundry 2 times the screen height
+
+    ///===============================================================
+    /// _leftBoundary = -512; _rightBoundary = 512; _topBoundary = 384; _bottomBoundary = -384
+//        Follow* node = Follow::create(player,
+//                                     Rect(center.x - playfield_width/2,
+//                                          center.y - playfield_height/2 ,
+//                                          playfield_width,
+//                                          playfield_height));
+//        node->printBoundary();
+    ///===============================================================
+    ///_leftBoundary = 0; _rightBoundary = 0; _topBoundary = 0; _bottomBoundary = 0
+    //    Follow* node = Follow::create(player);
+    //    node->printBoundary();
+    ///===============================================================
+    Follow* node = Follow::create(player);
+
+//    ///@ref MAGIC
+//    node->setBoundary(-3072, 0, 0, -768 * 1.675);
+////    node->setBoundary(-3072, 0, 0, -1024);
+    node->setBoundary(-3 * size.width, 0, -size.height * 67 / 40, 0);
+//    std::cout << size.width << " " << size.height <<  std::endl
+//              << center.x << " " << center.y << std::endl
+//              << _visibleSize.width << " " << _visibleSize.height <<  std::endl
+//              << _map->getContentSize().width << " " << _map->getContentSize().height << std::endl;
+//    node->printBoundary();
+
+    ///===============================================================
+    this->runAction(node);
+
+
+    //    this->runAction(Follow::create(player));
+    return errAsInt(Error::OK);
+}
+
+int MapScene::setupEventListener()
+{
+
+    auto listener = EventListenerKeyboard::create();
+    auto contactListener = EventListenerPhysicsContact::create();
+    auto mouseListener = EventListenerMouse::create();
+
+    if (listener == nullptr || contactListener == nullptr || mouseListener == nullptr)
+    {
+        std::string err = "Can not setup Listener";
+        print_error(__FILE__, __LINE__, err.c_str());
+        log_error(__FILE__, __LINE__,err.c_str());
+
+        return errAsInt(Error::NULL_PTR);
+    }
+
+
+    listener->onKeyPressed = CC_CALLBACK_2(MapScene::onKeyPressed, this);
+    listener->onKeyReleased = CC_CALLBACK_2(MapScene::onKeyReleased, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+    contactListener->onContactBegin = CC_CALLBACK_1(MapScene::onContactBegin, this);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
+
+    mouseListener->onMouseUp = CC_CALLBACK_1(MapScene::onMouseUp, this);
+    mouseListener->onMouseDown = CC_CALLBACK_1(MapScene::onMouseDown, this);
+
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+
+
+    this->scheduleUpdate();
 
     return errAsInt(Error::OK);
 }
@@ -324,6 +461,8 @@ int MapScene::setupMap()
         setMapScale(_map);
     }
 
+    _map_centre = Point(_map->getContentSize().width / 2, _map->getContentSize().height / 2);
+
     addChild(_map, 0);
 
     return errAsInt(Error::OK);
@@ -362,8 +501,8 @@ bool MapScene::init()
 
     Vec2 vec_center(_visibleSize.width / 2, _visibleSize.height/2);
 
-    SetEnableScaleMap(true);
-    setEnableDrawPolygons(true);
+    SetEnableScaleMap(false);
+    setEnableDrawPolygons(false);
 
     /// setup and set map
     int err_ind = setupMap();
@@ -409,66 +548,32 @@ bool MapScene::init()
         return false;
     }
 
-    ///==============================================================================
+    /// Set Background
+    err_ind = setBackground();
+    if (err_ind != 0)
+    {
+        print_error(__FILE__, __LINE__, "bad work setBackground()");
+        log_error(__FILE__, __LINE__, "bad work setBackground()");
+        return false;
+    }
 
-    auto background = Sprite::create("tile_map/map1/Snow_Background_NSMBW.png");
+    /// Set Player
+    err_ind = setPlayer();
+    if (err_ind != 0)
+    {
+        print_error(__FILE__, __LINE__, "bad work setPlayer()");
+        log_error(__FILE__, __LINE__, "bad work setPlayer()");
+        return false;
+    }
 
-
-    float scaleY = _visibleSize.height / background->getContentSize().height;
-    float scaleX = _visibleSize.width / background->getContentSize().width;
-
-    float scale_map_background_X = _map->getContentSize().width / background->getContentSize().width;
-    float scale_map_background_Y = _map->getContentSize().height / background->getContentSize().height;
-
-    //    if (scaleX > scaleY) { background->setScale(scaleX); }
-    //    else { background->setScale(scaleY); }
-
-    background->setScale(scale_map_background_Y);
-    //    background->setScaleX(scale_map_background_X);
-    //    background->setScaleY(scale_map_background_Y);
-
-    background->setPosition(Point(_origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height / 2));
-    addChild(background, -1);
-
-
-
-    _sprRobot = Warrior::create();
-    _sprRobot->setScale(0.5);
-    _sprRobot->setPosition(Point(_origin.x + _visibleSize.width / 2 + 130, _origin.y + _visibleSize.height / 2 + 230));
-    addChild(_sprRobot);
-
-    auto physicsBodyRobot = PhysicsBody::createBox(_sprRobot->getContentSize()/1.2, PhysicsMaterial(0, 0, 300));
-    physicsBodyRobot->setRotationEnable(false);
-    _sprRobot->setPhysicsBody(physicsBodyRobot);
-    _sprRobot->getPhysicsBody()->setVelocity(Vect(0, -35));
-    physicsBodyRobot->setDynamic(true);
-    physicsBodyRobot->setGravityEnable(true);
-
-    auto listener = EventListenerKeyboard::create();
-    isJump = true;
-
-    listener->onKeyPressed = [=](EventKeyboard::KeyCode keyCode, Event* event){
-
-        if( keys.find(keyCode) == keys.end() ){
-            keys[keyCode] = std::chrono::high_resolution_clock::now();
-        }
-        if( isKeyPressed(EventKeyboard::KeyCode::KEY_SPACE) ) {
-            Bullet* bullet;
-            bullet = Bullet::create( getWarrior() );
-            CCLOG("bullet create2");
-            addChild( bullet );
-            CCLOG("add child");
-        }
-
-    };
-
-    listener->onKeyReleased = [=](EventKeyboard::KeyCode keyCode, Event* event){
-        isJump = true;
-        keys.erase(keyCode);
-    };
-
-    this->_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, _sprRobot);
-    this->scheduleUpdate();
+    /// Setup Listener
+    err_ind = setupEventListener();
+    if (err_ind != 0)
+    {
+        print_error(__FILE__, __LINE__, "bad work setupEventListener()");
+        log_error(__FILE__, __LINE__, "bad work setupEventListener()");
+        return false;
+    }
 
     return true;
 }
@@ -477,48 +582,4 @@ int MapScene::errAsInt(MapScene::Error err)
 {
     return static_cast<int>(err);
 }
-
-bool MapScene::isKeyPressed(cocos2d::EventKeyboard::KeyCode code) {
-    if(keys.find(code) != keys.end())
-        return true;
-    return false;
-}
-
-double MapScene::keyPressedDuration(cocos2d::EventKeyboard::KeyCode code) {
-    return std::chrono::duration_cast<std::chrono::milliseconds>
-            (std::chrono::high_resolution_clock::now() - keys[code]).count();
-}
-
-void MapScene::update(float delta) {
-    Node::update(delta);
-    if(isKeyPressed(EventKeyboard::KeyCode::KEY_D)) {
-        if(isKeyPressed(EventKeyboard::KeyCode::KEY_W) && isJump){
-            _sprRobot->getPhysicsBody()->applyImpulse( Vec2( 20, 40 ) );
-        } else{
-            getWarrior()->MoveWarrior(Vec2(2, .0f));
-            getWarrior()->MoveWarrior(Vec2(.0f, -0.50f));
-        }
-    }
-    if(isKeyPressed(EventKeyboard::KeyCode::KEY_A)){
-        if(isKeyPressed(EventKeyboard::KeyCode::KEY_W) && isJump){
-            _sprRobot->getPhysicsBody()->applyImpulse( Vec2( -20, 40 ) );
-        } else{
-            getWarrior()->MoveWarrior(Vec2(-2, .0f));
-            getWarrior()->MoveWarrior(Vec2(.0f, -0.50f));
-        }
-    }
-    if(isKeyPressed(EventKeyboard::KeyCode::KEY_W) && isJump){
-        _sprRobot->getPhysicsBody()->applyImpulse( Vec2( 0, 100 ) );
-        isJump = false;
-    }
-}
-
-
-Warrior *MapScene::getWarrior() {
-    return _sprRobot;
-}
-
-std::map<cocos2d::EventKeyboard::KeyCode,
-        std::chrono::high_resolution_clock::time_point> MapScene::keys;
-
 

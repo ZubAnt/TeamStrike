@@ -6,8 +6,13 @@
 #include <string>
 #include <stdexcept>
 #include "Logging/logger.h"
-#include "Player/Warrior.h"
+#include "Player/Player.h"
 #include "Bullet/Bullet.h"
+
+
+#define MAP_DENSITY 100.0f
+#define MAP_RESTITUTION 0.0f
+#define MAP_FRICTION 100.0f
 
 USING_NS_CC;
 
@@ -22,10 +27,8 @@ public:
     bool init();
     bool isKeyPressed(cocos2d::EventKeyboard::KeyCode);
     double keyPressedDuration(cocos2d::EventKeyboard::KeyCode);
+    bool onContactBegin( cocos2d::PhysicsContact &contact );
     CREATE_FUNC(MapScene)
-
-    Warrior* _sprRobot;
-    Warrior* getWarrior();
 
     enum struct Error
     {
@@ -45,15 +48,23 @@ public:
                                       };
     int errAsInt(Error err);
 
-    virtual void update(float delta) override;
-
+    void update(float dt);
+    void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
+    void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
+    void onMouseDown(Event *event);
+    void onMouseUp(Event *event);
+print_error
 private:
 
     TMXTiledMap *_map;
+    Point _map_centre;
     TMXObjectGroup *_objectGroup;
     cocos2d::Director *_director;
     cocos2d::Size _visibleSize;
     Vec2 _origin;
+
+    Player * player;
+    std::vector<Bullet*> bullets;
 
     float _scale_map_x;
     float _scale_map_y;
@@ -62,6 +73,7 @@ private:
     float scale_bg_y;
 
     std::string map_path;
+    std::string background_path;
     std::vector<std::string> NameBoxObjects;
     std::vector<std::string> NamePolygonObjects;
 
@@ -78,7 +90,6 @@ private:
     void SetEnableScaleMap(bool enable);
     void setEnableScaleBackground(bool enable);
 
-
     void setMapScale(Node *node);
 
     int setupMap();
@@ -86,11 +97,9 @@ private:
     int setSolidEdgeBox();
     int setSolidPolygonFigure();
     int setSolidBoxFigure();
-
-    static std::map<cocos2d::EventKeyboard::KeyCode,
-            std::chrono::high_resolution_clock::time_point> keys;
-
-
+    int setBackground();
+    int setPlayer();
+    int setupEventListener();
 };
 
 

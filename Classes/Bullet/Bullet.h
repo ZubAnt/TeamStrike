@@ -1,31 +1,28 @@
-//
-// Created by pavel on 07.04.17.
-//
-#include "Player/Warrior.h"
-#include "cocos2d.h"
-USING_NS_CC;
-
 #ifndef TEAMSTRIKE_BULLET_H
 #define TEAMSTRIKE_BULLET_H
 
+#define BULLET_COLLISION_BITMASK 0x000004
+#define kMaximumBulletSpeed 200.0f;
+#define kDefaultDamage 10;
+
+#include "Player/Player.h"
+#include "cocos2d.h"
+USING_NS_CC;
 
 class Bullet : public cocos2d::Sprite {
 public:
-    static Bullet* create( const Warrior* warrior );
+    static Bullet* create(const Player* player);
     int getDamage();
 
 private:
-    Bullet();
-    ~Bullet();
-
-    void initOptions( const Warrior* warrior );
-    void addEvents();
-
-private:
+    bool life;
     int _damage;
     float _maxSpeed;
     Vec2 _currentSpeed;
 
+    Bullet();
+    ~Bullet();
+    void initOptions(const Player* player);
 };
 
 

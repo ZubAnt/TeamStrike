@@ -1,9 +1,7 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
-#include "GraphicsScene.h"
-#include "Level1Scene.h"
 #include "Menu/MainMenu/MainMenu.h"
 #include "Menu/StartMenu/StartMenu.h"
+#include <iostream>
 
 USING_NS_CC;
 
@@ -60,19 +58,23 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto frameSize = glview->getFrameSize();
     // if the frame's height is larger than the height of medium size.
     if (frameSize.height > mediumResolutionSize.height)
-    {        
+    {
+        std::cout << __LINE__ <<std::endl;
         director->setContentScaleFactor(MIN(largeResolutionSize.height/designResolutionSize.height, largeResolutionSize.width/designResolutionSize.width));
     }
     // if the frame's height is larger than the height of small size.
     else if (frameSize.height > smallResolutionSize.height)
-    {        
+    {
+        std::cout << __LINE__ <<std::endl;
         director->setContentScaleFactor(MIN(mediumResolutionSize.height/designResolutionSize.height, mediumResolutionSize.width/designResolutionSize.width));
     }
     // if the frame's height is smaller than the height of medium size.
     else
-    {        
+    {
+        std::cout << __LINE__ <<std::endl;
         director->setContentScaleFactor(MIN(smallResolutionSize.height/designResolutionSize.height, smallResolutionSize.width/designResolutionSize.width));
     }
+
 
     register_all_packages();
 
