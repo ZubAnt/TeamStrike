@@ -52,11 +52,14 @@ void MainMenuData::set_style_MenuLabel(Label *label)
     label->enableOutline(Color4B::WHITE, 5);
 }
 
+
+
 void MainMenuData::set_style_header_label(Label *label)
 {
     label->setTextColor(_color_MenuLabel);
     label->enableShadow(Color4B::BLACK, Size(2, -2), 1);
     label->enableOutline(Color4B::WHITE, 2);
 }
+
 
 
