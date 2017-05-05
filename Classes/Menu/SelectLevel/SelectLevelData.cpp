@@ -68,6 +68,7 @@ void SelectLevelData::set_style_header_label(Label *label) {
     label->enableOutline(Color4B::WHITE, 2);
 }
 
+
 void SelectLevelData::set_SceneLabel(const std::string &text, float x, float y, const ccMenuCallback &callback) {
     auto label = create_lable(text, _visibleSize.width / 30);
     set_style_SceneLabel(label);
