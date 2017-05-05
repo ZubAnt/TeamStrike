@@ -58,3 +58,5 @@ void MainMenuData::set_style_header_label(Label *label)
     label->enableShadow(Color4B::BLACK, Size(2, -2), 1);
     label->enableOutline(Color4B::WHITE, 2);
 }
+
+

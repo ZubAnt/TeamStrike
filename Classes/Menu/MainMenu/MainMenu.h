@@ -17,7 +17,7 @@ public:
     bool init();
     CREATE_FUNC(MainMenu)
 
-    void callback_start(cocos2d::Ref *pSender);
+    void callback_selectSettings(cocos2d::Ref *pSender);
     void callback_settings(cocos2d::Ref *pSender);
     void callback_exit(cocos2d::Ref *pSender);
 

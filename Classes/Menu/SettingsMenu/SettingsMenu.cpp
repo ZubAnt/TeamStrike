@@ -62,6 +62,8 @@ bool SettingsMenu::init()
 
     /*************/
 
+    data.set_textField();
+
    /* auto checkbox = ui::CheckBox::create("check_box_normal.png",
                                      "check_box_normal_press.png",
                                      "check_box_active.png",

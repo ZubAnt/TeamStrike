@@ -53,7 +53,7 @@ public:
     void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
     void onMouseDown(Event *event);
     void onMouseUp(Event *event);
-print_error
+//  print_error
 private:
 
     TMXTiledMap *_map;

@@ -1,9 +1,16 @@
-#include <ui/UIImageView.h>
-#include <ui/UITextField.h>
-#include "SettingsMenuData.h"
+//
+// Created by pavel on 03.05.17.
+//
 
-SettingsMenuData::SettingsMenuData(cocos2d::Layer *layer, Director* director)
-{
+#include <ui/UIEditBox/UIEditBox.h>
+#include <ui/UIImageView.h>
+#include "SelectLevelMenuData.h"
+#include "cocos2d.h"
+#include "iostream"
+
+USING_NS_CC;
+
+SelectLevelMenuData::SelectLevelMenuData(Layer *layer, Director *director) {
     _director = director;
     _layer = layer;
     _background_img = "person/x4cFzOk.png";
@@ -15,8 +22,7 @@ SettingsMenuData::SettingsMenuData(cocos2d::Layer *layer, Director* director)
     _origin = _director->getVisibleOrigin();
 }
 
-void SettingsMenuData::set_background()
-{
+void SelectLevelMenuData::set_background() {
     auto background = Sprite::create(_background_img);
 
     float scaleY = _visibleSize.height / background->getContentSize().height;
@@ -29,60 +35,55 @@ void SettingsMenuData::set_background()
     _layer->addChild(background, -1);
 }
 
-void SettingsMenuData::set_header_Label()
-{
-    auto label_name = create_lable("TEAMSTRIKE", _visibleSize.height / 8);
+void SelectLevelMenuData::set_header_Label() {
+    auto label_name = create_lable("SelectScene", _visibleSize.height / 8);
     label_name->setPosition(Vec2(_origin.x + _visibleSize.width / 2,
                                  _origin.y + _visibleSize.height - 1.1 * label_name->getContentSize().height));
     set_style_header_label(label_name);
     _layer->addChild(label_name, 1);
 }
 
-void SettingsMenuData::set_label(const std::string name_label,float fontSize,float x_position, float y_position )
-{
-    auto label_name = create_lable(name_label,fontSize /*_visibleSize.height / 8*/);
-    label_name->setPosition(Vec2(x_position /*_origin.x + _visibleSize.width / 2*/,
-                                 y_position- 1.1 * label_name->getContentSize().height) /*_origin.y + _visibleSize.height - 1.1 * label_name->getContentSize().height)*/);
-    set_style_header_label(label_name);
-    _layer->addChild(label_name, 1);
-}
-
-void SettingsMenuData::set_MenuLabel(const std::string &text, float x, float y, const ccMenuCallback &callback)
-{
+void SelectLevelMenuData::set_MenuLabel(const std::string &text, float x, float y, const ccMenuCallback &callback) {
     auto label = create_lable(text, _visibleSize.width / 20);
     set_style_MenuLabel(label);
     auto menu = create_menu_label(label, x, y, callback);
     _layer->addChild(menu, 1);
 }
 
-void SettingsMenuData::set_style_MenuLabel(Label *label)
-{
+void SelectLevelMenuData::set_style_MenuLabel(Label *label) {
     label->setTextColor(_color_header);
     label->enableShadow(Color4B::BLACK, Size(5, -5), 2);
     label->enableOutline(Color4B::WHITE, 5);
 }
 
-void SettingsMenuData::set_style_header_label(Label *label)
-{
+void SelectLevelMenuData::set_style_header_label(Label *label) {
     label->setTextColor(_color_MenuLabel);
     label->enableShadow(Color4B::BLACK, Size(2, -2), 1);
     label->enableOutline(Color4B::WHITE, 2);
 }
 
-void SettingsMenuData::set_textField() {
+void SelectLevelMenuData::set_MenuItemImage( const std::string &text1, const std::string &text2, float x, float y,
+                                            const ccMenuCallback &callback ) {
+    auto sceneItem = MenuItemImage::create( text1, text2, callback);
+    sceneItem->setPosition(Vec2( x, y ));
+    _layer->addChild( sceneItem, 1 );
+}
+
+
+void SelectLevelMenuData::set_textField() {
     std::string pNormalSprite = "extensions/green_edit.png";
 
     auto imageView = ui::ImageView::create("space.jpg");
     imageView->setScale(0.15, 0.08);
-    imageView->setPosition(Vec2(_visibleSize.width / 1.8, _visibleSize.height / 1.6));
+    imageView->setPosition(Vec2(_visibleSize.width / 6, _visibleSize.height / 6));
     _layer->addChild(imageView);
 
-    ui::TextField* textField = ui::TextField::create("input Name here","fonts/Marker Felt.ttf",40);
+    ui::TextField* textField = ui::TextField::create("input Name here","fonts/Marker Felt.ttf",30);
     textField->ignoreContentAdaptWithSize(false);
     textField->setContentSize(Size(240, 160));
     textField->setTextHorizontalAlignment(TextHAlignment::CENTER);
     textField->setTextVerticalAlignment(TextVAlignment::CENTER);
-    textField->setPosition(Vec2(_visibleSize.width / 1.8, _visibleSize.height / 1.6));
+    textField->setPosition(Vec2(_visibleSize.width / 6, _visibleSize.height / 6));
     textField->addEventListener([&](Ref* pSender, ui::TextField::EventType type){
         /*switch (type)
         {
@@ -127,3 +128,5 @@ void SettingsMenuData::set_textField() {
 
     _layer->addChild(textField);
 }
+
+
