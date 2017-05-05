@@ -2,7 +2,7 @@
 #include "../SettingsMenu/SettingsMenu.h"
 #include "../StartMenu/StartMenu.h"
 #include "../ExitMenu/ExitMenu.h"
-#include "../SelectLevelMenu/SelectLevelMenu.h"
+#include "../SelectLevel/SelectLevel.h"
 #include "Map/Map.h"
 
 #include <iostream>
@@ -61,8 +61,7 @@ bool MainMenu::init()
 void MainMenu::callback_selectSettings(cocos2d::Ref *pSender)
 {
 //    _director->pushScene(TransitionFade::create(0.7, StartMenu::createScene()));
-    _director->pushScene(TransitionFade::create(0.7, SelectLevelMenu::createScene()));
-
+    _director->pushScene(TransitionFade::create(0.7, SelectLevel::createScene()));
     logger->log_event("callback start");
 }
 
