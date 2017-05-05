@@ -1,5 +1,3 @@
-#include <ui/UIImageView.h>
-#include <ui/UITextField.h>
 #include "SettingsMenuData.h"
 
 SettingsMenuData::SettingsMenuData(cocos2d::Layer *layer, Director* director)
@@ -47,6 +45,14 @@ void SettingsMenuData::set_label(const std::string name_label,float fontSize,flo
     _layer->addChild(label_name, 1);
 }
 
+void SettingsMenuData::set_button(const std::string name_label,float x, float y, const ccMenuCallback &callback )
+{
+    auto label = create_lable(name_label, _visibleSize.width / 40);
+    set_style_MenuLabel(label);
+    auto menu = create_menu_label(label, x, y, callback);
+    _layer->addChild(menu, 1);
+}
+
 void SettingsMenuData::set_MenuLabel(const std::string &text, float x, float y, const ccMenuCallback &callback)
 {
     auto label = create_lable(text, _visibleSize.width / 20);
@@ -69,61 +75,6 @@ void SettingsMenuData::set_style_header_label(Label *label)
     label->enableOutline(Color4B::WHITE, 2);
 }
 
-void SettingsMenuData::set_textField() {
-    std::string pNormalSprite = "extensions/green_edit.png";
-
-    auto imageView = ui::ImageView::create("space.jpg");
-    imageView->setScale(0.15, 0.08);
-    imageView->setPosition(Vec2(_visibleSize.width / 1.8, _visibleSize.height / 1.6));
-    _layer->addChild(imageView);
-
-    ui::TextField* textField = ui::TextField::create("input Name here","fonts/Marker Felt.ttf",40);
-    textField->ignoreContentAdaptWithSize(false);
-    textField->setContentSize(Size(240, 160));
-    textField->setTextHorizontalAlignment(TextHAlignment::CENTER);
-    textField->setTextVerticalAlignment(TextVAlignment::CENTER);
-    textField->setPosition(Vec2(_visibleSize.width / 1.8, _visibleSize.height / 1.6));
-    textField->addEventListener([&](Ref* pSender, ui::TextField::EventType type){
-        /*switch (type)
-        {
-            case ui::TextField::EventType::ATTACH_WITH_IME:
-            {
-                ui::TextField* textField = dynamic_cast<ui::TextField*>(pSender);
-                Size widgetSize = textField->getContentSize();
-                textField->runAction(CCMoveTo::create(0.225f,
-                                                      Vec2(widgetSize.width / 2.0f, widgetSize.height / 2.0f + textField->getContentSize().height / 2)));
-                textField->setTextHorizontalAlignment(TextHAlignment::LEFT);
-                textField->setTextVerticalAlignment(TextVAlignment::TOP);
-
-            textField->setString(CCString::createWithFormat("attach with IME")->getCString());
-            }
-                break;
-
-            case ui::TextField::EventType::DETACH_WITH_IME:
-            {
-                ui::TextField* textField = dynamic_cast<ui::TextField*>(pSender);
-                Size widgetSize = textField->getContentSize();
-                textField->runAction(CCMoveTo::create(0.175f, Vec2(widgetSize.width / 2.0f, widgetSize.height / 2.0f)));
-                textField->setTextHorizontalAlignment(TextHAlignment::CENTER);
-                textField->setTextVerticalAlignment(TextVAlignment::CENTER);
-
-            textField->setString(CCString::createWithFormat("detach with IME")->getCString());
-            }
-                break;
-
-            case ui::TextField::EventType::INSERT_TEXT:
-            textField->setString(CCString::createWithFormat("insert words")->getCString());
-                break;
-
-            case ui::TextField::EventType::DELETE_BACKWARD:
-            textField->setString(CCString::createWithFormat("delete word")->getCString());
-                break;
-
-            default:
-                break;
-
-        }*/
-    });
-
-    _layer->addChild(textField);
+void SettingsMenuData::set_layer(cocos2d::ui::CheckBox* lay) {
+    _layer->addChild(lay, 1);
 }
