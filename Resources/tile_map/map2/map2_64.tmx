@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="64" height="32" tilewidth="64" tileheight="64" nextobjectid="76">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="64" height="32" tilewidth="64" tileheight="64" nextobjectid="83">
  <tileset firstgid="1" source="tile_set2.tsx"/>
  <layer name="BG" width="64" height="32">
   <data encoding="csv">
@@ -42,7 +42,7 @@
    <polyline points="0,0 192,-192 320,-192 512,0 512,256 0,256 0,0"/>
   </object>
   <object id="2" name="Polygon_GNDR1" x="2304" y="1792">
-   <polyline points="0,0 256,0 320,64 320,256 0,256 0,0"/>
+   <polyline points="192,0 256,0 320,64 320,256 192,256 192,0"/>
   </object>
   <object id="3" name="Polygon_GNDR2" x="2816" y="1856">
    <polyline points="0,0 192,-192 320,-192 512,0 512,192 0,192 0,0"/>
@@ -57,7 +57,7 @@
    <polyline points="0,0 192,-192 320,-192 512,0 512,192 0,192 0,0"/>
   </object>
   <object id="7" name="Polygon_GNDL1" x="1472" y="1856">
-   <polyline points="0,0 64,-64 320,-64 320,192 0,192 0,0"/>
+   <polyline points="0,0 64,-64 128,-64 128,192 0,192 0,0"/>
   </object>
   <object id="8" name="Box_GNDL2" x="512" y="1856" width="256" height="192"/>
   <object id="9" name="Box_GNDL1" x="1280" y="1856" width="192" height="192"/>
@@ -80,33 +80,35 @@
   <object id="26" x="2368" y="1408" width="256"/>
   <object id="27" name="Platform14" x="3328" y="1408" width="320" height="64"/>
   <object id="28" name="Platform10" x="2368" y="1408" width="256" height="64"/>
-  <object id="46" name="lbp3" x="443" y="1421.25" width="5" height="50.75"/>
-  <object id="48" name="rbp3" x="768" y="1422.55" width="5.33333" height="49.4545"/>
-  <object id="49" name="lbp2" x="507.011" y="1101.28" width="5" height="50.75"/>
-  <object id="50" name="lbp1" x="442.986" y="781.217" width="5" height="50.75"/>
-  <object id="51" name="lbp4" x="1018.96" y="1229.23" width="5" height="50.75"/>
-  <object id="52" name="lbp7" x="1467" y="1421.26" width="5" height="50.75"/>
-  <object id="53" name="lbp5" x="1466.98" y="845.208" width="5" height="50.75"/>
-  <object id="54" name="lbp8" x="1914.99" y="1165.25" width="5" height="50.75"/>
-  <object id="55" name="lbp6" x="1914.99" y="589.243" width="5" height="50.75"/>
-  <object id="56" name="lbp9" x="2299.02" y="845.226" width="5" height="50.75"/>
-  <object id="57" name="lbp10" x="2363.01" y="1421.25" width="5" height="50.75"/>
-  <object id="58" name="lbp11" x="2747.08" y="1229.31" width="5" height="50.75"/>
-  <object id="59" name="lbp12" x="3003.02" y="781.25" width="5" height="50.75"/>
-  <object id="60" name="lbp13" x="3322.99" y="1101.25" width="5" height="50.75"/>
-  <object id="61" name="lbp14" x="3323.05" y="1421.32" width="5" height="50.75"/>
-  <object id="63" name="rbp1" x="1088.14" y="782.515" width="5.33333" height="49.4545"/>
-  <object id="64" name="rbp2" x="768.083" y="1102.52" width="5.33333" height="49.4545"/>
-  <object id="65" name="rbp4" x="1344.29" y="1230.48" width="5.33333" height="49.4545"/>
-  <object id="66" name="rbp7" x="1728.12" y="1422.42" width="5.33333" height="49.4545"/>
-  <object id="67" name="rbp5" x="1791.83" y="846.523" width="5.33333" height="49.4545"/>
-  <object id="68" name="rbp6" x="2176.24" y="590.727" width="5.33333" height="49.4545"/>
-  <object id="69" name="rbp8" x="2176.2" y="1166.45" width="5.33333" height="49.4545"/>
-  <object id="70" name="rbp10" x="2624.02" y="1422.64" width="5.33333" height="49.4545"/>
-  <object id="71" name="rbp9" x="2624" y="846.554" width="5.33333" height="49.4545"/>
-  <object id="72" name="rbp11" x="3072.29" y="1230.55" width="5.33333" height="49.4545"/>
-  <object id="73" name="rbp12" x="3648.15" y="782.591" width="5.33333" height="49.4545"/>
-  <object id="74" name="rbp13" x="3584.36" y="1102.42" width="5.33333" height="49.4545"/>
-  <object id="75" name="rbp14" x="3648.08" y="1422.52" width="5.33333" height="49.4545"/>
+  <object id="46" name="lbp3" x="443" y="1410" width="5" height="62"/>
+  <object id="48" name="rbp3" x="768" y="1410.42" width="5.33333" height="61.5795"/>
+  <object id="49" name="lbp2" x="507.011" y="1089.93" width="5" height="62.0978"/>
+  <object id="50" name="lbp1" x="442.986" y="769.904" width="5" height="62.0625"/>
+  <object id="51" name="lbp4" x="1018.96" y="1217.87" width="5" height="62.1136"/>
+  <object id="52" name="lbp7" x="1467" y="1409.95" width="5" height="62.0625"/>
+  <object id="53" name="lbp5" x="1466.98" y="834.02" width="5" height="61.9375"/>
+  <object id="54" name="lbp8" x="1914.99" y="1154.06" width="5" height="61.9375"/>
+  <object id="55" name="lbp6" x="1914.99" y="577.97" width="5" height="62.0227"/>
+  <object id="56" name="lbp9" x="2299.02" y="834.135" width="5" height="61.8409"/>
+  <object id="57" name="lbp10" x="2363.01" y="1409.94" width="5" height="62.0625"/>
+  <object id="58" name="lbp11" x="2747.08" y="1217.93" width="5" height="62.125"/>
+  <object id="59" name="lbp12" x="3003.02" y="770.033" width="5" height="61.9674"/>
+  <object id="60" name="lbp13" x="3322.99" y="1089.98" width="5" height="62.0227"/>
+  <object id="61" name="lbp14" x="3323.05" y="1409.96" width="5" height="62.1136"/>
+  <object id="63" name="rbp1" x="1088.14" y="769.952" width="5.33333" height="62.017"/>
+  <object id="64" name="rbp2" x="768.083" y="1090.04" width="5.33333" height="61.9328"/>
+  <object id="65" name="rbp4" x="1344.29" y="1218.48" width="5.33333" height="61.4545"/>
+  <object id="66" name="rbp7" x="1728.12" y="1410.17" width="5.33333" height="61.7045"/>
+  <object id="67" name="rbp5" x="1791.83" y="834.159" width="5.33333" height="61.8181"/>
+  <object id="68" name="rbp6" x="2176.24" y="578.477" width="5.33333" height="61.7045"/>
+  <object id="69" name="rbp8" x="2176.2" y="1154.08" width="5.33333" height="61.8295"/>
+  <object id="70" name="rbp10" x="2624.02" y="1410.14" width="5.33333" height="61.9545"/>
+  <object id="71" name="rbp9" x="2624" y="834.304" width="5.33333" height="61.7045"/>
+  <object id="72" name="rbp11" x="3072.29" y="1218.3" width="5.33333" height="61.7045"/>
+  <object id="73" name="rbp12" x="3648.15" y="770.5" width="5.33333" height="61.5454"/>
+  <object id="74" name="rbp13" x="3584" y="1090.24" width="5.69697" height="61.6363"/>
+  <object id="75" name="rbp14" x="3648.08" y="1410.27" width="5.33333" height="61.7045"/>
+  <object id="78" name="Box_GNDR3" x="2304" y="1792" width="192" height="256"/>
+  <object id="82" name="Box_GNDL3" x="1600" y="1792" width="192" height="256"/>
  </objectgroup>
 </map>

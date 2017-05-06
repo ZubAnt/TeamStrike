@@ -1,9 +1,8 @@
 #ifndef TEAMSTRIKE_BULLET_H
 #define TEAMSTRIKE_BULLET_H
 
-#define BULLET_COLLISION_BITMASK 0x000004
-#define kMaximumBulletSpeed 200.0f;
-#define kDefaultDamage 10;
+#define BULLET_DEFAULT_DAMAGE 10;
+#define BULLET_VELOCITY 2000.0f
 
 #include "Player/Player.h"
 #include "cocos2d.h"
@@ -16,8 +15,8 @@ public:
 
 private:
     bool life;
-    int _damage;
-    float _maxSpeed;
+    int _Damage;
+    float _Velocity;
     Vec2 _currentSpeed;
 
     Bullet();

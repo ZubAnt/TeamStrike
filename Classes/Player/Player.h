@@ -3,8 +3,10 @@
 
 #define SPEED_OF_THE_PLAYER 36
 #define SPEED_OF_THE_PLAYER_IN_THE_AIR 3
-#define SPEED_OF_THE_PLAYER_VELOCITY 800
-#define SPEED_OF_THE_PLAYER_IN_THE_AIR_VELOCITY 800
+#define SPEED_OF_THE_PLAYER_VELOCITY 1100.0f
+#define SPEED_OF_THE_PLAYER_IN_THE_AIR_VELOCITY 1100.0f
+#define SPEED_PLAYER_LIMIT 2700.0f
+
 #define PLAYER_DENSITY 500.0f
 #define PLAYER_RESTITUTION 0.0000001f
 #define PLAYER_FRICTION 1.0f
@@ -52,7 +54,7 @@ public:
 
     unsigned int timer;
     int direction;
-    int speed;
+    float speed;
     bool key_A;
     bool key_D;
 

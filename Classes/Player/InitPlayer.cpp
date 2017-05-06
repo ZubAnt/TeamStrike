@@ -9,7 +9,7 @@ void Player::initPhysicsPody()
     auto PlayerBody = PhysicsBody::createBox(Size(70.0f,121.0f), PhysicsMaterial(PLAYER_DENSITY, PLAYER_RESTITUTION, PLAYER_FRICTION));
     PlayerBody->PhysicsBody::setMass(0.1f);
     PlayerBody->setDynamic(true);
-    PlayerBody->setVelocityLimit(1600.0f);
+    PlayerBody->setVelocityLimit(SPEED_PLAYER_LIMIT);
     PlayerBody->setGravityEnable(true);
     PlayerBody->setRotationEnable(false);
     PlayerBody->setContactTestBitmask(true);

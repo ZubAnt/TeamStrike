@@ -144,7 +144,7 @@ void Player::update()
 
         if (is_moving)
         {
-            int speed2 = 0;
+            float speed2 = 0;
             speed = 0;
             if (true == is_onGround) {
 
@@ -195,9 +195,9 @@ void Player::update()
             if (true == is_onGround)
             {
 //                Vec2 body_velocity = this->getPhysicsBody()->getVelocity();
-//                body_velocity.y = 2000;
+//                body_velocity.y = 3.000;
 //                this->getPhysicsBody()->setVelocity( body_velocity );
-                this->getPhysicsBody()->applyImpulse( Vec2(0,200));
+                this->getPhysicsBody()->applyImpulse( Vec2(0, 400));
 //                is_onGround = false;
             }
         }

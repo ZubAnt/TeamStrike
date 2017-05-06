@@ -107,10 +107,12 @@ bool MapScene::onContactBegin( cocos2d::PhysicsContact &contact)
     if (BitMask::BULLET == a->getCollisionBitmask() && BitMask::PLAYER != b->getCollisionBitmask())
     {
         a->getNode()->removeFromParent();
+        return true;
     }
     else if (BitMask::BULLET == b->getCollisionBitmask() && BitMask::PLAYER != a->getCollisionBitmask())
     {
         b->getNode()->removeFromParent();
+        return true;
     }
     else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::BORDER == b->getCollisionBitmask()) ||
             (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::BORDER == a->getCollisionBitmask()))
@@ -147,8 +149,8 @@ bool MapScene::onContactBegin( cocos2d::PhysicsContact &contact)
         }
     }
 
-    else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::StartCOLUMN == b->getCollisionBitmask()) ||
-            (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::StartCOLUMN == a->getCollisionBitmask()))
+    else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::START_LEFT_COL == b->getCollisionBitmask()) ||
+            (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::START_LEFT_COL == a->getCollisionBitmask()))
     {
         //        player->collision = true;
         return true;
@@ -191,8 +193,8 @@ bool MapScene::onContactSeparate(cocos2d::PhysicsContact &contact)
             player->is_onGround = false;
         }
     }
-    else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::StartCOLUMN == b->getCollisionBitmask()) ||
-            (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::StartCOLUMN == a->getCollisionBitmask()))
+    else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::START_LEFT_COL == b->getCollisionBitmask()) ||
+            (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::START_LEFT_COL == a->getCollisionBitmask()))
     {
         //        player->collision = false;
         return true;

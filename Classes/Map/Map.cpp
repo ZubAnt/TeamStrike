@@ -30,9 +30,10 @@ MapScene::MapScene()
                             "Polygon_GNDL3",
                             "Polygon_GNDR3"};
 
-    StartColumnBoxOblects = {"Box_Start_Col_Left", "Box_Start_Col_Right"};
+    StartLeftColumnBoxOblects = {"Box_Start_Col_Left"};
+    StartRightColumnBoxOblects = {"Box_Start_Col_Right"};
 
-    GroundBoxOblects = {"Box_GNDL1", "Box_GNDL2", "Box_GNDR1", "Box_GNDR2"};
+    GroundBoxOblects = {"Box_GNDL1", "Box_GNDL2", "Box_GNDR1", "Box_GNDR2", "Box_GNDL3", "Box_GNDR3"};
 
     char number_str[4] = {0, 0, 0, 0};
     int numb_platform = 14;
@@ -41,10 +42,10 @@ MapScene::MapScene()
     std::string patternPlatform("Platform");
     for(int i = 1; i <= numb_platform; ++i)
     {
-         sprintf(number_str, "%i", i);
-         PlatformBoxOblects.push_back(patternPlatform + number_str);
-         BorderBoxOblects.push_back(patternBorderL + number_str);
-         BorderBoxOblects.push_back(patternBorderR + number_str);
+        sprintf(number_str, "%i", i);
+        PlatformBoxOblects.push_back(patternPlatform + number_str);
+        BorderBoxOblects.push_back(patternBorderL + number_str);
+        BorderBoxOblects.push_back(patternBorderR + number_str);
     }
 
     enable_scale_map = true;
@@ -62,10 +63,10 @@ Scene *MapScene::createScene()
     auto scene = Scene::createWithPhysics();
     //    scene->getPhysicsWorld()->setAutoStep(false);
     //    scene->getPhysicsWorld()->step(1 / 60.0f);
-    scene->getPhysicsWorld()->setFixedUpdateRate( 4000 );
+    scene->getPhysicsWorld()->setFixedUpdateRate( 2000 );
     //    scene->getPhysicsWorld()->setSubsteps(3);
-    //    scene->getPhysicsWorld()->setSpeed( 2.0f);
-    scene->getPhysicsWorld()->setGravity(Vect(0.f, -4000.0f));
+    scene->getPhysicsWorld()->setSpeed(0.7f);
+    scene->getPhysicsWorld()->setGravity(Vect(0.f, -10000.0f));
     scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     auto layer = MapScene::create();
     scene->addChild(layer);
@@ -529,7 +530,7 @@ bool MapScene::init()
     }
 
     /// Set Ground Polygon objects
-    err_ind = setSolidPolygonFigures(GroundPolygonOblects, BitMask::GROUND, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_FRICTION));
+    err_ind = setSolidPolygonFigures(GroundPolygonOblects, BitMask::GROUND, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_MIN_FRICTION));
     if (err_ind != 0)
     {
         print_error(__FILE__, __LINE__, "bad work setSolidPolygonFigure()");
@@ -544,14 +545,23 @@ bool MapScene::init()
         log_error(__FILE__, __LINE__, "bad work setSolidBoxFigures()");
         return false;
     }
-    /// Set Start Column Box objects
-    err_ind = setSolidBoxFigures(StartColumnBoxOblects, BitMask::GROUND, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_FRICTION));
+    /// Set Start LEFT Column Box objects
+    err_ind = setSolidBoxFigures(StartLeftColumnBoxOblects, BitMask::START_LEFT_COL, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_MAX_FRICTION));
     if (err_ind != 0)
     {
         print_error(__FILE__, __LINE__, "bad work setSolidBoxFigures()");
         log_error(__FILE__, __LINE__, "bad work setSolidBoxFigures()");
         return false;
     }
+    /// Set Start RIGHT Column Box objects
+    err_ind = setSolidBoxFigures(StartRightColumnBoxOblects, BitMask::START_RIGHT_COL, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_MAX_FRICTION));
+    if (err_ind != 0)
+    {
+        print_error(__FILE__, __LINE__, "bad work setSolidBoxFigures()");
+        log_error(__FILE__, __LINE__, "bad work setSolidBoxFigures()");
+        return false;
+    }
+
     err_ind = setSolidBoxFigures(PlatformBoxOblects, BitMask::PLATFORMS, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_FRICTION));
     if (err_ind != 0)
     {

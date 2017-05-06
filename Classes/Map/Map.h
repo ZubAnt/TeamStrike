@@ -14,6 +14,9 @@
 #define MAP_DENSITY 1000.0f
 #define MAP_RESTITUTION 0.0000001f
 #define MAP_FRICTION 5.0f
+#define MAP_MIN_FRICTION 0.2f
+#define MAP_MAX_FRICTION 5.0f
+
 
 USING_NS_CC;
 
@@ -79,10 +82,17 @@ private:
     std::string map_path;
     std::string background_path;
 
-    std::vector<std::string> StartColumnBoxOblects;
+    std::vector<std::string> StartLeftColumnBoxOblects;
+    std::vector<std::string> StartRightColumnBoxOblects;
+
     std::vector<std::string> PlatformBoxOblects;
+
     std::vector<std::string> GroundBoxOblects;
+
+    std::vector<std::string> GroundPolygonOblectsMinFriction;
+    std::vector<std::string> GroundPolygonOblectsMaxFriction;
     std::vector<std::string> GroundPolygonOblects;
+
     std::vector<std::string> BorderBoxOblects;
 
     bool enable_draw_polygons;
