@@ -1,6 +1,7 @@
 #include "Map.h"
 #include "Player/Player.h"
 #include "Bullet/Bullet.h"
+#include "Logging/logger.h"
 
 
 void MapScene::update(float dt)
@@ -103,20 +104,28 @@ bool MapScene::onContactBegin( cocos2d::PhysicsContact &contact)
     PhysicsBody *a = contact.getShapeA()->getBody();
     PhysicsBody *b = contact.getShapeB()->getBody();
 
-    if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::BORDER == b->getCollisionBitmask()) ||
-        (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::BORDER == a->getCollisionBitmask()))
+    if (BitMask::BULLET == a->getCollisionBitmask() && BitMask::PLAYER != b->getCollisionBitmask())
+    {
+        a->getNode()->removeFromParent();
+    }
+    else if (BitMask::BULLET == b->getCollisionBitmask() && BitMask::PLAYER != a->getCollisionBitmask())
+    {
+        b->getNode()->removeFromParent();
+    }
+    else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::BORDER == b->getCollisionBitmask()) ||
+            (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::BORDER == a->getCollisionBitmask()))
     {
         player->is_collisionPlatform_On = false;
         return false;
     }
-    if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::GROUND == b->getCollisionBitmask()) ||
+    else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::GROUND == b->getCollisionBitmask()) ||
             (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::GROUND == a->getCollisionBitmask()))
     {
         player->is_onGround = true;
         return true;
     }
 
-    if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::PLATFORMS == b->getCollisionBitmask()) ||
+    else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::PLATFORMS == b->getCollisionBitmask()) ||
             (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::PLATFORMS == a->getCollisionBitmask()))
     {
         Vec2 vel = player->getPhysicsBody()->getVelocity();
@@ -138,10 +147,10 @@ bool MapScene::onContactBegin( cocos2d::PhysicsContact &contact)
         }
     }
 
-    if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::StartCOLUMN == b->getCollisionBitmask()) ||
+    else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::StartCOLUMN == b->getCollisionBitmask()) ||
             (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::StartCOLUMN == a->getCollisionBitmask()))
     {
-//        player->collision = true;
+        //        player->collision = true;
         return true;
     }
     return true;
@@ -163,18 +172,18 @@ bool MapScene::onContactSeparate(cocos2d::PhysicsContact &contact)
     PhysicsBody *b = contact.getShapeB()->getBody();
 
     if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::BORDER == b->getCollisionBitmask()) ||
-        (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::BORDER == a->getCollisionBitmask()))
+            (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::BORDER == a->getCollisionBitmask()))
     {
         player->is_collisionPlatform_On = true;
     }
 
-    if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::GROUND == b->getCollisionBitmask()) ||
+    else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::GROUND == b->getCollisionBitmask()) ||
             (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::GROUND == a->getCollisionBitmask()))
     {
         player->is_onGround = false;
     }
 
-    if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::PLATFORMS == b->getCollisionBitmask()) ||
+    else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::PLATFORMS == b->getCollisionBitmask()) ||
             (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::PLATFORMS == a->getCollisionBitmask()))
     {
         if( player->is_onGround == true )
@@ -182,10 +191,10 @@ bool MapScene::onContactSeparate(cocos2d::PhysicsContact &contact)
             player->is_onGround = false;
         }
     }
-    if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::StartCOLUMN == b->getCollisionBitmask()) ||
+    else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::StartCOLUMN == b->getCollisionBitmask()) ||
             (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::StartCOLUMN == a->getCollisionBitmask()))
     {
-//        player->collision = false;
+        //        player->collision = false;
         return true;
     }
 
