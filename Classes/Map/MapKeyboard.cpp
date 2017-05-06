@@ -218,6 +218,15 @@ bool MapScene::onContactBegin( cocos2d::PhysicsContact &contact)
 
 bool MapScene::onContactPreSolve( cocos2d::PhysicsContact &contact)
 {
+    PhysicsBody *a = contact.getShapeA()->getBody();
+    PhysicsBody *b = contact.getShapeB()->getBody();
+
+    if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::GROUND == b->getCollisionBitmask()) ||
+        (BitMask::PLAYER == b->getCollisionBitmask() && BitMask::GROUND == a->getCollisionBitmask()))
+    {
+        player->is_onGround = true;
+    }
+
     return true;
 }
 

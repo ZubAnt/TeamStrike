@@ -8,6 +8,7 @@ Thumbs.db
 # Ignore files build by Visual Studio
 proj.*/
 cocos2d/
+cmake-build-debug/
 *.cocos-project.json
 *.obj
 *.exe
