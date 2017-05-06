@@ -48,8 +48,8 @@ void log_exception_error(const char *file, int line, std::exception &error)
 
     stream_error << "TIME: " << asctime(timeinfo)
                  << "; LINE: " << line
-                 << "; ERROR: " << error.what()
                  << " FILE: " << file
+                 << "; ERROR: " << error.what()
                  << std::endl;
 
     stream_error.close();
@@ -58,23 +58,32 @@ void log_exception_error(const char *file, int line, std::exception &error)
 void print_error(const char *file, int line, const char *error)
 {
     std::cout << "LINE: " << line
-              << "; ERROR: " << error
               << " FILE: " << file
+              << "; ERROR: " << error
               << std::endl;
 }
 
 void print_event(const char *file, int line, const char *event)
 {
     std::cout << "LINE: " << line
-              << "; EVENT: " << event
               << " FILE: " << file
+              << "; EVENT: " << event
               << std::endl;
 }
 
 void print_exception_error(const char *file, int line, std::exception &error)
 {
     std::cout << "LINE: " << line
-              << "; ERROR: " << error.what()
               << " FILE: " << file
+              << "; ERROR: " << error.what()
+              << std::endl;
+}
+
+void print_event(const char *file, int line, const char *event, int n)
+{
+    std::cout << "LINE: " << line
+              << " FILE: " << file
+              << "; EVENT: " << event
+              << "; N = " << n
               << std::endl;
 }

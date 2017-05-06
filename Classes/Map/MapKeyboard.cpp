@@ -4,15 +4,48 @@
 #include "Logging/logger.h"
 
 
+static void increment_life_all_bullet(std::list<Bullet*> &list_bullets)
+{
+    for(auto &it: list_bullets)
+    {
+        it->increment_cnt_life();
+    }
+}
+
 void MapScene::update(float dt)
 {
 
     player->update();
+
+    size_t size_list_bullet = list_bullets.size();
+
     if (true == player->is_shooting && player->timer % 10 == 0)
     {
+        if(size_list_bullet > 0)
+        {
+            increment_life_all_bullet(list_bullets);
+            Bullet *back = list_bullets.back();
+            if(back->cnt_life() > MAX_CNT_LIFE_BULLET)
+            {
+                back->removeFromParent();
+                list_bullets.pop_back();
+            }
+        }
+
         Bullet* bulllet = Bullet::create(player);
-        bullets.push_back(bulllet);
+        list_bullets.push_front(bulllet);
         addChild(bulllet);
+
+    }
+    else if (size_list_bullet != 0 && false == player->is_shooting &&  player->timer % 10 == 0)
+    {
+        increment_life_all_bullet(list_bullets);
+        Bullet *back = list_bullets.back();
+        if(back->cnt_life() > MAX_CNT_LIFE_BULLET)
+        {
+            back->removeFromParent();
+            list_bullets.pop_back();
+        }
     }
 }
 
@@ -106,12 +139,37 @@ bool MapScene::onContactBegin( cocos2d::PhysicsContact &contact)
 
     if (BitMask::BULLET == a->getCollisionBitmask() && BitMask::PLAYER != b->getCollisionBitmask())
     {
-        a->getNode()->removeFromParent();
+        Node *node = a->getNode();
+
+        for(auto ptr_bullet_iter = list_bullets.begin();
+            ptr_bullet_iter != list_bullets.end();
+            ptr_bullet_iter++)
+        {
+            if((*ptr_bullet_iter)->isEqual(node))
+            {
+                list_bullets.erase(ptr_bullet_iter);
+                break;
+            }
+        }
+        node->removeFromParent();
+
         return true;
     }
     else if (BitMask::BULLET == b->getCollisionBitmask() && BitMask::PLAYER != a->getCollisionBitmask())
     {
-        b->getNode()->removeFromParent();
+        Node *node = b->getNode();
+
+        for(auto ptr_bullet_iter = list_bullets.begin();
+            ptr_bullet_iter != list_bullets.end();
+            ptr_bullet_iter++)
+        {
+            if((*ptr_bullet_iter)->isEqual(node))
+            {
+                list_bullets.erase(ptr_bullet_iter);
+                break;
+            }
+        }
+        node->removeFromParent();
         return true;
     }
     else if ((BitMask::PLAYER == a->getCollisionBitmask() && BitMask::BORDER == b->getCollisionBitmask()) ||

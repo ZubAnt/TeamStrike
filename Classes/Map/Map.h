@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include <vector>
+#include <list>
 #include <string>
 #include <stdexcept>
 #include "Logging/logger.h"
@@ -16,6 +17,7 @@
 #define MAP_FRICTION 5.0f
 #define MAP_MIN_FRICTION 0.2f
 #define MAP_MAX_FRICTION 5.0f
+#define MAX_CNT_LIFE_BULLET 1
 
 
 USING_NS_CC;
@@ -72,6 +74,7 @@ private:
 
     Player * player;
     std::vector<Bullet*> bullets;
+    std::list<Bullet*> list_bullets;
 
     float _scale_map_x;
     float _scale_map_y;

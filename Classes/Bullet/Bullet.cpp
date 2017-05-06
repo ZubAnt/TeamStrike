@@ -20,6 +20,21 @@ int Bullet::getDamage()
     return 0;
 }
 
+void Bullet::increment_cnt_life()
+{
+    ++_cnt_life;
+}
+
+int Bullet::cnt_life()
+{
+    return _cnt_life;
+}
+
+bool Bullet::isEqual(Node *node)
+{
+    return this == node;
+}
+
 Bullet *Bullet::create( const Player* player )
 {
     Bullet* pBullet = new Bullet();
@@ -41,6 +56,7 @@ void Bullet::initOptions(const Player* player)
     life = true;
     _Velocity = BULLET_VELOCITY;	// Should depend on bullet type.
     _Damage = BULLET_DEFAULT_DAMAGE;
+    _cnt_life = 0;
 
     auto bullet_body = PhysicsBody::createCircle(1, PhysicsMaterial(0,0,0));
 
@@ -64,8 +80,6 @@ void Bullet::initOptions(const Player* player)
         bullet_body->applyImpulse(Vec2(BULLET_VELOCITY, 0));
         setPosition(Vec2( player->getPositionX() + size_of_sprite.size.width / 2 + 20, player->getPositionY() + 45));
     }
-
-
 
     _currentSpeed = Vec2(-1.0f, 0.0f);
 
