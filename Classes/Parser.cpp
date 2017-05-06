@@ -36,7 +36,7 @@ void parser::set_volume(float curr_volume) {
 }
 
 parser::parser() {
-    name_file = "/home/max/TeamStrike/team-st/Classes/file.json";
+    name_file = "/home/pavel/Документы/Game/TeamStrike/Classes/file.json";
     boost::property_tree::read_json(name_file, doc);
     std::string name_( doc.get<std::string>("name") );
     std::string music_volume_( doc.get<std::string>("music_volume") );

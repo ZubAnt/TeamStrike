@@ -2,10 +2,10 @@
 #define  _APP_DELEGATE_H_
 
 #include "cocos2d.h"
-
+#include <audio/include/SimpleAudioEngine.h>
+#include <Parser.h>
 /**
 @brief    The cocos2d Application.
-
 Private inheritance here hides part of interface from Director.
 */
 class  AppDelegate : private cocos2d::Application
@@ -34,7 +34,11 @@ public:
     @param  the pointer of the application
     */
     virtual void applicationWillEnterForeground();
+
+private:
+    float musicVolume;
+    CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
+
 };
 
 #endif // _APP_DELEGATE_H_
-

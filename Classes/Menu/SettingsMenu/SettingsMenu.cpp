@@ -24,7 +24,7 @@ Scene *SettingsMenu::createScene()
     return scene;
 }
 
-std::string name_file = "file.json";
+std::string name_file = "/home/pavel/Документы/Game/TeamStrike/Classes/file.json";
 
 parser parser(name_file);
 
