@@ -1,17 +1,14 @@
 #ifndef BITMASK_H
 #define BITMASK_H
 
-//#define GROUND 0x0001
-//#define PLAYER 0x0002
-
 enum BitMask
 {
-    GROUND = 0x000001,
-    StartCOLUMN = 0x000002,
-    PLATFORMS = 0x000003,
-    PLAYER = 0x000004,
-    BULLET = 0x000005,
-    BORDER = 0x000006
+    GROUND = 0x01,
+    StartCOLUMN = 0x02,
+    PLATFORMS = 0x02,
+    PLAYER = 0x03,
+    BULLET = 0x04,
+    BORDER = 0x05
 };
 
 #endif // BITMASK_H

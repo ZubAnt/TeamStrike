@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <cstdio>
 
+#include "cocos2d.h"
 
 MapScene::MapScene()
 {
@@ -544,7 +545,7 @@ bool MapScene::init()
         return false;
     }
     /// Set Start Column Box objects
-    err_ind = setSolidBoxFigures(StartColumnBoxOblects, BitMask::StartCOLUMN, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_FRICTION));
+    err_ind = setSolidBoxFigures(StartColumnBoxOblects, BitMask::GROUND, PhysicsMaterial(MAP_DENSITY, MAP_RESTITUTION, MAP_FRICTION));
     if (err_ind != 0)
     {
         print_error(__FILE__, __LINE__, "bad work setSolidBoxFigures()");
