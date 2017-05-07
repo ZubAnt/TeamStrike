@@ -6,6 +6,7 @@
 #define TEAMSTRIKE_ENEMY_H
 #include "cocos2d.h"
 #include "Character.h"
+#include "Player/Player.h"
 USING_NS_CC;
 
 #include <unordered_map>
@@ -16,7 +17,7 @@ USING_NS_CC;
 #define PLAYER_RESTITUTION 0.0000001f
 #define PLAYER_FRICTION 1.0f
 
-class Enemy: public Character {
+class Enemy: public Player {
 public:
 
     Enemy();
