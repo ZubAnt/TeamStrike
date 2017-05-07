@@ -145,7 +145,7 @@ void Player::initDeathAnimate()
         deathAnimFrames.pushBack(frame);
     }
 
-    Animation* deathAnimation = Animation::createWithSpriteFrames(deathAnimFrames, 0.3f, 10);
+    Animation* deathAnimation = Animation::createWithSpriteFrames(deathAnimFrames, 0.3f, 1);
     deathAnimate = Animate::create(deathAnimation);
 
     if (deathAnimate == nullptr || deathAnimation == nullptr)

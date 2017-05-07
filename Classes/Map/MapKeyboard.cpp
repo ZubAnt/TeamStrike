@@ -14,7 +14,6 @@ static void increment_life_all_bullet(std::list<Bullet*> &list_bullets)
 
 void MapScene::update(float dt)
 {
-
     player->update();
     enemy->update();
 

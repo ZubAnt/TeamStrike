@@ -31,7 +31,6 @@ public:
     virtual void die();
     virtual void fly();
 
-
     bool is_moving;
     bool is_jumping;
     bool is_idling;

@@ -117,27 +117,18 @@ void Player::update()
                 speed2 = SPEED_OF_THE_PLAYER_IN_THE_AIR_VELOCITY;
             }
             if (direction == 0 && collision_left_platform == false )
-//            if( direction == 0 )
             {
                 this->setScaleX(-1);
-//                applyImpulse
-//                this->getPhysicsBody()->applyImpulse( Vec2(-speed, 0.3 ));
                 Vec2 body_velocity = this->getPhysicsBody()->getVelocity();
                 body_velocity.x = -speed2;
-//                body_velocity.y += 70;
                 this->getPhysicsBody()->setVelocity( body_velocity );
-//                this->setPositionX(this->getPositionX() - speed);
             }
              if ( direction == 1 && collision_right_platform == false )
-//            if( direction == 1 )
             {
                 this->setScaleX(1);
                 Vec2 body_velocity = this->getPhysicsBody()->getVelocity();
                 body_velocity.x = speed2;
-//                body_velocity.y += 70;
                 this->getPhysicsBody()->setVelocity( body_velocity );
-//                this->getPhysicsBody()->applyImpulse( Vec2(speed,0.3));
-//                this->setPositionX(this->getPositionX() + speed);
             }
 
             if (true == is_onGround && false == is_jumping &&
