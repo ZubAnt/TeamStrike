@@ -23,6 +23,7 @@ public:
     virtual void set_style_header_label(Label *label) = 0;
 
     Label* create_lable(const std::string &label_text, float fontSize);
+    Label* create_lable_select(const std::string &label_text, float fontSize);
     Menu*  create_menu_label(Label *label, float x, float y, const ccMenuCallback &callback);
 
 protected:
@@ -32,6 +33,7 @@ protected:
 
     std::string _background_img;
     std::string _font;
+    std::string _font_select;
     Color4B _color_header;
     Color4B _color_MenuLabel;
 

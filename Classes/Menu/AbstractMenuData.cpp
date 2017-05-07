@@ -11,6 +11,11 @@ Label *AbstractMenuData::create_lable(const std::string &label_text, float fontS
     return Label::createWithTTF(label_text, _font, fontSize);
 }
 
+Label *AbstractMenuData::create_lable_select(const std::string &label_text, float fontSize)
+{
+    return Label::createWithTTF(label_text, _font_select, fontSize);
+}
+
 
 Menu *AbstractMenuData::create_menu_label(Label *label, float x, float y, const ccMenuCallback &callback)
 {

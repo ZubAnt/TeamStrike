@@ -189,7 +189,7 @@ set(GAME_HEADERS
 
     ${PLATFORM_SPECIFIC_HEADERS}
 
-    )
+        Classes/Menu/SelectLevel/SelectLevel.cpp Classes/Menu/SelectLevel/SelectLevel.h Classes/Menu/SelectLevel/SelectLevelData.cpp Classes/Menu/SelectLevel/SelectLevelData.h)
 
 if( ANDROID )
     add_library(${APP_NAME} SHARED ${GAME_SRC} ${GAME_HEADERS})
