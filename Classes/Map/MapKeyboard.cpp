@@ -72,6 +72,9 @@ void MapScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
     case cocos2d::EventKeyboard::KeyCode::KEY_S:
 
         break;
+    case cocos2d::EventKeyboard::KeyCode::KEY_T:
+        player->change_player = true;
+        break;
     case cocos2d::EventKeyboard::KeyCode::KEY_U:
         player->is_dying = true;
         break;

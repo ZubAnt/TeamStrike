@@ -18,7 +18,7 @@ Enemy::Enemy(std::string _pathAnim,
                std::string _deathAnimFramesTemplate,
                std::string _flyingAnimFramesTemplate)
 {
-    pathAnim = _pathAnim;
+    pathAnim1 = _pathAnim;
     AnimFiles.insert({"Idle",        _idleAnimFramesTemplate});
     AnimFiles.insert({"Move",        _moveAnimFramesTemplate});
     AnimFiles.insert({"Jump",        _jumpAnimFramesTemplate});
@@ -57,8 +57,8 @@ Enemy* Enemy::create()
 
 Enemy::~Enemy()
 {
-    CC_SAFE_RELEASE(idleAnimate);
-    CC_SAFE_RELEASE(moveAnimate);
+//    CC_SAFE_RELEASE(idleAnimate1);
+//    CC_SAFE_RELEASE(moveAnimate1);
 }
 
 
@@ -78,6 +78,8 @@ bool Enemy::initOptions()
     direction = 1;
     speed = 0;
     hp = 100;
+    amount_of_players = 3;
+    curr_player = player1;
 
     initPhysicsPody();
     print_event(__FILE__, __LINE__,"initPhysicsPody()");

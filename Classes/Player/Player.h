@@ -17,12 +17,15 @@ USING_NS_CC;
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include <cstdlib>
 
 class Player: public cocos2d::Sprite {
 public:
 
     Player();
-    Player(std::string _pathAnim,
+    Player(std::string _pathAnim1,
+           std::string _pathAnim2,
+           std::string _pathAnim3,
            std::string _idleAnimFramesTemplate,
            std::string _moveAnimFramesTemplate,
            std::string _jumpAnimFramesTemplate,
@@ -37,15 +40,17 @@ public:
     virtual void move();
     virtual void jump();
     virtual void idle();
-
     virtual void die();
     virtual void fly();
+
+    void changePlayer();
     bool is_moving;
     bool is_jumping;
     bool is_idling;
     bool is_shooting;
     bool is_dying;
     bool is_onJetpack;
+    bool change_player;
 
     bool is_onGround;
     bool is_collisionPlatform_On;
@@ -63,13 +68,23 @@ public:
     bool key_D;
 
 protected:
-    Animate* idleAnimate;
-    Animate* moveAnimate;
-    Animate* jumpAnimate;
-    Animate* deathAnimate;
-    Animate* flyingAnimate;
+    enum current_player
+    {
+        player1 = 1,
+        player2 = 2,
+        player3 = 3
+    } curr_player;
+    int amount_of_players;
 
-    std::string pathAnim;
+    std::vector<Animate*> idleAnimate;
+    std::vector<Animate*> moveAnimate;
+    std::vector<Animate*> jumpAnimate;
+    std::vector<Animate*> deathAnimate;
+    std::vector<Animate*> flyingAnimate;
+
+    std::string pathAnim1;
+    std::string pathAnim2;
+    std::string pathAnim3;
 
     std::unordered_map<std::string, std::string> AnimFiles;
 
@@ -87,7 +102,7 @@ protected:
     virtual void initPhysicsPody();
 
     bool initAnimFrames();
-    std::string getFrame(std::string &pattern, int number);
+    std::string getFrame( int player_num, std::string &pattern, int number);
 
     virtual void initIdleAnimate();
     virtual void initMoveAnimate();
