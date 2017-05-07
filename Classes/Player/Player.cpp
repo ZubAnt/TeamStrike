@@ -82,7 +82,12 @@ bool Player::initOptions()
     amount_of_players = 3;
     curr_player = player2;
 
+    std::vector<std::vector<Animate*>> vec(5);
+    animations = vec;
+
     initPhysicsPody();
+
+
     print_event(__FILE__, __LINE__,"initPhysicsPody()");
     bool initanimate = initAnimFrames();
     print_event(__FILE__, __LINE__,"initPhysicsPody()");

@@ -70,14 +70,15 @@ void Player::initIdleAnimate( int PLAYER_INDEX )
         frame->setAnchorPoint(Vec2(0.5, 0));
         idleAnimFrames.pushBack(frame);
     }
-
     Animation* idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, 0.3f);
+
     animations[PLAYER_INDEX].push_back( Animate::create(idleAnimation) );
 
     if (animations[PLAYER_INDEX][IDLE_ANIMATION_INDEX] == nullptr || idleAnimation == nullptr)
     {
         throw std::invalid_argument("cannot create idleAnimation");
     }
+
     animations[PLAYER_INDEX][IDLE_ANIMATION_INDEX]->retain();
 }
 
