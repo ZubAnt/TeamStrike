@@ -17,6 +17,10 @@
 #define DEATH_ANIMATION_INDEX 3
 #define FLY_ANIMATION_INDEX 4
 
+#define PLAYER1_INDEX 0
+#define PLAYER2_INDEX 1
+#define PLAYER3_INDEX 2
+
 #include "cocos2d.h"
 USING_NS_CC;
 
@@ -76,18 +80,15 @@ public:
 protected:
     enum current_player
     {
-        player1 = 0,
+        player1,
         player2,
         player3
     } curr_player;
-    current_player next(current_player& f ) { // int denotes postfix++
-        if (f == player3) return f = player1; // rollover
-        int temp = f;
-        return f = static_cast<current_player> (++temp);
-    }
     int amount_of_players;
 
-    std::map<current_player, std::vector<Animate*> > animations;
+    std::vector<std::vector<Animate*>> animations;
+//    std::vector<Animate*> player2Animations;
+//    std::vector<Animate*> player3Animations;
     void initAllAnimations( current_player player );
 
     std::string pathAnim1;
@@ -112,11 +113,11 @@ protected:
     bool initAnimFrames();
     std::string getFrame( std::string &pattern, int number);
 
-    virtual void initIdleAnimate();
-    virtual void initMoveAnimate();
-    virtual void initJumpAnimate() ;
-    virtual void initDeathAnimate();
-    virtual void initFlyingAnimate();
+    virtual void initIdleAnimate( int PLAYER_INDEX );
+    virtual void initMoveAnimate( int PLAYER_INDEX );
+    virtual void initJumpAnimate( int PLAYER_INDEX );
+    virtual void initDeathAnimate( int PLAYER_INDEX );
+    virtual void initFlyingAnimate( int PLAYER_INDEX );
 };
 
 

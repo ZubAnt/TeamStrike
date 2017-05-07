@@ -21,15 +21,38 @@ void Player::initAllAnimations( current_player player )
 {
     current_player temp = curr_player;//запомнили который установлен
     curr_player = player;//установим нового потому что с ним аботают методы ниже
-    initIdleAnimate();
-    initMoveAnimate();
-    initJumpAnimate();
-    initDeathAnimate();
-    initFlyingAnimate();
+    switch( curr_player ){
+        case player1:
+            print_event(__FILE__, __LINE__,"initPhysicsPody()");
+            initIdleAnimate(PLAYER1_INDEX);
+            print_event(__FILE__, __LINE__,"initPhysicsPody()");
+            initMoveAnimate(PLAYER1_INDEX);
+            initJumpAnimate(PLAYER1_INDEX);
+            initDeathAnimate(PLAYER1_INDEX);
+            initFlyingAnimate(PLAYER1_INDEX);
+            break;
+        case player2:
+            initIdleAnimate(PLAYER2_INDEX);
+            initMoveAnimate(PLAYER2_INDEX);
+            initJumpAnimate(PLAYER2_INDEX);
+            initDeathAnimate(PLAYER2_INDEX);
+            initFlyingAnimate(PLAYER2_INDEX);
+            break;
+        case player3:
+            initIdleAnimate(PLAYER3_INDEX);
+            initMoveAnimate(PLAYER3_INDEX);
+            initJumpAnimate(PLAYER3_INDEX);
+            initDeathAnimate(PLAYER3_INDEX);
+            initFlyingAnimate(PLAYER3_INDEX);
+            break;
+        default:
+            break;
+    }
     curr_player = temp;//обратно
+    print_event(__FILE__, __LINE__,"initPhysicsPody()");
 }
 
-void Player::initIdleAnimate()
+void Player::initIdleAnimate( int PLAYER_INDEX )
 {
     std::string idleAnimTemplate = AnimFiles.at("Idle");
     int numbFrames = 12;
@@ -49,16 +72,16 @@ void Player::initIdleAnimate()
     }
 
     Animation* idleAnimation = Animation::createWithSpriteFrames(idleAnimFrames, 0.3f);
-    animations[curr_player].push_back( Animate::create(idleAnimation) );
+    animations[PLAYER_INDEX].push_back( Animate::create(idleAnimation) );
 
-    if (animations[curr_player][IDLE_ANIMATION_INDEX] == nullptr || idleAnimation == nullptr)
+    if (animations[PLAYER_INDEX][IDLE_ANIMATION_INDEX] == nullptr || idleAnimation == nullptr)
     {
         throw std::invalid_argument("cannot create idleAnimation");
     }
-    animations[curr_player][IDLE_ANIMATION_INDEX]->retain();
+    animations[PLAYER_INDEX][IDLE_ANIMATION_INDEX]->retain();
 }
 
-void Player::initMoveAnimate()
+void Player::initMoveAnimate( int PLAYER_INDEX )
 {
     std::string moveAnimTemplate = AnimFiles.at("Move");
     int numbFrames = 8;
@@ -78,17 +101,17 @@ void Player::initMoveAnimate()
         moveAnimFrames.pushBack(frame);
     }
 
-    Animation *moveAnimation = Animation::createWithSpriteFrames(moveAnimFrames, 0.3f);
-    animations[curr_player].push_back(Animate::create(moveAnimation));
+    Animation* moveAnimation = Animation::createWithSpriteFrames(moveAnimFrames, 0.3f);
+    animations[PLAYER_INDEX].push_back( Animate::create(moveAnimation) );
 
-    if (animations[curr_player][MOVE_ANIMATION_INDEX] == nullptr || moveAnimation == nullptr) {
+    if (animations[PLAYER_INDEX][MOVE_ANIMATION_INDEX] == nullptr || moveAnimation == nullptr)
+    {
         throw std::invalid_argument("cannot create idleAnimation");
     }
-    moveAnimFrames.erase(moveAnimFrames.begin(), moveAnimFrames.end());
-    animations[curr_player][MOVE_ANIMATION_INDEX]->retain();
+    animations[PLAYER_INDEX][MOVE_ANIMATION_INDEX]->retain();
 }
 
-void Player::initJumpAnimate()
+void Player::initJumpAnimate( int PLAYER_INDEX )
 {
     std::string jumpAnimTemplate = AnimFiles.at("Jump");
     int numbFrames = 8;
@@ -109,17 +132,17 @@ void Player::initJumpAnimate()
         jumpAnimFrames.pushBack(frame);
     }
 
-    Animation *jumpAnimation = Animation::createWithSpriteFrames(jumpAnimFrames, 0.3f);
-    animations[curr_player].push_back(Animate::create(jumpAnimation));
+    Animation* jumpAnimation = Animation::createWithSpriteFrames(jumpAnimFrames, 0.3f);
+    animations[PLAYER_INDEX].push_back( Animate::create(jumpAnimation) );
 
-    if (animations[curr_player][JUMP_ANIMATION_INDEX] == nullptr || jumpAnimation == nullptr) {
+    if (animations[PLAYER_INDEX][JUMP_ANIMATION_INDEX] == nullptr || jumpAnimation == nullptr)
+    {
         throw std::invalid_argument("cannot create idleAnimation");
     }
-    jumpAnimFrames.erase(jumpAnimFrames.begin(), jumpAnimFrames.end());
-    animations[curr_player][JUMP_ANIMATION_INDEX]->retain();
+    animations[PLAYER_INDEX][JUMP_ANIMATION_INDEX]->retain();
 }
 
-void Player::initDeathAnimate()
+void Player::initDeathAnimate( int PLAYER_INDEX )
 {
     std::string deathAnimTemplate = AnimFiles.at("Death");
     int numbFrames = 10;
@@ -140,16 +163,17 @@ void Player::initDeathAnimate()
         deathAnimFrames.pushBack(frame);
     }
 
-    Animation *deathAnimation = Animation::createWithSpriteFrames(deathAnimFrames, 0.3f);
-    animations[curr_player].push_back(Animate::create(deathAnimation));
+    Animation* deathAnimation = Animation::createWithSpriteFrames(deathAnimFrames, 0.3f);
+    animations[PLAYER_INDEX].push_back( Animate::create(deathAnimation) );
 
-    if (animations[curr_player][DEATH_ANIMATION_INDEX] == nullptr || deathAnimation == nullptr) {
+    if (animations[PLAYER_INDEX][DEATH_ANIMATION_INDEX] == nullptr || deathAnimation == nullptr)
+    {
         throw std::invalid_argument("cannot create idleAnimation");
     }
-    animations[curr_player][DEATH_ANIMATION_INDEX]->retain();
+    animations[PLAYER_INDEX][DEATH_ANIMATION_INDEX]->retain();
 }
 
-void Player::initFlyingAnimate()
+void Player::initFlyingAnimate( int PLAYER_INDEX )
 {
     std::string flyAnimTemplate = AnimFiles.at("Fly");
     int numbFrames = 6;
@@ -170,11 +194,12 @@ void Player::initFlyingAnimate()
         flyingAnimFrames.pushBack(frame);
     }
 
-    Animation *flyAnimation = Animation::createWithSpriteFrames(flyingAnimFrames, 0.3f);
-    animations[curr_player].push_back(Animate::create(flyAnimation));
+    Animation* flyAnimation = Animation::createWithSpriteFrames(flyingAnimFrames, 0.3f);
+    animations[PLAYER_INDEX].push_back( Animate::create(flyAnimation) );
 
-    if (animations[curr_player][FLY_ANIMATION_INDEX] == nullptr || flyAnimation == nullptr) {
+    if (animations[PLAYER_INDEX][FLY_ANIMATION_INDEX] == nullptr || flyAnimation == nullptr)
+    {
         throw std::invalid_argument("cannot create idleAnimation");
     }
-    animations[curr_player][FLY_ANIMATION_INDEX]->retain();
+    animations[PLAYER_INDEX][FLY_ANIMATION_INDEX]->retain();
 }

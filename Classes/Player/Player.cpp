@@ -85,6 +85,7 @@ bool Player::initOptions()
     initPhysicsPody();
     print_event(__FILE__, __LINE__,"initPhysicsPody()");
     bool initanimate = initAnimFrames();
+    print_event(__FILE__, __LINE__,"initPhysicsPody()");
     if (initanimate == false)
     {
         print_error(__FILE__, __LINE__, "BAD INIT ANIMATE");
@@ -312,21 +313,22 @@ void Player::move()
 {
     curr_anim = MOVING;
     this->stopAllActions();
-    this->runAction(RepeatForever::create( animations[curr_player][MOVE_ANIMATION_INDEX] ));
+
+    this->runAction(RepeatForever::create( animations[0][MOVE_ANIMATION_INDEX] ));
 }
 
 void Player::idle()
 {
     curr_anim = IDLING;
     this->stopAllActions();
-    this->runAction(RepeatForever::create(animations[curr_player][IDLE_ANIMATION_INDEX]));
+    this->runAction(RepeatForever::create(animations[0][IDLE_ANIMATION_INDEX]));
 }
 
 void Player::jump()
 {
     curr_anim = JUMPING;
     this->stopAllActions();
-    this->runAction(RepeatForever::create(animations[curr_player][JUMP_ANIMATION_INDEX]));
+    this->runAction(RepeatForever::create(animations[0][JUMP_ANIMATION_INDEX]));
 }
 
 void Player::die() {
@@ -336,7 +338,7 @@ void Player::die() {
     is_jumping = false;
     is_shooting = false;
     this->stopAllActions();
-    this->runAction(Repeat::create(animations[curr_player][DEATH_ANIMATION_INDEX], 1));
+    this->runAction(Repeat::create(animations[0][DEATH_ANIMATION_INDEX], 1));
 }
 
 
@@ -344,5 +346,5 @@ void Player::fly()
 {
     curr_anim = JETPACK;
     this->stopAllActions();
-    this->runAction(RepeatForever::create( animations[curr_player][FLY_ANIMATION_INDEX] ));
+    this->runAction(RepeatForever::create( animations[0][FLY_ANIMATION_INDEX] ));
 }
