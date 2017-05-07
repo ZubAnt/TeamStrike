@@ -46,7 +46,7 @@ bool SelectLevel::init() {
     data.set_SceneLabel("Scene1",
                         _origin.x + _visibleSize.width / 6, _origin.y + _visibleSize.height * 6 / 8,
                         CC_CALLBACK_1(SelectLevel::callback_scene1, this));
-    data.set_MenuItemImage("ball.png", "ball.png", _origin.x + _visibleSize.width / 6, _origin.y + _visibleSize.height * 5.2 / 8,
+    data.set_MenuItemImage("rain_level_little.png", "rain_level_little.png", _origin.x + _visibleSize.width / 6, _origin.y + _visibleSize.height * 5.2 / 8,
                            CC_CALLBACK_1(SelectLevel::callback_scene1, this) );
 
     data.set_SceneLabel("Scene2",

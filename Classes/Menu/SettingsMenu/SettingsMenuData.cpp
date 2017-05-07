@@ -5,7 +5,7 @@ SettingsMenuData::SettingsMenuData(cocos2d::Layer *layer, Director* director)
     _director = director;
     _layer = layer;
     _background_img = "person/x4cFzOk.png";
-    _font = "fonts/arial.ttf";
+    _font = "fonts/eurofontextendedc-bditalic.otf";
     _color_header = Color4B(222, 0, 0, 255);
     _color_MenuLabel = Color4B(222, 0, 0, 255);
 
@@ -45,6 +45,14 @@ void SettingsMenuData::set_label(const std::string name_label,float fontSize,flo
     _layer->addChild(label_name, 1);
 }
 
+void SettingsMenuData::set_button(const std::string name_label,float x, float y, const ccMenuCallback &callback )
+{
+    auto label = create_lable(name_label, _visibleSize.width / 40);
+    set_style_MenuLabel(label);
+    auto menu = create_menu_label(label, x, y, callback);
+    _layer->addChild(menu, 1);
+}
+
 void SettingsMenuData::set_MenuLabel(const std::string &text, float x, float y, const ccMenuCallback &callback)
 {
     auto label = create_lable(text, _visibleSize.width / 20);
@@ -65,4 +73,14 @@ void SettingsMenuData::set_style_header_label(Label *label)
     label->setTextColor(_color_MenuLabel);
     label->enableShadow(Color4B::BLACK, Size(2, -2), 1);
     label->enableOutline(Color4B::WHITE, 2);
+}
+
+void SettingsMenuData::set_layer(cocos2d::ui::CheckBox* lay) {
+    _layer->addChild(lay, 1);
+}
+
+void SettingsMenuData::set_MenuItemImage( const std::string &text1, const std::string &text2, float x, float y) {
+    auto sceneItem = MenuItemImage::create( text1, text2);
+    sceneItem->setPosition(Vec2( x, y ));
+    _layer->addChild( sceneItem, -1);
 }

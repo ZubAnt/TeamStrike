@@ -10,12 +10,13 @@ static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 
-
 AppDelegate::AppDelegate()
 {}
 
-AppDelegate::~AppDelegate() 
-{}
+AppDelegate::~AppDelegate()
+{
+    pars.set_volume(0.15);
+}
 
 // if you want a different context, modify the value of glContextAttrs
 // it will affect all platforms
@@ -27,7 +28,7 @@ void AppDelegate::initGLContextAttrs()
     GLView::setGLContextAttrs(glContextAttrs);
 }
 
-// if you want to use the package manager to install more packages,  
+// if you want to use the package manager to install more packages,
 // don't modify or remove this function
 static int register_all_packages()
 {
@@ -46,7 +47,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 #endif
         director->setOpenGLView(glview);
     }
-
+    musicVolume = 0.15;
+    audio->playBackgroundMusic("music.mp3", true);
+    audio->setBackgroundMusicVolume(musicVolume);
+    pars.set_volume(0.15);
     // turn on display FPS
     director->setDisplayStats(true);
 
@@ -62,13 +66,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
         std::cout << __LINE__ <<std::endl;
         director->setContentScaleFactor(MIN(largeResolutionSize.height/designResolutionSize.height, largeResolutionSize.width/designResolutionSize.width));
     }
-    // if the frame's height is larger than the height of small size.
+        // if the frame's height is larger than the height of small size.
     else if (frameSize.height > smallResolutionSize.height)
     {
         std::cout << __LINE__ <<std::endl;
         director->setContentScaleFactor(MIN(mediumResolutionSize.height/designResolutionSize.height, mediumResolutionSize.width/designResolutionSize.width));
     }
-    // if the frame's height is smaller than the height of medium size.
+        // if the frame's height is smaller than the height of medium size.
     else
     {
         std::cout << __LINE__ <<std::endl;

@@ -1,6 +1,7 @@
 #ifndef SETTINGSMENUDATA_H
 #define SETTINGSMENUDATA_H
 
+#include <ui/UICheckBox.h>
 #include "../AbstractMenuData.h"
 
 class SettingsMenuData: public AbstractMenuData
@@ -16,6 +17,11 @@ public:
 
     void set_style_MenuLabel(Label *label);
     void set_style_header_label(Label *label);
+
+    void set_button(const std::string name_label,float x, float y, const ccMenuCallback &callback );
+    void set_MenuItemImage(const std::string &text1, const std::string &text2,float x, float y);
+
+    void set_layer(cocos2d::ui::CheckBox* );
 };
 
 #endif // SETTINGSMENUDATA_H
