@@ -205,10 +205,10 @@ void Player::changePlayer()
 
 void Player::update()
 {
-//    if( change_player == true ){
-//        changePlayer();
-//        change_player = false;
-//    }
+    if( change_player == true ){
+        changePlayer();
+        change_player = false;
+    }
 //    if( false == is_onJetpack ) {
 
         if (true == is_dying) {
