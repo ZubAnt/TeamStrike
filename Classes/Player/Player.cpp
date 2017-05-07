@@ -85,6 +85,58 @@ bool Player::initOptions()
     return initanimate;
 }
 
+
+bool Player::initAnimFrames()
+{
+    try
+    {
+        initIdleAnimate();
+        initMoveAnimate();
+        initJumpAnimate();
+        initDeathAnimate();
+        initFlyingAnimate();
+    }
+    catch(std::out_of_range &err)
+    {
+        print_error(__FILE__, __LINE__, err.what());
+        log_error(__FILE__, __LINE__, err.what());
+        return false;
+    }
+    catch(std::invalid_argument &err)
+    {
+        print_error(__FILE__, __LINE__, err.what());
+        log_error(__FILE__, __LINE__, err.what());
+        return false;
+    }
+    catch(std::bad_alloc &err)
+    {
+        print_error(__FILE__, __LINE__, err.what());
+        log_error(__FILE__, __LINE__, err.what());
+        return false;
+    }
+    return true;
+}
+
+std::string Player::getFrame(std::string &pattern, int number)
+{
+    if (number < 0 || number >= 100) { throw std::out_of_range("number < 0"); }
+
+    std::string frame = pathAnim + pattern;
+    std::string format = ".png";
+    std::string prefix("_00");
+    char number_str[4] = {0, 0, 0};
+
+    if (number >= 10)
+    {
+        prefix = "_0";
+    }
+
+    sprintf(number_str, "%i", number);
+    frame += prefix + number_str + format;
+
+    return frame;
+}
+
 void Player::update()
 {
 
@@ -185,4 +237,44 @@ void Player::update()
 //        }
 //    }
     ++timer;
+}
+
+
+void Player::move()
+{
+    curr_anim = MOVING;
+    this->stopAllActions();
+    this->runAction(RepeatForever::create( moveAnimate ));
+}
+
+void Player::idle()
+{
+    curr_anim = IDLING;
+    this->stopAllActions();
+    this->runAction(RepeatForever::create(idleAnimate));
+}
+
+void Player::jump()
+{
+    curr_anim = JUMPING;
+    this->stopAllActions();
+    this->runAction(RepeatForever::create(jumpAnimate));
+}
+
+void Player::die()
+{
+    curr_anim = DYING;
+    is_idling = false;
+    is_moving = false;
+    is_jumping = false;
+    is_shooting = false;
+    this->stopAllActions();
+    this->runAction(Repeat::create( deathAnimate, 1 ));
+}
+
+void Player::fly()
+{
+    curr_anim = JETPACK;
+    this->stopAllActions();
+    this->runAction(RepeatForever::create( flyingAnimate ));
 }

@@ -12,14 +12,13 @@
 #define PLAYER_FRICTION 1.0f
 
 #include "cocos2d.h"
-#include "Character.h"
 USING_NS_CC;
 
 #include <unordered_map>
 #include <string>
 #include <vector>
 
-class Player: public Character {
+class Player: public cocos2d::Sprite {
 public:
 
     Player();
@@ -31,25 +30,70 @@ public:
            std::string _flyingAnimFramesTemplate
            );
 
-    static Player* create();
     ~Player();
+    static Player* create();
 
-    void update();
+    virtual void update();
+    virtual void move();
+    virtual void jump();
+    virtual void idle();
+
+    virtual void die();
+    virtual void fly();
+    bool is_moving;
+    bool is_jumping;
+    bool is_idling;
+    bool is_shooting;
+    bool is_dying;
+    bool is_onJetpack;
+
+    bool is_onGround;
+    bool is_collisionPlatform_On;
+
+    bool collision_right_platform;
+    bool collision_left_platform;
+    unsigned int timer;
+    int direction;
+
+    float speed;
+    int hp = 100;
+
 
     bool key_A;
     bool key_D;
 
 protected:
+    Animate* idleAnimate;
+    Animate* moveAnimate;
+    Animate* jumpAnimate;
+    Animate* deathAnimate;
+    Animate* flyingAnimate;
+
+    std::string pathAnim;
+
+    std::unordered_map<std::string, std::string> AnimFiles;
+
+    enum current_animation
+    {
+        IDLING,
+        MOVING,
+        JUMPING,
+        DYING,
+        JETPACK
+    } curr_anim;
 
     bool initOptions();
 
-    void initPhysicsPody();
+    virtual void initPhysicsPody();
 
-    void initIdleAnimate();
-    void initMoveAnimate();
-    void initJumpAnimate();
-    void initDeathAnimate();
-    void initFlyingAnimate();
+    bool initAnimFrames();
+    std::string getFrame(std::string &pattern, int number);
+
+    virtual void initIdleAnimate();
+    virtual void initMoveAnimate();
+    virtual void initJumpAnimate() ;
+    virtual void initDeathAnimate();
+    virtual void initFlyingAnimate();
 };
 
 

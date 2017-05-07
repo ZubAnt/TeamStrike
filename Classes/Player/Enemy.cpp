@@ -1,7 +1,6 @@
 //
 // Created by nyam on 07.05.17.
 //
-
 #include <iostream>
 #include "Enemy.h"
 #include "BitMask.h"
@@ -93,11 +92,9 @@ bool Enemy::initOptions()
 
 void Enemy::update()
 {
-    std::cout << "hp:" << hp;
     if( hp <= 0 )
     {
         is_dying = true;
-        std::cout << "zdox";
         if (curr_anim != DYING) {
             die();
         }

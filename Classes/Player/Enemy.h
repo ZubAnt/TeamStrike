@@ -1,11 +1,9 @@
 //
 // Created by nyam on 07.05.17.
 //
-
 #ifndef TEAMSTRIKE_ENEMY_H
 #define TEAMSTRIKE_ENEMY_H
 #include "cocos2d.h"
-#include "Character.h"
 #include "Player/Player.h"
 USING_NS_CC;
 
