@@ -5,7 +5,7 @@ SettingsMenuData::SettingsMenuData(cocos2d::Layer *layer, Director* director)
     _director = director;
     _layer = layer;
     _background_img = "person/x4cFzOk.png";
-    _font = "fonts/eurofontextendedc-bditalic.otf";
+    _font = "fonts/arial.ttf";
     _color_header = Color4B(222, 0, 0, 255);
     _color_MenuLabel = Color4B(222, 0, 0, 255);
 
