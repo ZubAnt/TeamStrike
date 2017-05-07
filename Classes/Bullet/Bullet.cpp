@@ -2,14 +2,10 @@
 #include "BitMask.h"
 
 Bullet::Bullet()
-{
-    CCLOG("bullet create");
-}
+{}
 
 Bullet::~Bullet()
-{
-    CCLOG("bullet destroy");
-}
+{}
 
 int Bullet::getDamage()
 {
@@ -82,6 +78,4 @@ void Bullet::initOptions(const Player* player)
     }
 
     _currentSpeed = Vec2(-1.0f, 0.0f);
-
-    CCLOG("bullet init");
 }

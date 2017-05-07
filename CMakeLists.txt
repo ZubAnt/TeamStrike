@@ -188,8 +188,7 @@ set(GAME_HEADERS
     Classes/Bullet/Bullet.h
 
     ${PLATFORM_SPECIFIC_HEADERS}
-
-    )
+        Classes/Player/Character.cpp Classes/Player/Character.h Classes/Player/Enemy.cpp Classes/Player/Enemy.h Classes/Player/InitEnemy.cpp)
 
 if( ANDROID )
     add_library(${APP_NAME} SHARED ${GAME_SRC} ${GAME_HEADERS})

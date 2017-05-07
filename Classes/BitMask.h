@@ -9,7 +9,8 @@ enum BitMask
     PLATFORMS = 0x04,
     PLAYER = 0x05,
     BULLET = 0x06,
-    BORDER = 0x07
+    BORDER = 0x07,
+    ENEMY = 0x08
 };
 
 #endif // BITMASK_H

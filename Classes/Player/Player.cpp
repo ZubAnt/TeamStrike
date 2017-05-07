@@ -66,11 +66,13 @@ bool Player::initOptions()
     is_shooting = false;
     is_onGround = false;
     is_onJetpack = false;
-    collision = false;
+    collision_right_platform = false;
+    collision_left_platform = false;
     is_collisionPlatform_On = true;
     timer = 0;
     direction = 1;
     speed = 0;
+    hp = 100;
 
     initPhysicsPody();
     print_event(__FILE__, __LINE__,"initPhysicsPody()");
@@ -81,46 +83,6 @@ bool Player::initOptions()
     }
 
     return initanimate;
-}
-
-void Player::move()
-{
-    curr_anim = MOVING;
-    this->stopAllActions();
-    this->runAction(RepeatForever::create( moveAnimate ));
-}
-
-void Player::idle()
-{
-    curr_anim = IDLING;
-    this->stopAllActions();
-    this->runAction(RepeatForever::create(idleAnimate));
-}
-
-void Player::jump()
-{
-    curr_anim = JUMPING;
-    this->stopAllActions();
-    this->runAction(RepeatForever::create(jumpAnimate));
-}
-
-void Player::die()
-{
-    curr_anim = DYING;
-    is_idling = false;
-    is_moving = false;
-    is_jumping = false;
-    is_shooting = false;
-    this->stopAllActions();
-    this->runAction(RepeatForever::create( deathAnimate ));
-}
-
-
-void Player::fly()
-{
-    curr_anim = JETPACK;
-    this->stopAllActions();
-    this->runAction(RepeatForever::create( flyingAnimate ));
 }
 
 void Player::update()
@@ -154,7 +116,7 @@ void Player::update()
                 speed = SPEED_OF_THE_PLAYER_IN_THE_AIR;
                 speed2 = SPEED_OF_THE_PLAYER_IN_THE_AIR_VELOCITY;
             }
-            if (direction == 0 && collision == false )
+            if (direction == 0 && collision_left_platform == false )
 //            if( direction == 0 )
             {
                 this->setScaleX(-1);
@@ -166,7 +128,7 @@ void Player::update()
                 this->getPhysicsBody()->setVelocity( body_velocity );
 //                this->setPositionX(this->getPositionX() - speed);
             }
-             if ( direction == 1 && collision == false )
+             if ( direction == 1 && collision_right_platform == false )
 //            if( direction == 1 )
             {
                 this->setScaleX(1);
@@ -232,6 +194,4 @@ void Player::update()
 //        }
 //    }
     ++timer;
-//    is_onGround = false;
-    collision = false;
 }

@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include "Logging/logger.h"
 #include "Player/Player.h"
+#include "Player/Enemy.h"
 #include "BitMask.h"
 #include "Bullet/Bullet.h"
 
@@ -73,6 +74,7 @@ private:
     Vec2 _origin;
 
     Player * player;
+    Enemy* enemy;
     std::vector<Bullet*> bullets;
     std::list<Bullet*> list_bullets;
 
