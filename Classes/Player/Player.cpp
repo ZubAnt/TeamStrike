@@ -56,8 +56,8 @@ Player* Player::create()
 
 Player::~Player()
 {
-    CC_SAFE_RELEASE(idleAnimate[0]);
-    CC_SAFE_RELEASE(moveAnimate[0]);
+    CC_SAFE_RELEASE(animations[curr_player][IDLE_ANIMATION_INDEX]);
+    CC_SAFE_RELEASE(animations[curr_player][MOVE_ANIMATION_INDEX]);
 }
 
 
@@ -98,11 +98,10 @@ bool Player::initAnimFrames()
 {
     try
     {
-        initIdleAnimate();
-        initMoveAnimate();
-        initJumpAnimate();
-        initDeathAnimate();
-        initFlyingAnimate();
+        initAllAnimations( player1 );
+        initAllAnimations( player2 );
+        initAllAnimations( player3 );
+
     }
     catch(std::out_of_range &err)
     {
@@ -125,19 +124,19 @@ bool Player::initAnimFrames()
     return true;
 }
 
-std::string Player::getFrame( int player_num, std::string &pattern, int number)
+std::string Player::getFrame(std::string &pattern, int number)
 {
     if (number < 0 || number >= 100) { throw std::out_of_range("number < 0"); }
 
     std::string frame;
-    switch( player_num ){
-        case 0:
+    switch( curr_player ){
+        case player1:
             frame = pathAnim1 + pattern;
             break;
-        case 1:
+        case player2:
             frame = pathAnim2 + pattern;
             break;
-        case 2:
+        case player3:
             frame = pathAnim3 + pattern;
             break;
     }
@@ -313,107 +312,37 @@ void Player::move()
 {
     curr_anim = MOVING;
     this->stopAllActions();
-    switch( curr_player ){
-        case player1:
-            this->runAction(RepeatForever::create( moveAnimate[0] ));
-            break;
-        case player2:
-
-            this->runAction(RepeatForever::create( moveAnimate[1] ));
-            break;
-        case player3:
-
-            this->runAction(RepeatForever::create( moveAnimate[2] ));
-            break;
-        default:
-            break;
-    }
-
+    this->runAction(RepeatForever::create( animations[curr_player][MOVE_ANIMATION_INDEX] ));
 }
 
 void Player::idle()
 {
     curr_anim = IDLING;
     this->stopAllActions();
-    switch( curr_player ){
-        case player1:
-            std::cout<<"1";
-            this->runAction(RepeatForever::create(idleAnimate[0]));
-            break;
-        case player2:
-            std::cout<<"2";
-            this->runAction(RepeatForever::create(idleAnimate[1]));
-            break;
-        case player3:
-            std::cout<<"3";
-            this->runAction(RepeatForever::create(idleAnimate[2]));
-            break;
-        default:
-            break;
-    }
-
+    this->runAction(RepeatForever::create(animations[curr_player][IDLE_ANIMATION_INDEX]));
 }
 
 void Player::jump()
 {
     curr_anim = JUMPING;
     this->stopAllActions();
-    switch( curr_player ){
-        case player1:
-            this->runAction(RepeatForever::create(jumpAnimate[0]));
-            break;
-        case player2:
-            this->runAction(RepeatForever::create(jumpAnimate[1]));
-            break;
-        case player3:
-            this->runAction(RepeatForever::create(jumpAnimate[2]));
-            break;
-        default:
-            break;
-    }
-
+    this->runAction(RepeatForever::create(animations[curr_player][JUMP_ANIMATION_INDEX]));
 }
 
-void Player::die()
-{
+void Player::die() {
     curr_anim = DYING;
     is_idling = false;
     is_moving = false;
     is_jumping = false;
     is_shooting = false;
     this->stopAllActions();
-    switch( curr_player ){
-        case player1:
-            this->runAction(Repeat::create( deathAnimate[0], 1 ));
-            break;
-        case player2:
-            this->runAction(Repeat::create( deathAnimate[1], 1 ));
-            break;
-        case player3:
-            this->runAction(Repeat::create( deathAnimate[2], 1 ));
-            break;
-        default:
-            break;
-    }
-
+    this->runAction(Repeat::create(animations[curr_player][DEATH_ANIMATION_INDEX], 1));
 }
+
 
 void Player::fly()
 {
     curr_anim = JETPACK;
     this->stopAllActions();
-    switch( curr_player ){
-        case player1:
-            this->runAction(RepeatForever::create( flyingAnimate[0] ));
-            break;
-        case player2:
-            this->runAction(RepeatForever::create( flyingAnimate[1] ));
-            break;
-        case player3:
-            this->runAction(RepeatForever::create( flyingAnimate[2] ));
-            break;
-        default:
-            break;
-    }
-
+    this->runAction(RepeatForever::create( animations[curr_player][FLY_ANIMATION_INDEX] ));
 }

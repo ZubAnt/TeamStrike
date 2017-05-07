@@ -15,7 +15,7 @@ static void increment_life_all_bullet(std::list<Bullet*> &list_bullets)
 void MapScene::update(float dt)
 {
     player->update();
-    enemy->update();
+//    enemy->update();
 
     size_t size_list_bullet = list_bullets.size();
 

@@ -37,11 +37,11 @@ protected:
 
     void initPhysicsPody();
 
-    void initIdleAnimate();
-    void initMoveAnimate();
-    void initJumpAnimate();
-    void initDeathAnimate();
-    void initFlyingAnimate();
+//    void initIdleAnimate();
+//    void initMoveAnimate();
+//    void initJumpAnimate();
+//    void initDeathAnimate();
+//    void initFlyingAnimate();
 };
 
 #endif //TEAMSTRIKE_ENEMY_H

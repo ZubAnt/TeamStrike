@@ -11,6 +11,12 @@
 #define PLAYER_RESTITUTION 0.0000001f
 #define PLAYER_FRICTION 1.0f
 
+#define IDLE_ANIMATION_INDEX 0
+#define MOVE_ANIMATION_INDEX 1
+#define JUMP_ANIMATION_INDEX 2
+#define DEATH_ANIMATION_INDEX 3
+#define FLY_ANIMATION_INDEX 4
+
 #include "cocos2d.h"
 USING_NS_CC;
 
@@ -70,17 +76,19 @@ public:
 protected:
     enum current_player
     {
-        player1 = 1,
-        player2 = 2,
-        player3 = 3
+        player1 = 0,
+        player2,
+        player3
     } curr_player;
+    current_player next(current_player& f ) { // int denotes postfix++
+        if (f == player3) return f = player1; // rollover
+        int temp = f;
+        return f = static_cast<current_player> (++temp);
+    }
     int amount_of_players;
 
-    std::vector<Animate*> idleAnimate;
-    std::vector<Animate*> moveAnimate;
-    std::vector<Animate*> jumpAnimate;
-    std::vector<Animate*> deathAnimate;
-    std::vector<Animate*> flyingAnimate;
+    std::map<current_player, std::vector<Animate*> > animations;
+    void initAllAnimations( current_player player );
 
     std::string pathAnim1;
     std::string pathAnim2;
@@ -102,7 +110,7 @@ protected:
     virtual void initPhysicsPody();
 
     bool initAnimFrames();
-    std::string getFrame( int player_num, std::string &pattern, int number);
+    std::string getFrame( std::string &pattern, int number);
 
     virtual void initIdleAnimate();
     virtual void initMoveAnimate();

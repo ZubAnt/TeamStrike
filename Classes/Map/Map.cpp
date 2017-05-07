@@ -323,14 +323,14 @@ int MapScene::setPlayer()
         return errAsInt(Error::NULL_PTR);
     }
 
-    enemy = Enemy::create();
-    if (enemy == nullptr)
-    {
-        std::string err = "Can not create player";
-        print_error(__FILE__, __LINE__, err.c_str());
-        log_error(__FILE__, __LINE__,err.c_str());
-        return errAsInt(Error::NULL_PTR);
-    }
+//    enemy = Enemy::create();
+//    if (enemy == nullptr)
+//    {
+//        std::string err = "Can not create player";
+//        print_error(__FILE__, __LINE__, err.c_str());
+//        log_error(__FILE__, __LINE__,err.c_str());
+//        return errAsInt(Error::NULL_PTR);
+//    }
 
     //    player->setPosition(Vec2(_origin.x + _visibleSize.width / 2,
     //                             _origin.y + _visibleSize.height / 2));
@@ -341,8 +341,8 @@ int MapScene::setPlayer()
     Size size = Director::sharedDirector()->getVisibleSize();  //default screen size (or design resolution size, if you are using design resolution)
     Point center = Point(size.width/2 + _origin.x, size.height/2 + _origin.y);
 
-    addChild(enemy);
-    enemy->setPosition(center.x + 100, center.y+ 200);
+//    addChild(enemy);
+//    enemy->setPosition(center.x + 100, center.y+ 200);
 
     player->setPosition(center);
     addChild(player, 5);
