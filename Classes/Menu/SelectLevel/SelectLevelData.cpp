@@ -6,6 +6,7 @@
 
 #include <ui/UIEditBox/UIEditBox.h>
 #include <ui/UIImageView.h>
+#include <Menu/MainMenu/MainMenu.h>
 #include "cocos2d.h"
 #include "iostream"
 
@@ -54,9 +55,12 @@ void SelectLevelData::set_MenuLabel(const std::string &text, float x, float y, c
 
 void SelectLevelData::set_MenuItemImage(const std::string &text1, const std::string &text2, float x, float y,
                                         const ccMenuCallback &callback) {
-    auto map = MenuItemImage::create(text1, text2, callback);
-    map->setPosition(x, y);
-    _layer->addChild(map);
+
+    auto button = ui::Button::create(text1, text2, text1);
+    //button->setTitleText("Button Text");
+    button->addClickEventListener(callback);
+    button->setPosition(Vec2(x, y));
+    _layer->addChild(button);
 }
 
 void SelectLevelData::set_style_MenuLabel(Label *label) {
@@ -91,5 +95,10 @@ void SelectLevelData::set_Label_select() {
                                  _origin.y + _visibleSize.height - 1.1 * label_name->getContentSize().height));
     set_style_header_label(label_name);
     _layer->addChild(label_name, 1);
+}
+
+void SelectLevelData::callback_mainMenu(cocos2d::Ref *pSender) {
+    _director->pushScene(TransitionFade::create(0.7, MainMenu::createScene()));
+    //logger->log_event("callback start");
 }
 

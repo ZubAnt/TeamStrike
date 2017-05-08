@@ -22,6 +22,7 @@ public:
                            const ccMenuCallback &callback);
     void set_SceneLabel(const std::string &text, float x, float y, const ccMenuCallback& callback);
     void set_style_SceneLabel(Label *label);
+    void callback_mainMenu(cocos2d::Ref *pSender);
 
     void set_style_MenuLabel(Label *label);
     void set_style_header_label(Label *label);
