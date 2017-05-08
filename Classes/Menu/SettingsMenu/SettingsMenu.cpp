@@ -52,10 +52,10 @@ bool SettingsMenu::init()
 
     logger->log_event("set background, header, Menu label in SettingsMenu");
 
-    data.set_label("Name ",_visibleSize.height / 16,
+    data.set_scene_label("Name ",_visibleSize.height / 16,
                    _origin.x + _visibleSize.width / 5,
                    _origin.y + _visibleSize.height/1.5);
-    data.set_label("Sound ",_visibleSize.height / 16,
+    data.set_scene_label("Sound ",_visibleSize.height / 16,
                    _origin.x + _visibleSize.width / 5,
                    _origin.y + _visibleSize.height/1.8);
 
