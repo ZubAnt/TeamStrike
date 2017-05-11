@@ -3,6 +3,8 @@
 
 #include <ui/UICheckBox.h>
 #include "../AbstractMenuData.h"
+#include <ui/UIEditBox/UIEditBox.h>
+#include <ui/UIImageView.h>
 
 class SettingsMenuData: public AbstractMenuData
 {
@@ -23,7 +25,8 @@ public:
 
     void set_button(const std::string name_label,float x, float y, const ccMenuCallback &callback );
     void set_MenuItemImage(const std::string &text1, const std::string &text2,float x, float y);
-
+    void set_MenuItemImage_click(const std::string &text1, const std::string &text2, float x, float y,
+                                 const ccMenuCallback &callback);
     void set_layer(cocos2d::ui::CheckBox* );
 };
 

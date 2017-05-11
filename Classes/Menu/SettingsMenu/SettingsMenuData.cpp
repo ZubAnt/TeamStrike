@@ -7,7 +7,7 @@ SettingsMenuData::SettingsMenuData(cocos2d::Layer *layer, Director* director)
     _background_img = "person/x4cFzOk.png";
     _font = "fonts/eurofontextendedc-bditalic.otf";
     _font_select = "fonts/Anton-Regular.ttf";
-    _color_header = Color4B(222, 0, 0, 255);
+    _color_header = Color4B(51, 51, 255, 255);
     _color_MenuLabel = Color4B(222, 0, 0, 255);
 
     _visibleSize = _director->getVisibleSize();
@@ -71,7 +71,7 @@ void SettingsMenuData::set_style_MenuLabel(Label *label)
 
 void SettingsMenuData::set_style_header_label(Label *label)
 {
-    label->setTextColor(_color_MenuLabel);
+    label->setTextColor(_color_header);
     label->enableShadow(Color4B::BLACK, Size(2, -2), 1);
     label->enableOutline(Color4B::WHITE, 2);
 }
@@ -84,6 +84,13 @@ void SettingsMenuData::set_MenuItemImage( const std::string &text1, const std::s
     auto sceneItem = MenuItemImage::create( text1, text2);
     sceneItem->setPosition(Vec2( x, y ));
     _layer->addChild( sceneItem, -1);
+}
+void SettingsMenuData::set_MenuItemImage_click(const std::string &text1, const std::string &text2, float x, float y,
+                                               const ccMenuCallback &callback) {
+    auto button = ui::Button::create(text1, text1, text2);
+    button->addClickEventListener(callback);
+    button->setPosition(Vec2(x, y));
+    _layer->addChild(button);
 }
 
 void SettingsMenuData::set_SceneLabel(const std::string &text, float x, float y, const ccMenuCallback &callback) {
@@ -100,7 +107,7 @@ void SettingsMenuData::set_style_SceneLabel(Label *label) {
 }
 
 void SettingsMenuData::set_scene_label(const std::string name_label, float fontSize, float x_position, float y_position) {
-    auto label_name = create_lable(name_label,fontSize /*_visibleSize.height / 8*/);
+    auto label_name = create_lable_select(name_label,fontSize /*_visibleSize.height / 8*/);
     label_name->setPosition(Vec2(x_position /*_origin.x + _visibleSize.width / 2*/,
                                  y_position- 1.1 * label_name->getContentSize().height) /*_origin.y + _visibleSize.height - 1.1 * label_name->getContentSize().height)*/);
     set_style_SceneLabel(label_name);

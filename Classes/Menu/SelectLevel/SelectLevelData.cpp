@@ -18,8 +18,8 @@ SelectLevelData::SelectLevelData(Layer *layer, Director *director) {
     _background_img = "person/x4cFzOk.png";
     _font = "fonts/eurofontextendedc-bditalic.otf";
     _font_select = "fonts/Anton-Regular.ttf";
-    _color_header = Color4B(222, 0, 0, 255);
-    _color_MenuLabel = Color4B(222, 0, 0, 255);
+    _color_header = Color4B(51, 51, 255, 255);
+    _color_MenuLabel = Color4B(51, 51, 255, 255);
 
     _visibleSize = _director->getVisibleSize();
     _origin = _director->getVisibleOrigin();

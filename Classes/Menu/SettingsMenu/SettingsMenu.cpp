@@ -52,12 +52,12 @@ bool SettingsMenu::init()
 
     logger->log_event("set background, header, Menu label in SettingsMenu");
 
-    data.set_scene_label("Name ",_visibleSize.height / 16,
-                   _origin.x + _visibleSize.width / 5,
-                   _origin.y + _visibleSize.height/1.5);
-    data.set_scene_label("Sound ",_visibleSize.height / 16,
-                   _origin.x + _visibleSize.width / 5,
-                   _origin.y + _visibleSize.height/1.8);
+    data.set_scene_label("Name : ",_visibleSize.height / 16,
+                         _origin.x + _visibleSize.width / 3.5,
+                         _origin.y + _visibleSize.height/1.45);
+    data.set_scene_label("Sound : ",_visibleSize.height / 16,
+                         _origin.x + _visibleSize.width / 3.5,
+                         _origin.y + _visibleSize.height/1.73);
 
 
     slider->loadBarTexture("Slider_Back.png");
@@ -117,15 +117,22 @@ bool SettingsMenu::init()
 //    this->addChild(_editName);
 
 
-    data.set_button("Play",
-                    _origin.x + _visibleSize.width / 1.5,
-                    _origin.y + _visibleSize.height * 1 / 2.07,
-                    CC_CALLBACK_1(SettingsMenu::callback_start_music, this));
+//    data.set_button("Play",
+//                    _origin.x + _visibleSize.width / 1.5,
+//                    _origin.y + _visibleSize.height * 1 / 2.07,
+//                    CC_CALLBACK_1(SettingsMenu::callback_start_music, this));
 
-    data.set_button("Stop",
-                    _origin.x + _visibleSize.width / 1.3,
-                    _origin.y + _visibleSize.height * 1 / 2.07,
-                    CC_CALLBACK_1(SettingsMenu::callback_stop_music, this));
+    data.set_MenuItemImage_click("play_little1.png", "play_little2.png", _origin.x + _visibleSize.width / 1.55, _origin.y + _visibleSize.height * 1 / 2.07,
+                                 CC_CALLBACK_1(SettingsMenu::callback_start_music, this) );
+
+
+    data.set_MenuItemImage_click("pause_little1.png", "pause_little2.png", _origin.x + _visibleSize.width / 1.40, _origin.y + _visibleSize.height * 1 / 2.07,
+                                 CC_CALLBACK_1(SettingsMenu::callback_stop_music, this) );
+
+//    data.set_button("Stop",
+//                    _origin.x + _visibleSize.width / 1.3,
+//                    _origin.y + _visibleSize.height * 1 / 2.07,
+//                    CC_CALLBACK_1(SettingsMenu::callback_stop_music, this));
 
     return true;
 }
