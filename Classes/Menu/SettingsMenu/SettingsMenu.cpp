@@ -45,7 +45,7 @@ bool SettingsMenu::init()
     data.set_header_Label();
 
     data.set_MenuLabel("Menu",
-                       _origin.x + _visibleSize.width / 5,
+                       _origin.x + _visibleSize.width / 2,
                        _origin.y + _visibleSize.height * 1 / 8,
                        CC_CALLBACK_1(SettingsMenu::callback_main, this));
 
@@ -65,8 +65,8 @@ bool SettingsMenu::init()
     checkbox->loadTextureFrontCross("check_box_normal_press.png");
     checkbox->loadTextureBackGroundDisabled("check_box_normal_disable.png");
     checkbox->loadTextureFrontCrossDisabled("check_box_active_disable.png");
-    checkbox->setPosition( Vec2( _origin.x + _visibleSize.width / 4,
-                                 _origin.y + _visibleSize.height * 5.2 / 8) );
+    checkbox->setPosition( Vec2( _origin.x + _visibleSize.width / 1.55,
+                                 _origin.y + _visibleSize.height * 1 / 2.07) );
     checkbox->addEventListener(CC_CALLBACK_2( SettingsMenu::selectedEvent, this));
     this->addChild(checkbox);
 
@@ -134,13 +134,13 @@ bool SettingsMenu::init()
 //                    _origin.y + _visibleSize.height * 1 / 2.07,
 //                    CC_CALLBACK_1(SettingsMenu::callback_start_music, this));
 
-    data.set_MenuItemImage_click("play_little1.png", "play_little2.png", _origin.x + _visibleSize.width / 1.55, _origin.y + _visibleSize.height * 1 / 2.07,
+   /* data.set_MenuItemImage_click("play_little1.png", "play_little2.png", _origin.x + _visibleSize.width / 1.55, _origin.y + _visibleSize.height * 1 / 2.07,
                                  CC_CALLBACK_1(SettingsMenu::callback_start_music, this) );
 
 
     data.set_MenuItemImage_click("pause_little1.png", "pause_little2.png", _origin.x + _visibleSize.width / 1.40, _origin.y + _visibleSize.height * 1 / 2.07,
                                  CC_CALLBACK_1(SettingsMenu::callback_stop_music, this) );
-
+*/
 
 //    data.set_button("Stop",
 //                    _origin.x + _visibleSize.width / 1.3,

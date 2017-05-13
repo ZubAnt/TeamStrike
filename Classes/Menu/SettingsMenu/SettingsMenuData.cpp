@@ -4,11 +4,11 @@ SettingsMenuData::SettingsMenuData(cocos2d::Layer *layer, Director* director)
 {
     _director = director;
     _layer = layer;
-    _background_img = "person/x4cFzOk.png";
-    _font = "fonts/eurofontextendedc-bditalic.otf";
-    _font_select = "fonts/Anton-Regular.ttf";
-    _color_header = Color4B(51, 51, 255, 255);
-    _color_MenuLabel = Color4B(222, 0, 0, 255);
+    _background_img = "background-clouds.png";
+    _font = "fonts/FredokaOne-Regular.ttf";
+    _font_select = "fonts/FredokaOne-Regular.ttf";
+    _color_header = Color4B(51, 204, 255, 255);
+    _color_MenuLabel = Color4B(71, 243, 255, 150);
 
     _visibleSize = _director->getVisibleSize();
     _origin = _director->getVisibleOrigin();
@@ -30,7 +30,7 @@ void SettingsMenuData::set_background()
 
 void SettingsMenuData::set_header_Label()
 {
-    auto label_name = create_lable("TEAMSTRIKE", _visibleSize.height / 8);
+    auto label_name = create_lable("STRIKE TOWER", _visibleSize.height / 8);
     label_name->setPosition(Vec2(_origin.x + _visibleSize.width / 2,
                                  _origin.y + _visibleSize.height - 1.1 * label_name->getContentSize().height));
     set_style_header_label(label_name);
@@ -72,8 +72,8 @@ void SettingsMenuData::set_style_MenuLabel(Label *label)
 void SettingsMenuData::set_style_header_label(Label *label)
 {
     label->setTextColor(_color_header);
-    label->enableShadow(Color4B::BLACK, Size(2, -2), 1);
-    label->enableOutline(Color4B::WHITE, 2);
+    label->enableShadow(Color4B::BLACK, Size(3, -3), 1.5);
+    label->enableOutline(Color4B::WHITE, 3);
 }
 
 void SettingsMenuData::set_layer(cocos2d::ui::CheckBox* lay) {

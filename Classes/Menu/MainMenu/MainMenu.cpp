@@ -43,13 +43,13 @@ bool MainMenu::init()
     data.set_header_Label();
 
     data.set_MenuLabel("Start",
-                        _origin.x + _visibleSize.width / 6, _origin.y + _visibleSize.height * 4 / 8,
+                        _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 4 / 8,
                         CC_CALLBACK_1(MainMenu::callback_start, this));
     data.set_MenuLabel("Settings",
-                        _origin.x + _visibleSize.width / 6, _origin.y + _visibleSize.height * 3 / 8,
+                        _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 3 / 8,
                         CC_CALLBACK_1(MainMenu::callback_settings, this));
     data.set_MenuLabel("Exit",
-                        _origin.x + _visibleSize.width / 6, _origin.y + _visibleSize.height * 2 / 8,
+                        _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 2 / 8,
                         CC_CALLBACK_1(MainMenu::callback_exit, this));
 
     logger->log_event("set background, header, Start menu label, "

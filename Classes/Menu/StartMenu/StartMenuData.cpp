@@ -5,10 +5,11 @@ StartMenuData::StartMenuData(cocos2d::Layer *layer, Director* director)
 {
     _director = director;
     _layer = layer;
-    _background_img = "person/x4cFzOk.png";
-    _font = "fonts/eurofontextendedc-bditalic.otf";
-    _color_header = Color4B(222, 0, 0, 255);
-    _color_MenuLabel = Color4B(222, 0, 0, 255);
+    _background_img = "background-clouds.png";
+    _font = "fonts/FredokaOne-Regular.ttf";
+    _font_select = "fonts/FredokaOne-Regular.ttf";
+    _color_header = Color4B(51, 204, 255, 255);
+    _color_MenuLabel = Color4B(71, 243, 255, 150);
 
     _visibleSize = _director->getVisibleSize();
     _origin = _director->getVisibleOrigin();

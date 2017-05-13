@@ -41,34 +41,31 @@ bool SelectLevel::init() {
     data.set_header_Label();
 
     data.set_MenuLabel("Main menu",
-                       _origin.x + _visibleSize.width / 3, _origin.y + _visibleSize.height * 1 / 8,
+                       _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 1 / 8,
                        CC_CALLBACK_1(SelectLevel::callback_mainMenu, this));
     data.set_SceneLabel("Scene1",
-                        _origin.x + _visibleSize.width / 6, _origin.y + _visibleSize.height * 6 / 8,
+                        _origin.x + _visibleSize.width / 4.3, _origin.y + _visibleSize.height * 3.3 / 8,
                         CC_CALLBACK_1(SelectLevel::callback_scene1, this));
-    data.set_MenuItemImage("rain_level_little.png", "rain_level_little.png", _origin.x + _visibleSize.width / 6, _origin.y + _visibleSize.height * 5.2 / 8,
+    data.set_MenuItemImage("rain_level_little.png", "rain_level_little.png", _origin.x + _visibleSize.width / 4.3, _origin.y + _visibleSize.height * 3.6 / 8,
                            CC_CALLBACK_1(SelectLevel::callback_scene1, this) );
 
     data.set_SceneLabel("Scene2",
-                        _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 6 / 8,
+                        _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 4.7 / 8,
                         CC_CALLBACK_1(SelectLevel::callback_scene2, this));
-    data.set_MenuItemImage("water_level_little.jpeg", "water_level_little.jpeg", _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 5.2 / 8,
+    data.set_MenuItemImage("water_level_little.jpeg", "water_level_little.jpeg", _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 5 / 8,
                            CC_CALLBACK_1(SelectLevel::callback_scene2, this) );
 
-    data.set_check_box("check_box_normal.png", "check_box_normal_press.png", "check_box_active.png",
-                       "check_box_normal_disable.png", "check_box_active_disable.png", _origin.x + _visibleSize.width / 4,
-                       _origin.y + _visibleSize.height * 5.2 / 8, CC_CALLBACK_1(SelectLevel::callback_scene2, this)  );
 
     data.set_SceneLabel("Scene3",
-                        _origin.x + _visibleSize.width / 6, _origin.y + _visibleSize.height * 4 / 8,
+                        _origin.x + _visibleSize.width / 1.3, _origin.y + _visibleSize.height * 3.3 / 8,
                         CC_CALLBACK_1(SelectLevel::callback_scene3, this));
-    data.set_MenuItemImage("winter_level_little.jpeg", "winter_level_little.jpeg", _origin.x + _visibleSize.width / 6, _origin.y + _visibleSize.height * 3.2 / 8,
+    data.set_MenuItemImage("winter_level_little.jpeg", "winter_level_little.jpeg", _origin.x + _visibleSize.width / 1.3, _origin.y + _visibleSize.height * 3.6 / 8,
                            CC_CALLBACK_1(SelectLevel::callback_scene2, this) );
 
     data.set_SceneLabel("Scene4",
-                        _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 4 / 8,
+                        _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 2 / 8,
                         CC_CALLBACK_1(SelectLevel::callback_scene4, this));
-    data.set_MenuItemImage("fire_level_little.jpeg", "fire_level_little.jpeg", _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 3.2 / 8,
+    data.set_MenuItemImage("fire_level_little.jpeg", "fire_level_little.jpeg", _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 2.3 / 8,
                            CC_CALLBACK_1(SelectLevel::callback_scene2, this) );
 
 //    data.set_textField();
