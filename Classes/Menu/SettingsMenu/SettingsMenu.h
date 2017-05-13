@@ -25,6 +25,7 @@ public:
     CREATE_FUNC(SettingsMenu)
 
     void callback_main(cocos2d::Ref *pSender);
+    void selectedEvent(Ref* pSender,ui::CheckBox::EventType type);
     void callback_start_music(cocos2d::Ref *pSender);
     void callback_stop_music(cocos2d::Ref *pSender);
     void textFieldEvent(Ref *pSender,ui::TextField::EventType type);
@@ -33,6 +34,7 @@ private:
 
     CocosDenshion::SimpleAudioEngine* audio = CocosDenshion::SimpleAudioEngine::getInstance();
     cocos2d::ui::Slider* slider = cocos2d::ui::Slider::create();
+    cocos2d::ui::CheckBox* checkbox = cocos2d::ui::CheckBox::create();
     float musicVolume;
     std::string name_user;
     cocos2d::Director *_director;

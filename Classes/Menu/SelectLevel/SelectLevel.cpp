@@ -55,6 +55,10 @@ bool SelectLevel::init() {
     data.set_MenuItemImage("water_level_little.jpeg", "water_level_little.jpeg", _origin.x + _visibleSize.width / 2, _origin.y + _visibleSize.height * 5.2 / 8,
                            CC_CALLBACK_1(SelectLevel::callback_scene2, this) );
 
+    data.set_check_box("check_box_normal.png", "check_box_normal_press.png", "check_box_active.png",
+                       "check_box_normal_disable.png", "check_box_active_disable.png", _origin.x + _visibleSize.width / 4,
+                       _origin.y + _visibleSize.height * 5.2 / 8, CC_CALLBACK_1(SelectLevel::callback_scene2, this)  );
+
     data.set_SceneLabel("Scene3",
                         _origin.x + _visibleSize.width / 6, _origin.y + _visibleSize.height * 4 / 8,
                         CC_CALLBACK_1(SelectLevel::callback_scene3, this));

@@ -20,6 +20,10 @@ public:
     void set_MenuLabel(const std::string &text, float x, float y, const ccMenuCallback& callback);
     void set_MenuItemImage(const std::string &text1, const std::string &text2,float x, float y,
                            const ccMenuCallback &callback);
+    void set_check_box( const std::string &text_normal, const std::string &text_press,
+                           const std::string &text_active, const std::string &text_normal_disable,
+                           const std::string &text_active_disable, float x, float y,
+                           const ccMenuCallback &callback);
     void set_SceneLabel(const std::string &text, float x, float y, const ccMenuCallback& callback);
     void set_style_SceneLabel(Label *label);
     void callback_mainMenu(cocos2d::Ref *pSender);

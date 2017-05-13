@@ -7,6 +7,7 @@
 #include <ui/UIEditBox/UIEditBox.h>
 #include <ui/UIImageView.h>
 #include <Menu/MainMenu/MainMenu.h>
+#include <ui/UICheckBox.h>
 #include "cocos2d.h"
 #include "iostream"
 
@@ -100,5 +101,17 @@ void SelectLevelData::set_Label_select() {
 void SelectLevelData::callback_mainMenu(cocos2d::Ref *pSender) {
     _director->pushScene(TransitionFade::create(0.7, MainMenu::createScene()));
     //logger->log_event("callback start");
+}
+
+void SelectLevelData::set_check_box(const std::string &text_normal, const std::string &text_press,
+                                    const std::string &text_active, const std::string &text_normal_disable,
+                                    const std::string &text_active_disable, float x, float y,
+                                    const ccMenuCallback &callback) {
+    auto checkbox = ui::CheckBox::create( text_normal, text_press, text_active, text_normal_disable, text_active_disable );
+
+    checkbox->addClickEventListener( callback );
+    checkbox->setPosition( Vec2( x, y ) );
+    _layer->addChild(checkbox);
+
 }
 

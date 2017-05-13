@@ -60,6 +60,18 @@ bool SettingsMenu::init()
                          _origin.y + _visibleSize.height/1.73);
 
 
+    checkbox->loadTextureBackGround("check_box_normal.png");
+    checkbox->loadTextureBackGroundSelected("check_box_active.png");
+    checkbox->loadTextureFrontCross("check_box_normal_press.png");
+    checkbox->loadTextureBackGroundDisabled("check_box_normal_disable.png");
+    checkbox->loadTextureFrontCrossDisabled("check_box_active_disable.png");
+    checkbox->setPosition( Vec2( _origin.x + _visibleSize.width / 4,
+                                 _origin.y + _visibleSize.height * 5.2 / 8) );
+    checkbox->addEventListener(CC_CALLBACK_2( SettingsMenu::selectedEvent, this));
+    this->addChild(checkbox);
+
+
+
     slider->loadBarTexture("Slider_Back.png");
     slider->loadSlidBallTextures("SliderNode_Normal.png", "SliderNode_Press.png", "SliderNode_Disable.png");
     slider->loadProgressBarTexture("Slider_PressBar.png");
@@ -129,6 +141,7 @@ bool SettingsMenu::init()
     data.set_MenuItemImage_click("pause_little1.png", "pause_little2.png", _origin.x + _visibleSize.width / 1.40, _origin.y + _visibleSize.height * 1 / 2.07,
                                  CC_CALLBACK_1(SettingsMenu::callback_stop_music, this) );
 
+
 //    data.set_button("Stop",
 //                    _origin.x + _visibleSize.width / 1.3,
 //                    _origin.y + _visibleSize.height * 1 / 2.07,
@@ -194,4 +207,27 @@ void SettingsMenu::callback_main(Ref *pSender)
 {
     parser.set_name(name_user);
     _director->pushScene(TransitionFade::create(0.7, MainMenu::createScene()));
+}
+
+void SettingsMenu::selectedEvent(Ref *pSender, ui::CheckBox::EventType type) {
+    switch (type) {
+        case ui::CheckBox::EventType::SELECTED: {
+            CCLog("yes");
+            musicVolume = 0;
+            slider->setPercent(0);
+            audio->setBackgroundMusicVolume(musicVolume);
+            parser.set_volume(musicVolume);
+            break;
+        }
+        case ui::CheckBox::EventType::UNSELECTED: {
+            CCLog("no");
+            musicVolume = (musicVolume == 0) ? (float)0.5 :musicVolume ;
+            slider->setPercent(50);
+            audio->setBackgroundMusicVolume(musicVolume);
+            parser.set_volume(musicVolume);
+            break;
+        }
+        default:
+            break;
+    }
 }
